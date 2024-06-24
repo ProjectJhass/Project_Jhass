@@ -1,12 +1,12 @@
 import React from 'react';
-import img1 from '../../../images/1.png';
+import img1 from '../../../images/Logo3.png';
 
 export const Header = () => {
   return (
     <header className="bg-[#EEEEEE] shadow-md mx-8  rounded-lg">
       <div className="container mx-auto flex items-center justify-evenly py-4 text-2xl">
         <div className="flex items-center">
-          <img src={img1} alt="Logo" className="h-8 w-14 mr-2" />
+          <img src={img1} alt="Logo" className="h-10 w-14 " />
         </div>
         <nav>
           <ul className="flex space-x-8">
