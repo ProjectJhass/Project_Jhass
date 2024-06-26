@@ -1,7 +1,14 @@
-import { Header } from './components/Layouts/Header/Header'
-import  Section1 from './components/Sections/Section-1/Section1'
-import  Section2  from "./components/Sections/Section-2/Section2";
-import  {Section3}  from "./components/Sections/Section-3/Section3";
+import { Main } from "./Main/Main"
+import { FuncionalityCreateRol } from "./components/FuncionalityCreateRol/FuncionalityCreateRol"
+import { Functionalityform } from "./components/FuncionalityForm/FuncionalityForm"
+import { FunctionalityRole } from "./components/FunctionalityRole/FunctionalityRole"
+import { Footer } from "./components/Layouts/Footer/Footer"
+import { Header } from "./components/Layouts/HeaderAdmin/HeaderAdmin"
+import { Section } from "./components/Section/Section"
+
+
+
+
 
 
 
@@ -9,9 +16,16 @@ function App() {
 
   return (
     <>
-<Section1/>
-<Section2/>
-<Section3/>
+
+<Header/>
+<Main>
+<Section/>
+<FunctionalityRole/>
+<FuncionalityCreateRol/>
+<Functionalityform/>
+</Main>
+<Footer/>
+
     </>
   )
 }
