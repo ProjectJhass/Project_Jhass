@@ -6,10 +6,12 @@ import { Cards } from '../../Cards/Cards'
 export const Section3 = () => {
   return (
     <>
-    <h1>El CRM que potencia tu empresa y facilita la gestión de empleados</h1>
-    <p>JHASS es un CRM diseñado para optimizar la productividad y simplificar la gestión de recursos humanos en tu empresa. Ofrece una plataforma intuitiva que organiza datos y mejora la comunicación y eficiencia operativa, llevando tu negocio al siguiente nivel.</p>
-
-    <div className="flex flex-wrap gap-4">
+    <div className='bg-[#EEEEEE] py-10'>
+    <div className='text-center mb-8 bg'>
+      <h1 className="text-2xl font-bold mb-4">El CRM que potencia tu empresa y facilita la gestión de empleados</h1>
+      <p className="text-gray-600">JHASS es un CRM diseñado para optimizar la productividad y simplificar la gestión de recursos humanos en tu empresa. Ofrece una plataforma intuitiva que organiza datos y mejora la comunicación y eficiencia operativa, llevando tu negocio al siguiente nivel.</p>
+    </div>
+    <div className="flex flex-wrap justify-center gap-4">
       {Cards.map((card, index) => (
         <Card
           key={index}
@@ -19,6 +21,9 @@ export const Section3 = () => {
         />
       ))}
     </div>
-    </>
+
+    </div>
+    
+  </>
   )
 }
