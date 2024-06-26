@@ -3,6 +3,7 @@ import {Section1} from "../../Sections/Section-1/Section1.jsx"
 import {Section2} from "../../Sections/Section-2/Section2.jsx"
 import {Section3} from "../../Sections/Section-3/Section3.jsx"
 import Section4 from "../../Sections/Section-4/Section4.jsx"
+import { Footer } from '../../Layouts/Footer/Footer.jsx'
 
 export const Home = () => {
   return (
@@ -10,7 +11,8 @@ export const Home = () => {
     <Section1/>
     <Section2/>
     <Section3/>
-    <Section4/> 
+    <Section4/>
+    <Footer/>
     </>
   )
 }

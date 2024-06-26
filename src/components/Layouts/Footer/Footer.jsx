@@ -5,7 +5,7 @@ import whats from '../../../images/Logo4.png'
 
 export const Footer = () => {
     return (
-        <div className='w-full h-[100px] bg-[#EEEEEE] flex absolute bottom-0 items-center justify-around' >
+        <div className='w-full h-[100px] bg-[#EEEEEE] flex bottom-0 items-center justify-around' >
             <div className='flex items-center'>
                 <div>
                     <img className='px-[5px] w-[30px]' src={face} alt="" />
