@@ -1,5 +1,5 @@
 import React from 'react'
-import logosena from '../../../assets/logoSena.png'
+
 import logJhass from '../../../assets/logo2_jhass.png'
 import usuario from '../../../assets/usuario.png'
 
