@@ -1,11 +1,11 @@
 import React from 'react'
-import Mision  from "../../assets/Mision.png";
-import Vision  from "../../assets/Vision.png";
+import Mision  from "../../../assets/Mision.png";
+import Vision  from "../../../assets/Vision.png";
 
 
 export const Section2 = () => {
   return (
-    <section className='flex items-center place-content-center bg-[#0165FF] w-full h-[700px] ' >
+    <section className='flex items-center place-content-center bg-[#020C1D] w-full h-[700px] ' >
         <div className='flex flex-col items-center place-content-center w-[450px] h-[500px] m-[10px] bg-white rounded-2xl mr-[20px]'>
         <h3 className='font-serif font-semibold text-[20px] m-[10px]'>Mision</h3>
         <p className='font-serif text-justify w-[400px] mb-[20px]' >Nuestra misión en JHASS es optimizar la administración empresarial al proporcionar un sistema innovador que ofrece a los gerentes una visión clara y directa del estado operativo de sus empresas. Nos comprometemos a eliminar la dependencia de intermediarios y a facilitar el acceso ágil y efectivo a información vital, permitiendo a las organizaciones tomar decisiones informadas y mejorar su eficiencia operativa.</p>

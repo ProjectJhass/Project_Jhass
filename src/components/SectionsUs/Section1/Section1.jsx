@@ -1,10 +1,10 @@
 import React from 'react'
-import img1s1 from '../../assets/img1-s1.jpg'
-import img1s2 from '../../assets/img2-s1.jpg'
+import img1s1 from '../../../assets/img1-s1.jpg'
+import img1s2 from '../../../assets/img2-s1.jpg'
 
 export const Section1 = () => {
   return (
-    <section className='flex items-center place-content-center w-full h-[535px] flex-col my-[30px]'>
+    <section className='flex items-center place-content-center w-full h-[565px] flex-col  my-[40px] bg-[#ffffff] '>
         <div>
         <h2 className='font-serif font-semibold text-[30px] text-center'>Ofrecer soluciones completas <br /> de tecnología CRM.</h2>
         </div>
