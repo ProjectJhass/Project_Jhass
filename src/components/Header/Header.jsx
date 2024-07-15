@@ -1,30 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import img1 from '../../../src/assets/logo2_jhass.png';
 // import { GeneralContext } from '../../../Context/Context';
 import { Item } from '../Item/Item';
-import { useRoutes } from 'react-router-dom';
+import { useNavigate, useRoutes } from 'react-router-dom';
 import { Home } from '../pages/Home/Home';
 import { Help } from '../pages/Help/Help';
 import { Nosotros } from '../pages/Nosotros/Nosotros';
 import { Navbar } from '../Navbar/Navbar'; 
+SectionRegister
+import { SectionLogin } from "../SectionLogin/SectionLogin";
+import { AppContext } from '../Context/Context';
+import { useContext } from 'react';
+import { SectionRegister } from '../SectionRegister/SectionRegister';
+
 
 
 const AppRoutes = () => {
   let route = useRoutes ([
     {path: "/", element: <Home/>},
     {path: "/Nosotros", element: <Nosotros/>},
-    {path: "/Ayuda", element: <Help/>}
+    {path: "/Ayuda", element: <Help/>},
+    {path: "/Registro", element: <SectionRegister/>},
+    {path: "/IniciarSesion", element: <SectionLogin/>},
+    {path: "/Home", element: <Home/>}
 
   ]);
   return route;
 }
 
 export const Header = () => {
-  // const { handleButton } = useContext(GeneralContext);
+  const navigate =useNavigate();
+  const NewContext = useContext(AppContext);
+
+  const handleLoginClick = () => {
+
+    navigate('/IniciarSesion')
+}
+ 
+
+
+const handleOpaqueClick = () => {
+  NewContext.setisOpaque(!NewContext.isOpaque)
+}
 
   return (
     <>
-      <header  className=" place-content-center items-center absolute top-[17px] left-[71px] right-0 z-50 border-gray-200 px-4  py-2.5 bg-[#ffffff] rounded-xl shadow-md w-[90%]">
+      <header  className={` place-content-center items-center absolute top-[17px] left-[71px] right-0 z-50 border-gray-200 px-4  py-2.5 bg-[#ffffff] rounded-xl shadow-md w-[90%] ${NewContext.isOpaque ? 'opacity-100' : 'opacity-0'}`}>
         
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <a href="https://flowbite.com" className="flex items-center">
@@ -40,7 +61,12 @@ export const Header = () => {
             <div className="flex items-center lg:order-2">
               <button
                 className="bg-[#0165FF] text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-                // onClick={handleButton}
+                onClick={ () => {
+                    
+                  handleLoginClick(); 
+                  handleOpaqueClick();
+                }}
+                
               >
                 Iniciar Sesión
               </button>

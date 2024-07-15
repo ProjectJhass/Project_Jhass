@@ -1,25 +1,27 @@
 import React from 'react';
-import { useRoutes } from 'react-router-dom';
-createAccount
-import { Navbar } from '../../Navbar/Navbar';
-import { Item } from '../../Item/Item';
-import { createAccount } from '../../createAccount/createAccount';
 
 
-Navbar
+import { AppContext } from '../../Context/Context';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 
-const AppRoutess = () => {
-    let route = useRoutes ([
-      {path: "/createAccount", element: <createAccount/>},
-
-  
-    ]);
-    return route;
-  }
 
 export const Section1Home = () => {
+    const NewContext = useContext(AppContext);
+    const navigate =useNavigate();
+
+    const handleRegisterClick = () => {
+
+        navigate('/Registro')
+    }
+    const handleOpaqueClick = () => {
+        NewContext.setisOpaque(!NewContext.isOpaque)
+      }
+      
+
+
     return (
         <>
             <div className='flex   h-[650px] section1 bg-cover bg-center relative w-full ' style={{ backgroundImage: "url('../../../../public/img-home.jpg')" }}>
@@ -28,14 +30,17 @@ export const Section1Home = () => {
                     <p className='text-lg text-white mb-8 mt-16 font-serif w-[50rem]'>JHASS es el CRM web diseñado para fortalecer la comunicación y colaboración entre tu empresa y tus empleados, mejorando la productividad y el bienestar laboral</p>
                     <div className='flex gap-4 w-[64rem] text-left pl-[20px]'>
                         <button className='bg-blue-500 hover:bg-[#0165FF] text-white py-4 px-6 rounded-lg mr-16 '>Más información</button>
-                         <Item route='/createAccount' content='createAccount' >
-                          <button className='bg-transparent border border-white text-white py-4 px-6 rounded-lg '>Regístrate</button>
-                        </Item>
+
+                          <button className='bg-transparent border border-white text-white py-4 px-6 rounded-lg ' 
+                          onClick={ ()=> {
+                            handleRegisterClick();
+                            handleOpaqueClick();}} >Regístrate</button>
+ 
 
                     </div>
                 </div>
             </div>
-             <AppRoutess />
+
             </>
 
     );
