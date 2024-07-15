@@ -1,4 +1,5 @@
 import React from 'react';
+import React from 'react';
 import perfil1 from '../../assets/perifil1.png';
 import { Main } from '../../Main/Main';
 import mas from '../../assets/+rol.png';
