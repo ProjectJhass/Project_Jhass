@@ -14,6 +14,14 @@ const App = () => {
   const [filteredProducts, setFilteredProducts] = useState(initialProducts);
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [pieChartData, setPieChartData] = useState([
+    ['Producto', 'Cantidad'],
+    ...initialProducts.map(product => [product.name, product.quantity])
+  ]);
+  const [barChartData, setBarChartData] = useState([
+    ['Producto', 'Cantidad'],
+    ...initialProducts.map(product => [product.name, product.quantity])
+  ]);
 
   const handleFilterChange = (filter) => {
     const filtered = products.filter(product =>
@@ -26,6 +34,14 @@ const App = () => {
     const updatedProducts = [...products, newProduct];
     setProducts(updatedProducts);
     setFilteredProducts(updatedProducts);
+    setPieChartData([
+      ['Producto', 'Cantidad'],
+      ...updatedProducts.map(product => [product.name, product.quantity])
+    ]);
+    setBarChartData([
+      ['Producto', 'Cantidad'],
+      ...updatedProducts.map(product => [product.name, product.quantity])
+    ]);
     setConfirmationMessage(`Producto "${newProduct.name}" creado exitosamente.`);
     setIsConfirmationModalOpen(true);
   };
@@ -34,6 +50,14 @@ const App = () => {
     const updatedProducts = products.filter(product => product.name !== productName);
     setProducts(updatedProducts);
     setFilteredProducts(updatedProducts);
+    setPieChartData([
+      ['Producto', 'Cantidad'],
+      ...updatedProducts.map(product => [product.name, product.quantity])
+    ]);
+    setBarChartData([
+      ['Producto', 'Cantidad'],
+      ...updatedProducts.map(product => [product.name, product.quantity])
+    ]);
     setConfirmationMessage(`Producto "${productName}" eliminado exitosamente.`);
     setIsConfirmationModalOpen(true);
   };
@@ -60,13 +84,13 @@ const App = () => {
         <div className="w-1/2 p-4">
           <div className="p-4 rounded-lg">
             <h2 className="text-lg font-semibold mb-4">Gráfica de Pastel</h2>
-            <MyPieChart />
+            <MyPieChart data={pieChartData} />
           </div>
         </div>
         <div className="w-1/2 p-4">
           <div className="p-4 bg-white rounded-lg">
             <h2 className="text-lg font-semibold mb-4">Gráfica de Barras</h2>
-            <MyColumnChart />
+            <MyColumnChart data={barChartData} />
           </div>
         </div>
       </div>

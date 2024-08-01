@@ -1,19 +1,28 @@
 import React from 'react';
+import logJhass from '../../../../assets/logo2_jhass.png'
+import usuario from '../../../../assets/usuario.png'
 
 const Header = () => {
   return (
-    <header className="bg-[#EEEEEE] p-4 rounded shadow-md mb-5 flex justify-evenly">
-      <h1 className="text-xl font-semibold">jhass CRM</h1>
-      <nav className="flex space-x-4 mt-2">
-        <a href="#" className="text-gray-700 hover:text-gray-900">Inventario</a>
-        <a href="#" className="text-gray-700 hover:text-gray-900">Ventas</a>
-        <a href="#" className="text-gray-700 hover:text-gray-900">Calendario</a>
-      </nav>
-      <div className="flex justify-end mt-2">
-        <span className="text-gray-700">Martin Hernandez</span>
+    <header className="bg-[#EEEEEE]     w-full">
+    <div className="container mx-auto flex items-center justify-evenly py-4 text-2xl">
+      <div className="flex items-center">
+      <img src={logJhass} alt="Logo" className="h-10 w-14 " />
       </div>
-    </header>
-  );
+      <nav>
+        <ul className="flex space-x-8 text-xl items-center">
+          <li><a href="#" className="text-black font-Open-Sans">Inventario</a></li>
+          <li><a href="#" className="text-black font-Open-Sans">Ventas</a></li>
+          <li><a href="#" className="text-black font-Open-Sans">Calendario</a></li>
+        </ul>
+      </nav>
+      <div className='flex items-center'>
+      <img src={usuario} alt="Logo" className="h-8 w-8 mr-[10px]" />
+        <h2 className=" text-black text-[21px] font-Open-Sans">Santiago Uribe Bohorquez</h2>
+      </div>
+    </div>
+  </header>
+  )
 }
 
 export default Header;
