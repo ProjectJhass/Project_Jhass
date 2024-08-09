@@ -1,47 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 
-const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onEdit }) => {
-  const [editedProduct, setEditedProduct] = useState({
-    name: product.name,
-    quantity: product.quantity,
-    description: product.description,
-    image: product.image,
-  });
+const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdate }) => {
+  const [editedProduct, setEditedProduct] = useState(product);
 
-  if (!product) return null;
+  useEffect(() => {
+    setEditedProduct(product); // Actualiza los campos cuando el producto cambie
+  }, [product]);
 
-  const handleDelete = () => {
-    onDelete(product.name);
-    onRequestClose();
-  };
-
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setEditedProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: name === "quantity" ? parseInt(value) : value,
+      [name]: name === 'quantity' ? parseInt(value, 10) : value,
     }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setEditedProduct((prevProduct) => ({
-        ...prevProduct,
-        image: reader.result,
-      }));
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+  const handleSave = () => {
+    onUpdate(editedProduct); // Llama a la función de actualización con el producto editado
+    onRequestClose(); // Cierra el modal
   };
 
-  const handleSave = () => {
-    onEdit(editedProduct);
-    onRequestClose();
-  };
+  if (!product) return null;
 
   return (
     <Modal
@@ -57,52 +37,43 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onEdit 
           type="text"
           name="name"
           value={editedProduct.name}
-          onChange={handleInputChange}
+          onChange={handleChange}
           className="border p-2 mb-2 w-full"
-          placeholder="Nombre del Producto"
         />
         <input
           type="number"
           name="quantity"
           value={editedProduct.quantity}
-          onChange={handleInputChange}
+          onChange={handleChange}
           className="border p-2 mb-2 w-full"
-          placeholder="Cantidad"
         />
         <textarea
           name="description"
           value={editedProduct.description}
-          onChange={handleInputChange}
-          className="border p-2 mb-2 w-full"
-          placeholder="Descripción"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
+          onChange={handleChange}
           className="border p-2 mb-2 w-full"
         />
         {editedProduct.image && (
-          <img src={editedProduct.image} alt={editedProduct.name} className="mb-4" />
+          <img src={editedProduct.image} alt={product.name} className="mb-4" />
         )}
         <div className="flex justify-between">
           <button
             onClick={handleSave}
-            className="bg-green-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             Guardar
           </button>
           <button
-            onClick={handleDelete}
+            onClick={onRequestClose}
+            className="bg-gray-500 text-white px-4 py-2 rounded"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={() => { onDelete(product.name); onRequestClose(); }}
             className="bg-red-500 text-white px-4 py-2 rounded"
           >
             Eliminar
-          </button>
-          <button
-            onClick={onRequestClose}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Cerrar
           </button>
         </div>
       </div>

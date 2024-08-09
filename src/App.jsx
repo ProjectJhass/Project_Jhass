@@ -62,9 +62,9 @@ const App = () => {
     setIsConfirmationModalOpen(true);
   };
 
-  const handleEditProduct = (updatedProduct) => {
-    const updatedProducts = products.map(product =>
-      product.name === updatedProduct.name ? updatedProduct : product
+  const handleUpdateProduct = (updatedProduct) => {
+    const updatedProducts = products.map((product) =>
+      product.id === updatedProduct.id ? updatedProduct : product
     );
     setProducts(updatedProducts);
     setFilteredProducts(updatedProducts);
@@ -76,8 +76,6 @@ const App = () => {
       ['Producto', 'Cantidad'],
       ...updatedProducts.map(product => [product.name, product.quantity])
     ]);
-    setConfirmationMessage(`Producto "${updatedProduct.name}" actualizado exitosamente.`);
-    setIsConfirmationModalOpen(true);
   };
 
   const closeConfirmationModal = () => {
@@ -95,7 +93,12 @@ const App = () => {
       <div className="grid grid-cols-4 gap-4">
         <CreateProductCard onCreate={handleCreateProduct} />
         {filteredProducts.map((product) => (
-          <ProductCard key={product.name} product={product} onDelete={handleDeleteProduct} onEdit={handleEditProduct} />
+          <ProductCard
+            key={product.id} // Asegúrate de que el id es único para cada producto
+            product={product}
+            onDelete={handleDeleteProduct}
+            onUpdate={handleUpdateProduct}
+          />
         ))}
       </div>
       <div className="mt-8 p-6 shadow-lg rounded-lg flex justify-evenly space-x-8">
