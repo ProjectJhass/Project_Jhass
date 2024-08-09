@@ -9,13 +9,13 @@ import { Footer } from "../../Layouts/Footer/Footer";
 export const Nosotros = () => {
   return (
     <>
-    <div className='flex-col w-full h-auto'>
-<SenctionHeader/>
-<Section1/>
-<Section2/>
-<Section3/>
-<Footer/>
-</div>
-</>
+      <div className='flex-col w-full h-auto'>
+        <SenctionHeader />
+        <Section1 />
+        <Section2 />
+        <Section3 />
+        <Footer />
+      </div>
+    </>
   )
 }

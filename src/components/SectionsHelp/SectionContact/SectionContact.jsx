@@ -4,7 +4,7 @@ import woman from '../../../assets/9.png'
 import { Footer } from '../../Layouts/Footer/Footer'
 import Section1 from '../Section-1/Section1'
 
-export const SectionHelp = () => {
+export const SectionContact = () => {
   return (
     
     <div className='w-full h-full '>

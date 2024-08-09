@@ -4,7 +4,7 @@ import perfil1 from '../../assets/perifil1.png';
 export const FuncionalityCreateRol = () => {
     
   return (
-    <section className='w-full flex h-[600px] bg-[#000000b4] fixed backdrop-blur-sm top-[70px] place-content-center items-center hidden'>
+    <section className='w-full flex h-[600px] bg-[#000000b4] fixed backdrop-blur-sm top-[70px] place-content-center items-center '>
     <div className=' items-center w-[500px] h-[300px] bg-[#D9D9D9] rounded-3xl px-[20px]'>
         <div className=' items-center w-[460px] h-[200px] bg-[#D9D9D9] rounded-3xl flex justify-around px-[20px]'>
             <div className='place-content-center items-center'>
