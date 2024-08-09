@@ -62,6 +62,24 @@ const App = () => {
     setIsConfirmationModalOpen(true);
   };
 
+  const handleEditProduct = (updatedProduct) => {
+    const updatedProducts = products.map(product =>
+      product.name === updatedProduct.name ? updatedProduct : product
+    );
+    setProducts(updatedProducts);
+    setFilteredProducts(updatedProducts);
+    setPieChartData([
+      ['Producto', 'Cantidad'],
+      ...updatedProducts.map(product => [product.name, product.quantity])
+    ]);
+    setBarChartData([
+      ['Producto', 'Cantidad'],
+      ...updatedProducts.map(product => [product.name, product.quantity])
+    ]);
+    setConfirmationMessage(`Producto "${updatedProduct.name}" actualizado exitosamente.`);
+    setIsConfirmationModalOpen(true);
+  };
+
   const closeConfirmationModal = () => {
     setIsConfirmationModalOpen(false);
   };
@@ -77,7 +95,7 @@ const App = () => {
       <div className="grid grid-cols-4 gap-4">
         <CreateProductCard onCreate={handleCreateProduct} />
         {filteredProducts.map((product) => (
-          <ProductCard key={product.name} product={product} onDelete={handleDeleteProduct} />
+          <ProductCard key={product.name} product={product} onDelete={handleDeleteProduct} onEdit={handleEditProduct} />
         ))}
       </div>
       <div className="mt-8 p-6 shadow-lg rounded-lg flex justify-evenly space-x-8">

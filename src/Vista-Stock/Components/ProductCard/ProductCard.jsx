@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ProductDetailModal from '../ProductModal/ProductModal';
 
-const ProductCard = ({ product, onDelete }) => {
+const ProductCard = ({ product, onDelete, onEdit }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => setModalIsOpen(true);
@@ -22,9 +22,10 @@ const ProductCard = ({ product, onDelete }) => {
         onRequestClose={closeModal}
         product={product}
         onDelete={onDelete}
+        onEdit={onEdit}
       />
     </div>
   );
-}
+};
 
 export default ProductCard;
