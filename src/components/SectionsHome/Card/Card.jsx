@@ -7,8 +7,8 @@ export const Card = ({ img, title, description }) => {
       <img src={img} alt={title} className="object-cover w-[200px]" />
     </div>
     <div className=" flex p-6 text-center flex-col items-center h-[232px]">
-      <h3 className="text-xl w-[200px] font-semibold mb-2 font-serif">{title}</h3>
-      <p  className=' font-serif'>{description}</p>
+      <h3 className="text-xl w-[200px] font-semibold mb-2 font-Open-Sans">{title}</h3>
+      <p  className=' font-Open-Sans'>{description}</p>
     </div>
   </div>
   );

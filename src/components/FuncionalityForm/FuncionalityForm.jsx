@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Functionalityform = () => {
   return (
-    <section className='w-full  h-[600px] bg-[#000000b4] fixed backdrop-blur-sm top-[70px] place-content-center items-center hidden'>
+    <section className='w-full flex  h-[600px] bg-[#000000b4] fixed backdrop-blur-sm top-[70px] place-content-center items-center '>
       <form className='w-[570px] h-[470px] bg-[#D9D9D9] rounded-3xl px-8 py-6 flex flex-wrap justify-between'>
         <div className='w-full h-[10%] text-center'>
           <h2 className='font-bold text-2xl text-black'>Crear Rol</h2>

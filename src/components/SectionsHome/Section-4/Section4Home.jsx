@@ -10,7 +10,7 @@ export const Section4Home = () => {
             <CuadrosList
               key={index}
               text={testimonial.text}
-              name={testimonial.name}
+              // name={testimonial.name}
               title={testimonial.title}
               img={testimonial.img}
             />

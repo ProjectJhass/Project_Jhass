@@ -5,7 +5,7 @@ import whats from '../../../assets/whastapp.png'
 
 export const Footer = () => {
   return (
-    <div className='w-full h-[100px] bg-[#EEEEEE] flex  items-center justify-around' >
+    <div className='w-full h-[100px] bg-[#EEEEEE] flex  items-center justify-around font-Open-Sans' >
     <div className='flex items-center'>
         <div>
         <img className='px-[5px] w-[30px]' src={face} alt="" />
@@ -20,7 +20,7 @@ export const Footer = () => {
         
 
     </div>
-    <h3 className='font-serif'>Copyright 2024 Jhass CRM. All rights reserved.</h3>
+    <h3 className='font-Open-Sans'>Copyright 2024 Jhass CRM. Todos los derechos reservados.</h3>
     </div>
   )
 }

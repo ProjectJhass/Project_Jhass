@@ -9,19 +9,19 @@ export const Communication = () => {
         <div className='w-[60%] flex items-center justify-center'>
         <div>
 
-         <p className='text-7xl mb-6 font-bold font-serif'>Contáctenos</p>
-         <p className='text-gray-400 text-4xl mb-7 font-serif'>Ponte en contacto con nosotros</p>
+         <p className='text-7xl mb-6 font-bold font-Open-Sans'>Contáctenos</p>
+         <p className='text-gray-400 text-4xl mb-7 font-Open-Sans'>Ponte en contacto con nosotros</p>
 
          <div className='flex mb-6 w-full h-full'>
           <div className='flex flex-col w-1/2 mr-6'>
  
-         <p className='mb-4 text-2xl font-bold font-serif'>Nombre</p>
+         <p className='mb-4 text-2xl font-bold font-Open-Sans'>Nombre</p>
         <input className='border-2 rounded-lg h-9' type="text" placeholder='Nombre'/>
           
           </div>
           <div className='flex flex-col w-1/2 '>
 
-         <p className='mb-4 text-2xl font-bold font-serif'>Apellidos</p>
+         <p className='mb-4 text-2xl font-bold font-Open-Sans'>Apellidos</p>
          <input className='border-2 rounded-lg h-9' type="text" placeholder='Apellidos'/>
           
           </div>
