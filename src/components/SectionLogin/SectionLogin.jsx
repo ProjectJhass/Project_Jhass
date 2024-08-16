@@ -2,17 +2,18 @@ import React, { useState, useContext, useEffect } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
+import { POSTEndpoint, GETEndpoint } from '../ServicesFectch/ServicesFetch';
 
 export const SectionLogin = () => {
   const [formData, setFormData] = useState({ correo: "", contraseña: "" });
   const [errors, setErrors] = useState({ correo: "", contraseña: "" });
   const [generalError, setGeneralError] = useState("");
-const [ContentUsers, setContentUsers] = useState([])
-  const { setToken, setUser } = useContext(AppContext);
+  const [contentUsers, setContentUsers] = useState([]);
+  const { setToken, setUser, token } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/Home');
+    navigate(-1); 
   };
 
   const handleRegisterClick = () => {
@@ -28,55 +29,34 @@ const [ContentUsers, setContentUsers] = useState([])
     event.preventDefault();
     setErrors({ correo: "", contraseña: "" });
     setGeneralError("");
-  
-    try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/login", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
-        setToken(result.token);
-  
-        const userResponse = await fetch("http://localhost:3000/api/v1/usuario", {
-          method: "GET",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${result.token}`,
-          }
-        });
-  
-        const userResult = await userResponse.json();
-        console.log(result.token);
-        
-        if (userResponse.ok) {
-          console.log("User Result:", userResult); // Verifica que userResult tiene datos.
-          
-          setContentUsers(userResult); // Intenta setear los datos en ContentUsers.
-          console.log("ContentUsers:", ContentUsers); // Verifica el estado después de setear.
-          
-          navigate("/PreEmpresa");
-        } else {
-          console.error("Error fetching user details", userResult);
-          setGeneralError('Error al obtener detalles del usuario.');
-        }
-      } else {
-        setGeneralError('El correo electrónico o la contraseña están incorrectos.');
-      }
-    } catch (error) {
-      setGeneralError('Ocurrió un error. Por favor, inténtelo de nuevo más tarde.');
-      console.error('Login error', error);
+
+    if (!formData.correo || !formData.contraseña) {
+      setGeneralError('Por favor, rellena todos los campos.');
+      return;
+    }
+
+    const  ContentPost= await POSTEndpoint ({URL:"api/v1/auth/login", Data:formData});
+    if (ContentPost) {
+        setToken(ContentPost.token)
+
+      const ContentGET= await GETEndpoint({URL:"api/v1/usuario", TokenGet:token });
+      setContentUsers(ContentGET);
+      
+      
     }
   };
+
   useEffect(() => {
-    if (ContentUsers) {
-      console.log("ContentUsers Updated:", ContentUsers);
+    if (contentUsers.length > 0) {
+      const user = contentUsers.find(user => user.correo === formData.correo);
+      if (user) {
+        setUser(user);
+        navigate("/PreEmpresa");
+      } else {
+        setGeneralError('Usuario no encontrado.');
+      }
     }
-  }, [ContentUsers]);
-  
+  }, [contentUsers, formData.correo, setUser, navigate]);
 
   return (
     <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center bg-[url('../../../public/1.jpg')]">

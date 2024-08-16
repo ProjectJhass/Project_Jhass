@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { POSTEndpoint } from '../ServicesFectch/ServicesFetch';
+import { AppContext } from '../Context/Context';
 
 export const SectionRegister = () => {
   const [password, setPassword] = useState("");
+  const { token } = useContext(AppContext);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validation, setValidation] = useState(false);
   const [formData, setFormData] = useState({
@@ -27,7 +30,7 @@ export const SectionRegister = () => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   const handleLoginClick = () => {
@@ -79,7 +82,7 @@ export const SectionRegister = () => {
       ...formData,
       [name]: value
     });
-    
+
     setTouched({
       ...touched,
       [name]: true
@@ -116,7 +119,7 @@ export const SectionRegister = () => {
       ...formData,
       edad: contentYear
     });
-    
+
     setTouched({
       ...touched,
       edad: true
@@ -139,20 +142,9 @@ export const SectionRegister = () => {
       alert("Corrija los errores antes de enviar");
       return;
     }
-
-    try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/register", {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      if (response.ok) {
-        navigate("/IniciarSesion");
-      } else {
-        alert("La cuenta ya existe");
-      }
-    } catch (error) {
-      console.error('Error creating user: ', error);
+    let ContentPost = await POSTEndpoint ({URL:"api/v1/auth/register", Data:formData});
+    if (ContentPost) {
+      navigate("/IniciarSesion");
     }
   };
 
@@ -210,7 +202,7 @@ export const SectionRegister = () => {
               onChange={handleChange}
               placeholder="nombre@compañia.com"
               className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              onBlur={() => setTouched({ ...touched, correo: true })} // Mark as touched on blur
+              onBlur={() => setTouched({ ...touched, correo: true })}
             />
             {touched.correo && errors.correo && <p className="text-red-500 text-sm">{errors.correo}</p>}
           </div>
@@ -268,21 +260,27 @@ export const SectionRegister = () => {
                 onChange={handleChange}
                 placeholder="Número de teléfono"
                 className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onBlur={() => setTouched({ ...touched, telefono: true })} // Mark as touched on blur
+                onBlur={() => setTouched({ ...touched, telefono: true })}
               />
               {touched.telefono && errors.telefono && <p className="text-red-500 text-sm">{errors.telefono}</p>}
             </div>
           </div>
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
-            Crear Cuenta
-          </button>
-          <p className="text-center text-white mt-4">
-            ¿Ya tiene una cuenta?
-            <a href="#" className="text-blue-500 hover:underline ml-3" onClick={handleLoginClick}>
-              Iniciar Sesión
-            </a>
-          </p>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="px-6 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Crear Cuenta
+            </button>
+          </div>
         </form>
+        <div className="mt-4 text-center">
+          <p className="text-white">¿Ya tienes cuenta?{' '}
+            <button onClick={handleLoginClick} className="text-blue-400 hover:underline">
+              Inicia Sesión
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   );

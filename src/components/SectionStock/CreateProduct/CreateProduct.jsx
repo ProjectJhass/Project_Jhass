@@ -11,8 +11,28 @@ const CreateProductCard = ({ onCreate }) => {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  const handleCreate = () => {
-    if (name && quantity && description && image) {
+  
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+  const handleCreate = async () => {
+
+
+      const response=await fetch("http://localhost:3000/api/v1/product",{
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body
+      });
+    if (name && quantity && description || image) {
       const newProduct = { 
         name, 
         quantity: parseInt(quantity), 
@@ -28,16 +48,6 @@ const CreateProductCard = ({ onCreate }) => {
     }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <div>

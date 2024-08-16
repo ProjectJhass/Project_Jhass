@@ -24,8 +24,8 @@ export const SectionCompany = () => {
     NewContext.setisOpaque(!NewContext.isOpaque);
   };
 
-  const handleLoginClick = () => {
-    navigate('/IniciarSesion');
+  const handleUnionCompany = () => {
+    navigate('/Unirse_Empresa');
   };
 
   const handleDescriptionChange = (e) => {
@@ -45,7 +45,6 @@ export const SectionCompany = () => {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${NewContext.token}`,
-
         },
         body: JSON.stringify(formData),
       });
@@ -114,7 +113,7 @@ export const SectionCompany = () => {
               <input
                 type="text"
                 id="nichoMercado"
-                placeholder="Nicho de mercado"
+                placeholder="Sector en el mercado"
                 className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.sector}
                 onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
@@ -135,7 +134,7 @@ export const SectionCompany = () => {
                 <option value="Gran empresa">Gran empresa</option>
               </select>
             </div>
-            <div className="relative mb-7 md:col-span-2">
+            <div className="relative mb-7">
               <label className="block text-white mb-2" htmlFor="descripcion">Descripción</label>
               <div className="relative">
                 <textarea
@@ -158,7 +157,7 @@ export const SectionCompany = () => {
           </button>
           <p className="text-center text-white mt-4">
             ¿Ya tienes una empresa ?{' '}
-            <a href="#" className="text-blue-500 hover:underline" onClick={handleLoginClick}>
+            <a href="#" className="text-blue-500 hover:underline" onClick={handleUnionCompany}>
               Unirse a empresa
             </a>
           </p>

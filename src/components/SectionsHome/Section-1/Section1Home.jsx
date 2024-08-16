@@ -11,6 +11,10 @@ export const Section1Home = () => {
         navigate('/Registro');
     };
 
+    const handleInfor = () => {
+        navigate('/Nosotros');
+    };
+
     const handleOpaqueClick = () => {
         NewContext.setisOpaque(!NewContext.isOpaque);
     };
@@ -23,7 +27,7 @@ export const Section1Home = () => {
                     <p className='text-xl text-white mb-8 mt- font-serif w-[50rem]'>  JHASS es el CRM web diseñado para fortalecer la comunicación y colaboración en tu empresa, mejorando la productividad y bienestar laboral. Proporciona herramientas innovadoras para optimizar procesos, gestionar tareas y mejorar la interacción entre equipos, creando un entorno eficiente y armonioso.
                     </p>
                     <div className='flex  w-[64rem] text-left mt-3'>
-                        <button className='bg-blue-500 hover:bg-[#0165FF] text-white py-4 px-6 rounded-lg mr-12 text-lg'>Más información</button>
+                        <button onClick={handleInfor} className='bg-blue-500 hover:bg-[#0165FF] text-white py-4 px-6 rounded-lg mr-12 text-lg'>Más información</button>
                         <button className='bg-transparent border border-white text-white py-4 px-6 text-lg rounded-lg' 
                             onClick={() => {
                                 handleRegisterClick();

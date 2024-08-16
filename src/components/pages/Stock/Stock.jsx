@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ProductCard from '../../SectionStock/ProductCard/ProductCard';
 import { products as initialProducts } from '../../SectionStock/Card/Card';
 import Filter from '../../SectionStock/Filter/Filter';
@@ -8,16 +8,15 @@ import { Footer } from '../../Layouts/Footer/Footer';
 import CreateProductCard from '../../SectionStock/CreateProduct/CreateProduct';
 import {HeaderUser} from "../../Layouts/HeaderUser/HeaderUser";
 import ConfirmationModal from '../../SectionStock/ConfirmationModal/ConfirmationModal';
+import { AppContext } from '../../Context/Context';
 
 export const Stock = () => {
   const navItemstock = [
 {   route: "/Cale", content:"Calendario"},
 {   route: "/Rol", content:"Roles"},
 {   route: "/Stock", content:"Productos"}
-
-
-
 ];
+  const {user}=useContext(AppContext);
   const [products, setProducts] = useState(initialProducts);
   const [filteredProducts, setFilteredProducts] = useState(initialProducts);
   const [confirmationMessage, setConfirmationMessage] = useState('');
@@ -76,7 +75,7 @@ export const Stock = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <HeaderUser navItems={navItemstock} username={"Usuario"} />
+      <HeaderUser navItems={navItemstock} username={user ? user.nombre + " " + user.apellido : "Usuario"} />
       
       <div className="flex justify-between">
         <h2 className="text-lg font-semibold mb-4">Bodega de Productos</h2>
