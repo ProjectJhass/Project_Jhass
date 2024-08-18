@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
@@ -8,6 +8,10 @@ import es from 'date-fns/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
+import ModalCreateTask from './ModalCreateTask/ModalCreateTask';
+import { AppContext } from '../Context/Context';
+import DeleteEventModal from './ModalCreateTask/DeleteEvent/DeleteEvent';
+
 
 dayjs.locale('es');
 
@@ -24,15 +28,16 @@ const localizer = dateFnsLocalizer({
 });
 
 export const Cale = () => {
-  const [events, setEvents] = useState([
-    {
-      title: 'Reunión',
-      start: new Date(2023, 7, 7, 10, 0),
-      end: new Date(2023, 7, 7, 12, 0),
-    },
-  ]);
-
-  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '', assignedTo: '' });
+  const {
+    isModalOpenCale,
+    setIsModalOpenCale,
+    newEvent,
+    setNewEvent,
+    events,
+    setEvents,
+    setDeleteEventModal,
+    setEventToDelete
+  } = useContext(AppContext);
 
   const handleAddEvent = () => {
     setEvents([
@@ -44,44 +49,33 @@ export const Cale = () => {
       },
     ]);
     setNewEvent({ title: '', start: '', end: '', assignedTo: '' }); // Resetea el formulario
+    setIsModalOpenCale(false); // Cierra el modal después de agregar el evento
+  };
+
+  const handleSelectEvent = (event) => {
+    setEventToDelete(event);
+    setDeleteEventModal(true);  // Muestra el modal de confirmación de eliminación
   };
 
   return (
     <div>
-      <div className="form-container">
-        <input
-          type="text"
-          placeholder="Título"
-          value={newEvent.title}
-          onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-        />
-        <input
-          type="datetime-local"
-          placeholder="Inicio"
-          value={newEvent.start}
-          onChange={(e) => setNewEvent({ ...newEvent, start: e.target.value })}
-        />
-        <input
-          type="datetime-local"
-          placeholder="Fin"
-          value={newEvent.end}
-          onChange={(e) => setNewEvent({ ...newEvent, end: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Asignado a"
-          value={newEvent.assignedTo}
-          onChange={(e) => setNewEvent({ ...newEvent, assignedTo: e.target.value })}
-        />
-        <button onClick={handleAddEvent}>Agregar Evento</button>
-      </div>
+
+      <button onClick={() => setIsModalOpenCale(true)} className="bg-blue-500 text-white p-2 rounded mb-4">
+        Crear Nuevo Evento
+      </button>
+      <ModalCreateTask 
+        isOpen={isModalOpenCale}
+        onClose={() => setIsModalOpenCale(false)}
+        handleAddEvent={handleAddEvent}
+      />
 
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 500 }}
+        style={{ height: 500, zIndex: 10 }}
+        onSelectEvent={handleSelectEvent}
         messages={{
           next: "Sig.",
           previous: "Ant.",
@@ -97,6 +91,8 @@ export const Cale = () => {
           showMore: (total) => `+ Ver más (${total})`,
         }}
       />
+
+      <DeleteEventModal />
     </div>
   );
 };

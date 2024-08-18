@@ -18,6 +18,8 @@ import { Cale } from "./components/Calendar/Calendar.jsx";
 import { Stock } from "./components/pages/Stock/Stock.jsx";
 import { Rol } from "./components/pages/Rol/Rol.jsx";
 import { CardsTracking } from "./components/employeeTracking/CardsTracking/CardsTracking.jsx";
+import ModalCreatetask from "./components/Calendar/ModalCreateTask/ModalCreateTask.jsx";
+ModalCreatetask
 
 function App() {
   const NewContext = useContext(AppContext);
@@ -30,6 +32,7 @@ function App() {
 {/* <Functionalityform/> */}
 
 <HeaderAdmin/>
+{/* <ModalCreatetask/> */}
 {/* <CardsTracking/> */}
 
 {/* Vista editar cards con funcionalidad y ventanas modales */}
