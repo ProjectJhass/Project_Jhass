@@ -96,7 +96,7 @@ export const SectionPreCompany = () => {
         username={user ? `${user.nombre} ${user.apellido}` : "Usuario"} 
       />
 
-      <main className="flex-grow flex flex-col px-4 py-4 sm:px-8 sm:py-6">
+      <main className="flex-grow flex flex-col px-12 py-4 sm:px-8 sm:py-6">
         <div className="mb-6">
           <h1 className="text-2xl font-semibold">Empresas</h1>
         </div>

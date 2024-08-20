@@ -142,7 +142,7 @@ export const SectionRegister = () => {
       alert("Corrija los errores antes de enviar");
       return;
     }
-    let ContentPost = await POSTEndpoint ({URL:"api/v1/auth/register", Data:formData});
+    let ContentPost = await POSTEndpoint({ URL: "api/v1/auth/register", Data: formData });
     if (ContentPost) {
       navigate("/IniciarSesion");
     }
@@ -265,21 +265,20 @@ export const SectionRegister = () => {
               {touched.telefono && errors.telefono && <p className="text-red-500 text-sm">{errors.telefono}</p>}
             </div>
           </div>
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="px-6 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              Crear Cuenta
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Crear Cuenta
+          </button>
         </form>
-        <div className="mt-4 text-center">
-          <p className="text-white">¿Ya tienes cuenta?{' '}
-            <button onClick={handleLoginClick} className="text-blue-400 hover:underline">
-              Inicia Sesión
-            </button>
-          </p>
+        <div className="mt-4 flex justify-center">
+          <button
+            className="text-white underline"
+            onClick={handleLoginClick}
+          >
+            ¿Ya tienes una cuenta? Inicia sesión aquí
+          </button>
         </div>
       </div>
     </div>

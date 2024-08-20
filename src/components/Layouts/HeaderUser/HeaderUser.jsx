@@ -21,7 +21,7 @@ export const HeaderUser = ({ username, navItems }) => {
 
   return (
     <header className="w-full">
-      <div className="navbar bg-[#EEEEEE] bg-base-100 container mx-auto flex items-center justify-between rounded-lg shadow-md px-4 py-2 relative">
+      <div className="navbar bg-[#EEEEEE] bg-base-100 container mx-auto flex items-center justify-between rounded-lg shadow-md px-16 py-2 relative">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center space-x-4 lg:space-x-4">
           {/* Show menu hamburger on lg and smaller screens */}

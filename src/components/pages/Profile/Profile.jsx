@@ -34,7 +34,7 @@ export const Profile = () => {
   
   return (
     <>
-<HeaderUser/>
+  <HeaderUser navItems={null} username={NewContext.user ? `${NewContext.user.nombre} ${NewContext.user.apellido}` : "Usuario"}  />
     <SectionProfile>
 
     <section className='w-[50%] flex items-center place-content-center' >

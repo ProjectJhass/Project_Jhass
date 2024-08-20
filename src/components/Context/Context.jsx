@@ -4,7 +4,13 @@ import { CardsEmployees } from '../SectionEmployees/CardsEmployees/CardsEmployee
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
+  // Estados del primer contexto
   const [currentCard2, setCurrentCard2] = useState(null);
+  const [filter, setFilter] = useState('');
+  const [isModalOpenCale, setIsModalOpenCale] = useState(false);
+  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '', assignedTo: '' });
+
+  // Estados del segundo contexto
   const [currentCard, setCurrentCard] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [token, setToken] = useState(() => localStorage.getItem('TokenUser'));
@@ -24,7 +30,16 @@ export const AppProvider = ({ children }) => {
   });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ModalTrackingIsOpen, setModalTrackingIsOpen] = useState(false);
-  const [isNewUser, setIsNewUser] = useState(false); // Nuevo estado para saber si el usuario es nuevo
+  const [isNewUser, setIsNewUser] = useState(false); // Estado para saber si el usuario es nuevo
+  const [events, setEvents] = useState([
+    {
+      title: 'Reunión',
+      start: new Date(2023, 7, 7, 10, 0),
+      end: new Date(2023, 7, 7, 12, 0),
+    },
+  ]);
+  const [deleteEventModal, setDeleteEventModal] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState(null);
 
   useEffect(() => {
     if (token) {
@@ -68,7 +83,13 @@ export const AppProvider = ({ children }) => {
       isModalOpen, setIsModalOpen,
       currentCard2, setCurrentCard2,
       token, setToken,
-      isNewUser, setIsNewUser // Agregar el nuevo estado aquí
+      isNewUser, setIsNewUser,
+      filter, setFilter,
+      isModalOpenCale, setIsModalOpenCale,
+      newEvent, setNewEvent,
+      events, setEvents,
+      deleteEventModal, setDeleteEventModal,
+      eventToDelete, setEventToDelete
     }}>
       {children}
     </AppContext.Provider>

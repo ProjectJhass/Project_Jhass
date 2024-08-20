@@ -58,7 +58,7 @@ export const ModalPreCompany = ({ User, Company, onClose }) => {
 
           {/* Título del modal */}
           <div className='text-center mb-6'>
-            <FontAwesomeIcon icon={faHandshake} style={{ color: "#000000" }} size="3x" />
+            <FontAwesomeIcon icon={faHandshake} style={{ color: "#000000" ,opacity:"0.7" }} size="3x" />
             <h2 className='text-lg text-black my-4 font-medium'>
               Señor/a {User ? `${User.nombre} ${User.apellido}` : 'Usuario'}, ¿Desea unirse a la empresa {Company.name}?
             </h2>
