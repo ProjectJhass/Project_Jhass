@@ -20,8 +20,8 @@ export const HeaderUser = ({ username, navItems }) => {
   const hasNavItems = navItems && navItems.length > 0;
 
   return (
-    <header className="w-full">
-      <div className="navbar bg-[#EEEEEE] bg-base-100 container mx-auto flex items-center justify-between rounded-lg shadow-md px-16 py-2 relative">
+    <header className="w-full flex place-content-center h-[90px]">
+      <div className="navbar bg-[#EEEEEE] bg-base-100 container flex items-center justify-between rounded-xl shadow-xl px-12 py-2.5 relative z-50 top-[17px] w-[95%] h-[65px]">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center space-x-4 lg:space-x-4">
           {/* Show menu hamburger on lg and smaller screens */}
@@ -61,7 +61,7 @@ export const HeaderUser = ({ username, navItems }) => {
             </div>
           )}
           <img src={logJhass} alt="Logo" className="h-10 w-14" />
-          <p className='text-xl font-semibold whitespace-nowrap text-black ml-2'>Jhass</p>
+          <p className='text-xl font-semibold whitespace-nowrap text-black ml-[5px]'>Jhass</p>
         </div>
 
         {/* Navbar Center */}
