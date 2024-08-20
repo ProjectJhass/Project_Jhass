@@ -18,7 +18,7 @@ export const AppProvider = ({ children }) => {
     const savedCards = localStorage.getItem('cards');
     return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
   });
-  const [isOpaque, setIsOpaque] = useState(() => {
+  const [isOpaque, setisOpaque] = useState(() => {
     const savedIsOpaque = localStorage.getItem('isOpaque');
     return savedIsOpaque ? JSON.parse(savedIsOpaque) : true;
   });
@@ -58,7 +58,7 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider value={{
       user, setUser,
-      isOpaque, setIsOpaque,
+      isOpaque, setisOpaque,
       estadoModal1, setestadoModal1,
       cards, setCards,
       modalIsOpen, setModalIsOpen,

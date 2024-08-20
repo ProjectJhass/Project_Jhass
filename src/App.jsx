@@ -57,7 +57,7 @@ function App() {
   }
 
   const handleOpaqueClick = () => {
-    NewContext.setIsOpaque(!NewContext.isOpaque);
+    NewContext.setisOpaque(!NewContext.isOpaque);
   }
 
   const handleMenuToggle = () => {

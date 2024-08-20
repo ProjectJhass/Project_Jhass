@@ -18,6 +18,11 @@ import { ModalPreCompany } from '../ModalPreCompany/ModalPreCompany';
 import { InformativeModal } from '../InformativeModal/InformativeModal';
 
 export const SectionPreCompany = () => {
+  const navItems = [
+    { route: "/Cale", content: "Calendario" },
+    { route: "/Rol", content: "Roles" },
+    { route: "/Stock", content: "Productos" }
+  ];
   const navigate = useNavigate();
   const { user, token, isNewUser, setIsNewUser } = useContext(AppContext);
   const [contentGetCompanies, setContentGetCompanies] = useState([]);
@@ -87,21 +92,20 @@ export const SectionPreCompany = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <HeaderUser 
-        navItems={[""]} 
+        navItems={null} 
         username={user ? `${user.nombre} ${user.apellido}` : "Usuario"} 
       />
-      
-      <main className="flex-grow flex flex-col px-4 py-4 sm:px-8 sm:py-6">
-        <div className="flex flex-col mb-6">
-          {/* Título */}
-          <div className="mb-4">
-            <h1 className="text-2xl font-semibold">Empresas</h1>
-          </div>
 
-          {/* Buscador, Filtro y Botón */}
-          <div className="flex items-center space-x-4 mb-6">
-            {/* Buscador con botón dentro */}
-            <div className="relative flex-grow mr-4">
+      <main className="flex-grow flex flex-col px-4 py-4 sm:px-8 sm:py-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-semibold">Empresas</h1>
+        </div>
+
+        {/* Contenedor principal de la búsqueda y filtros */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          {/* Contenedor para el buscador */}
+          <div className="flex-grow mb-4 sm:mb-0">
+            <div className="relative w-full lg:w-3/4 xl:w-2/3"> {/* Ajusta el ancho en pantallas grandes */}
               <input
                 type="text"
                 placeholder="Buscar empresa..."
@@ -113,37 +117,41 @@ export const SectionPreCompany = () => {
                 type="button"
                 className="absolute inset-y-0 right-0 flex items-center px-3 bg-blue-600 text-white hover:bg-blue-700 transition duration-200 rounded-r-lg border-none"
                 onClick={handleSearch}
-                style={{ marginLeft: '-1px' }}
               >
                 <img src={BuscadorIcon} alt="Buscar" className="w-6 h-6" />
               </button>
             </div>
-
-            {/* Filtro desplegable */}
-            <select
-              value={selectedType}
-              onChange={handleTypeChange}
-              className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Todos los tipos</option>
-              {companyTypes.map(type => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-
-            {/* Botón para crear empresa */}
-            <div className="ml-auto">
-              <button
-                type="button"
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-200"
-                onClick={handleButtonCreateCompany}
-              >
-                Crear Empresa
-              </button>
-            </div>
           </div>
+
+
+          {/* Contenedor para el botón Crear Empresa y filtro */}
+          <div className="flex flex-row sm:items-center gap-4 justify-center text-center">
+          {/* Botón Crear Empresa */}
+          <div className="flex justify-center">
+            <button
+              type="button"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition duration-200"
+              onClick={handleButtonCreateCompany}
+            >
+              Crear Empresa
+            </button>
+          </div>
+
+          {/* Filtro desplegable */}
+          <select
+            value={selectedType}
+            onChange={handleTypeChange}
+            className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Todos los tipos</option>
+            {companyTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+
         </div>
 
         <div className="flex flex-col w-full overflow-x-auto">

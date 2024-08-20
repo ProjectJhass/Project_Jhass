@@ -38,6 +38,7 @@ export const SectionLogin = () => {
     const  ContentPost= await POSTEndpoint ({URL:"api/v1/auth/login", Data:formData});
     if (ContentPost) {
         setToken(ContentPost.token)
+        
 
       const ContentGET= await GETEndpoint({URL:"api/v1/usuario", TokenGet:token });
       setContentUsers(ContentGET);
