@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { AppContext } from '../../Context/Context';
 
 const Modal = ({ isOpen, onSave, onClose }) => {
-  const { selectedCardId, cards } = useContext(AppContext);
+  const { selectedCardId, cards, modalIsOpen, setModalIsOpen } = useContext(AppContext);
   const [rol, setRol] = useState('');
 
   useEffect(() => {
@@ -21,6 +21,8 @@ const Modal = ({ isOpen, onSave, onClose }) => {
     );
     onSave(updatedCards);
     onClose();
+    setModalIsOpen(!modalIsOpen)
+
   };
 
   if (!isOpen) return null;
@@ -33,9 +35,10 @@ const Modal = ({ isOpen, onSave, onClose }) => {
           type="text"
           value={rol}
           onChange={(e) => setRol(e.target.value)}
+          placeholder='Ej. Gerente'
           className="block w-full p-2 border rounded mb-2 font-Open-Sans"
         />
-        <div className="flex justify-end">
+        <div className="flex justify-center">
           <button
             onClick={handleSave}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 font-Open-Sans"

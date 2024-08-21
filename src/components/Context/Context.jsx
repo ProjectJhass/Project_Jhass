@@ -2,7 +2,8 @@ import React from 'react'
 import { createContext } from 'react'
 import { useState } from 'react'
 import { CardsEmployees } from '../SectionEmployees/CardsEmployees/CardsEmployees'
-
+import { CardsNews } from '../SectionNews/CardsNews/CardsNews'
+CardsNews
 
 export const AppContext =  createContext()
 
@@ -15,7 +16,7 @@ export const AppProvider = ({children}) => {
 
 
 
-  // localStorage.clear();
+  localStorage.clear();
 
 const [currentCard, setCurrentCard] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,6 +57,11 @@ const [selectedCardId, setSelectedCardId] = useState(null);
    
     const [deleteEventModal, setDeleteEventModal] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
+
+    const [cardsNew, setCardsNew] = useState(() => CardsNews.map(card => ({ ...card })));
+
+  
+  
   return (
     <AppContext.Provider value={{isOpaque, setisOpaque, estadoModal1, 
       setestadoModal1, cards, setCards, modalIsOpen, setModalIsOpen, 
@@ -63,7 +69,8 @@ const [selectedCardId, setSelectedCardId] = useState(null);
       setSelectedCardId, currentCard, setCurrentCard, isModalOpen,
      setIsModalOpen, currentCard2, setCurrentCard2, filter, setFilter, 
      isModalOpenCale, setIsModalOpenCale, newEvent, setNewEvent,
-      events, setEvents, deleteEventModal, setDeleteEventModal, eventToDelete, setEventToDelete}} >
+      events, setEvents, deleteEventModal, setDeleteEventModal, 
+      eventToDelete, setEventToDelete, cardsNew, setCardsNew}} >
     {children}
     </AppContext.Provider>
   )

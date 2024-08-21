@@ -17,25 +17,24 @@ export const Section = () => {
     setSelectedCardId,
   } = useContext(AppContext);
 
-  // Estados para los filtros
+
   const [nameFilter, setNameFilter] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
   const [filteredCards, setFilteredCards] = useState(cards);
 
-  // Extraer roles únicos
+
   const uniqueRoles = [...new Set(cards.map((card) => card.rol))];
 
-  // Función para manejar el cambio de filtro por nombre
+
   const handleNameFilterChange = (filterValue) => {
     setNameFilter(filterValue);
   };
 
-  // Función para manejar el cambio de filtro por rol
+  
   const handleRoleFilterChange = (filterValue) => {
     setRoleFilter(filterValue);
   };
 
-  // Actualizar los productos filtrados cuando cambien los filtros o las cartas
   useEffect(() => {
     const filtered = cards.filter(
       (card) =>
@@ -45,13 +44,11 @@ export const Section = () => {
     setFilteredCards(filtered);
   }, [nameFilter, roleFilter, cards]);
 
-  // Función para manejar la edición de roles
   const handleEdit = (card) => {
     setSelectedCardId(card._id);
     setIsModalOpen(true);
   };
 
-  // Función para manejar la edición de tracking
   const handleEditTracking = (card) => {
     setSelectedCardId(card._id);
     setModalTrackingIsOpen(true);

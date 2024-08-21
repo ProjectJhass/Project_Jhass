@@ -41,6 +41,7 @@ const ModalTracking = ({ onSave, onClose, isOpenTracking }) => {
                     type="text"
                     value={trabajadas}
                     onChange={(e) => setHorasTrabajadas(e.target.value)}
+                    placeholder='Ej. 176 horas'
                     className="block w-full p-2 border rounded mb-2 font-Open-Sans"
                 />
                 <h3 className="font-Open-Sans font-semibold p-[5px]">Ausencia de Horas</h3>
@@ -48,6 +49,7 @@ const ModalTracking = ({ onSave, onClose, isOpenTracking }) => {
                     type="text"
                     value={ausencias}
                     onChange={(e) => setAusenciaDeHoras(e.target.value)}
+                    placeholder='Ej. 8 horas'
                     className="block w-full p-2 border rounded mb-2 font-Open-Sans"
                 />
                 <h3 className="font-Open-Sans font-semibold p-[5px]">Tiempo de Vacaciones</h3>
@@ -55,6 +57,7 @@ const ModalTracking = ({ onSave, onClose, isOpenTracking }) => {
                     type="text"
                     value={vacaciones}
                     onChange={(e) => setTiempoDeVacaciones(e.target.value)}
+                    placeholder='Ej. 1 mes'
                     className="block w-full p-2 border rounded mb-2 font-Open-Sans"
                 />
                 <div className="flex justify-around py-[5px] place-content-center">
