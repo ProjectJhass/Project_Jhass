@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
@@ -8,56 +8,85 @@ export const SectionLogin = () => {
   const [formData, setFormData] = useState({ correo: "", contraseña: "" });
   const [errors, setErrors] = useState({ correo: "", contraseña: "" });
   const [generalError, setGeneralError] = useState("");
-  const [contentUsers, setContentUsers] = useState([]);
-  const { setToken, setUser, token } = useContext(AppContext);
+  const { setToken, setUser } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   const handleRegisterClick = () => {
     navigate('/Registro');
   };
 
+  const validateEmail = (email) => {
+    if (!email.includes('@')) {
+      return { isValid: false, message: "El correo debe contener '@'." };
+    }
+    if (!email.includes('gmail')) {
+      return { isValid: false, message: "El correo debe contener 'gmail'." };
+    }
+    if (!email.endsWith('.com')) {
+      return { isValid: false, message: "El correo debe terminar en '.com'." };
+    }
+    
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (!emailRegex.test(email)) {
+      return { isValid: false, message: "El correo debe ser un correo de Gmail válido." };
+    }
+  
+    return { isValid: true, message: "" };
+  };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === "correo") {
+      const emailValidation = validateEmail(value);
+      setErrors((prev) => ({ ...prev, correo: emailValidation.message }));
+    }
   };
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setErrors({ correo: "", contraseña: "" });
     setGeneralError("");
-
+  
+    const emailValidation = validateEmail(formData.correo);
+  
+    if (!emailValidation.isValid) {
+      setErrors((prev) => ({ ...prev, correo: emailValidation.message }));
+      return;
+    }
+  
     if (!formData.correo || !formData.contraseña) {
       setGeneralError('Por favor, rellena todos los campos.');
       return;
     }
-
-    const  ContentPost= await POSTEndpoint ({URL:"api/v1/auth/login", Data:formData});
-    if (ContentPost) {
-        setToken(ContentPost.token)
+  
+    try {
+      const contentPost = await POSTEndpoint({ URL: "api/v1/auth/login", Data: formData });
+  
+      if (contentPost && contentPost.token) {
+        setToken(contentPost.token);
+        const contentGET = await GETEndpoint({ URL: "api/v1/usuario", TokenGet: contentPost.token });
         
-
-      const ContentGET= await GETEndpoint({URL:"api/v1/usuario", TokenGet:token });
-      setContentUsers(ContentGET);
-      
-      
+        const user = contentGET.find(user => user.correo === formData.correo);
+  
+        if (user) {
+          setUser(user);
+          navigate("/PreEmpresa");
+        } else {
+          setGeneralError('Correo o contraseña incorrectos.');
+        }
+      } else {
+        setGeneralError('Correo o contraseña incorrectos.');
+      }
+    } catch (error) {
+      setGeneralError('Error al iniciar sesión. Inténtalo nuevamente.');
     }
   };
-
-  useEffect(() => {
-    if (contentUsers.length > 0) {
-      const user = contentUsers.find(user => user.correo === formData.correo);
-      if (user) {
-        setUser(user);
-        navigate("/PreEmpresa");
-      } else {
-        setGeneralError('Usuario no encontrado.');
-      }
-    }
-  }, [contentUsers, formData.correo, setUser, navigate]);
 
   return (
     <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center bg-[url('../../../public/1.jpg')]">
@@ -80,7 +109,7 @@ export const SectionLogin = () => {
               value={formData.correo}
               onChange={handleChange}
               placeholder="nombre@gmail.com"
-              className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.correo ? 'focus:ring-red-500' : 'focus:ring-blue-500'}`}
             />
             {errors.correo && <p className="text-red-500 text-sm">{errors.correo}</p>}
           </div>
@@ -95,7 +124,6 @@ export const SectionLogin = () => {
               placeholder="********"
               className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.contraseña && <p className="text-red-500 text-sm">{errors.contraseña}</p>}
           </div>
           <div className="flex items-center justify-between mb-4">
             <label className="flex items-center text-white">
@@ -104,10 +132,10 @@ export const SectionLogin = () => {
             </label>
             <a href="#" className="text-blue-500 hover:underline">¿Olvidaste tu contraseña?</a>
           </div>
+          {generalError && <p className="text-red-500 text-center mb-4">{generalError}</p>}
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
             Iniciar Sesión
           </button>
-          {generalError && <p className="text-red-500 text-center mt-4">{generalError}</p>}
           <p className="text-center text-white mt-4">
             ¿No tienes una cuenta? <a href="#" className="text-blue-500 hover:underline" onClick={handleRegisterClick}>Regístrate</a>
           </p>

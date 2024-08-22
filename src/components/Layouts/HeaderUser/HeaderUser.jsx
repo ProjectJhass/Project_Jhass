@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logJhass from '../../../../public/logo2_jhass.png';
-import usuario from '../../../assets/usuario.png';
 import { Navbar } from '../../Navbar/Navbar';
 import { Item } from '../../Item/Item';
+import {ModalProfile} from '../../ModalProfile/ModalProfile'; // Ajusta la ruta según tu estructura de archivos
 
 export const HeaderUser = ({ username, navItems }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-
-  const handleLoginClick = () => {
-    navigate('/Profile');
-  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -21,7 +17,7 @@ export const HeaderUser = ({ username, navItems }) => {
 
   return (
     <header className="w-full flex place-content-center h-[90px]">
-      <div className="navbar bg-[#EEEEEE] bg-base-100 container flex items-center justify-between rounded-xl shadow-xl px-12 py-2.5 relative z-50 top-[17px] w-[95%] h-[65px]">
+      <div className="navbar bg-[#EEEEEE] bg-base-100 flex items-center justify-between rounded-xl shadow-xl px-12 py-2.5 relative z-50 top-[17px] w-[95%] h-[65px]">
         {/* Navbar Start */}
         <div className="navbar-start flex items-center space-x-4 lg:space-x-4">
           {/* Show menu hamburger on lg and smaller screens */}
@@ -78,10 +74,7 @@ export const HeaderUser = ({ username, navItems }) => {
         {/* Navbar End */}
         <div className="navbar-end flex items-center space-x-4">
           {/* User Profile */}
-          <div className="flex items-center cursor-pointer" onClick={handleLoginClick}>
-            <img src={usuario} alt="Usuario" className="h-8 w-8 mr-2" />
-            <h2 className="text-black text-[21px] font-Open-Sans hidden sm:block">{username}</h2>
-          </div>
+          <ModalProfile />
         </div>
       </div>
     </header>

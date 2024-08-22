@@ -14,7 +14,6 @@ import Unauthorized from './components/Unauthorized/Unauthorized';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import {SectionCompany} from './components/SectionCompany/SectionCompany'
 import { UnionCompany } from './components/UnionCompany/UnionCompany';
-import { Profile } from './components/pages/Profile/Profile';
 import { Cale } from './components/Calendar/Calendar';
 import { Rol } from './components/pages/Rol/Rol';
 import { Stock } from './components/pages/Stock/Stock';
@@ -35,7 +34,6 @@ const AppRoutes = () => {
     { path: "/PreEmpresa", element : <SectionPreCompany /> },
     { path: "/NoAutorizado", element: <Unauthorized /> },
     { path: "/Unirse_Empresa", element:<UnionCompany/>},
-    { path: "/Profile", element:<Profile/>},
     { path: "/Cale", element:<Cale/>},
     { path: "/Rol", element:<Rol/>},
     { path: "/Stock", element:<Stock/>},

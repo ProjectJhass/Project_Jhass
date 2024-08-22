@@ -1,34 +1,53 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ProductCard from '../../SectionStock/ProductCard/ProductCard';
-import { products as initialProducts } from '../../SectionStock/Card/Card';
 import Filter from '../../SectionStock/Filter/Filter';
 import MyPieChart from '../../SectionStock/Grafica-Pastel/Grafica-pastel'; 
 import MyColumnChart from '../../SectionStock/Grafica-Barras/Grafica-Barras';
 import { Footer } from '../../Layouts/Footer/Footer';
-import CreateProductCard from '../../SectionStock/CreateProduct/CreateProduct';
-import {HeaderUser} from "../../Layouts/HeaderUser/HeaderUser";
+import {CreateProductCard} from '../../SectionStock/CreateProduct/CreateProduct';
+import { HeaderUser } from "../../Layouts/HeaderUser/HeaderUser";
 import ConfirmationModal from '../../SectionStock/ConfirmationModal/ConfirmationModal';
 import { AppContext } from '../../Context/Context';
+import { POSTEndpoint, GETEndpoint } from '../../ServicesFectch/ServicesFetch';
 
 export const Stock = () => {
   const navItemstock = [
-{   route: "/Cale", content:"Calendario"},
-{   route: "/Rol", content:"Roles"},
-{   route: "/Stock", content:"Productos"}
-];
-  const {user}=useContext(AppContext);
-  const [products, setProducts] = useState(initialProducts);
-  const [filteredProducts, setFilteredProducts] = useState(initialProducts);
+    { route: "/Cale", content: "Calendario" },
+    { route: "/Rol", content: "Roles" },
+    { route: "/Stock", content: "Productos" }
+  ];
+
+  const { user,token } = useContext(AppContext);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [confirmationMessage, setConfirmationMessage] = useState('');
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [pieChartData, setPieChartData] = useState([
-    ['Producto', 'Cantidad'],
-    ...initialProducts.map(product => [product.name, product.quantity])
-  ]);
-  const [barChartData, setBarChartData] = useState([
-    ['Producto', 'Cantidad'],
-    ...initialProducts.map(product => [product.name, product.quantity])
-  ]);
+  const [pieChartData, setPieChartData] = useState([['Producto', 'Cantidad']]);
+  const [barChartData, setBarChartData] = useState([['Producto', 'Cantidad']]);
+
+  // Obtener productos del servidor al cargar el componente
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await GETEndpoint({ URL: 'products', TokenGet: user.token });
+      
+      if (!data.error) {
+        setProducts(data);
+        setFilteredProducts(data);
+        setPieChartData([
+          ['Producto', 'Cantidad'],
+          ...data.map(product => [product.name, product.quantity])
+        ]);
+        setBarChartData([
+          ['Producto', 'Cantidad'],
+          ...data.map(product => [product.name, product.quantity])
+        ]);
+      } else {
+        console.error('Error fetching products:', data.error);
+      }
+    };
+
+    fetchProducts();
+  }, [user.token]);
 
   const handleFilterChange = (filter) => {
     const filtered = products.filter(product =>
@@ -37,23 +56,31 @@ export const Stock = () => {
     setFilteredProducts(filtered);
   };
 
-  const handleCreateProduct = (newProduct) => {
-    const updatedProducts = [...products, newProduct];
-    setProducts(updatedProducts);
-    setFilteredProducts(updatedProducts);
-    setPieChartData([
-      ['Producto', 'Cantidad'],
-      ...updatedProducts.map(product => [product.name, product.quantity])
-    ]);
-    setBarChartData([
-      ['Producto', 'Cantidad'],
-      ...updatedProducts.map(product => [product.name, product.quantity])
-    ]);
-    setConfirmationMessage(`Producto "${newProduct.name}" creado exitosamente.`);
-    setIsConfirmationModalOpen(true);
+  const handleCreateProduct = async (newProduct) => {
+    const response = await POSTEndpoint({ URL: 'api/v1/product', Data: newProduct, TokenPost: token });
+
+    if (!response.error) {
+      const updatedProducts = [...products, response];
+      setProducts(updatedProducts);
+      setFilteredProducts(updatedProducts);
+      setPieChartData([
+        ['Producto', 'Cantidad'],
+        ...updatedProducts.map(product => [product.name, product.quantity])
+      ]);
+      setBarChartData([
+        ['Producto', 'Cantidad'],
+        ...updatedProducts.map(product => [product.name, product.quantity])
+      ]);
+      setConfirmationMessage(`Producto "${response.name}" creado exitosamente.`);
+      setIsConfirmationModalOpen(true);
+    } else {
+      setConfirmationMessage(`Error al crear el producto: ${response.error}`);
+      setIsConfirmationModalOpen(true);
+    }
   };
 
-  const handleDeleteProduct = (productName) => {
+  const handleDeleteProduct = async (productName) => {
+    // Aquí iría una llamada DELETEEndpoint si estuviera disponible
     const updatedProducts = products.filter(product => product.name !== productName);
     setProducts(updatedProducts);
     setFilteredProducts(updatedProducts);
@@ -111,5 +138,4 @@ export const Stock = () => {
       />
     </div>
   );
-}
-
+};
