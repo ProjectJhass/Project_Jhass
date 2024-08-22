@@ -20,13 +20,15 @@ export const SectionRegister = () => {
   const [errors, setErrors] = useState({
     correo: "",
     edad: "",
-    telefono: ""
+    telefono: "",
+    userExists: "" // Nuevo estado para manejar el error de usuario existente
   });
   const [touched, setTouched] = useState({
     correo: false,
     edad: false,
     telefono: false
   });
+  const [userExists, setUserExists] = useState(false); // Nuevo estado para verificar existencia de usuario
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -142,9 +144,21 @@ export const SectionRegister = () => {
       alert("Corrija los errores antes de enviar");
       return;
     }
-    let ContentPost = await POSTEndpoint({ URL: "api/v1/auth/register", Data: formData });
-    if (ContentPost) {
-      navigate("/IniciarSesion");
+
+    try {
+      let ContentPost = await POSTEndpoint({ URL: "api/v1/auth/register", Data: formData });
+      console.log(ContentPost);
+      
+      if (ContentPost && ContentPost.statusCode === 400) { // Supongamos que el código 409 indica que el usuario ya existe
+        setUserExists(true);
+        return;
+      }
+
+      if (ContentPost) {
+        navigate("/IniciarSesion");
+      }
+    } catch (error) {
+      console.error("Error al registrar el usuario:", error);
     }
   };
 
@@ -250,7 +264,7 @@ export const SectionRegister = () => {
             </div>
             <div>
               <label className="block text-white mb-2" htmlFor="telefono">
-                Número Telefónico
+                Teléfono
               </label>
               <input
                 type="tel"
@@ -258,26 +272,27 @@ export const SectionRegister = () => {
                 name="telefono"
                 value={formData.telefono}
                 onChange={handleChange}
-                placeholder="Número de teléfono"
+                placeholder="Número telefónico"
                 className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onBlur={() => setTouched({ ...touched, telefono: true })}
               />
               {touched.telefono && errors.telefono && <p className="text-red-500 text-sm">{errors.telefono}</p>}
             </div>
           </div>
+          {userExists && <p className="text-red-500 text-center mb-4">El usuario ya está registrado</p>}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Crear Cuenta
           </button>
         </form>
-        <div className="mt-4 flex justify-center">
+        <div className="text-center mt-4">
           <button
-            className="text-white underline"
             onClick={handleLoginClick}
+            className="text-white underline"
           >
-            ¿Ya tienes una cuenta? Inicia sesión aquí
+            Ya tienes cuenta? Inicia sesión
           </button>
         </div>
       </div>
