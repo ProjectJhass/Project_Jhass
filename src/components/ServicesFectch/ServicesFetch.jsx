@@ -19,8 +19,7 @@ export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
         });
 
         if (response.ok) {
-                responseReturn = await response.json();
-            
+            responseReturn = await response.json();
         } else {
             responseReturn = await response.json();
         }
@@ -30,7 +29,6 @@ export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
 
     return responseReturn;
 };
-
 
 export const GETEndpoint = async ({ URL, TokenGet }) => {
     let responseReturn = null;
@@ -56,27 +54,60 @@ export const GETEndpoint = async ({ URL, TokenGet }) => {
     return responseReturn;
 };
 
-// const UPDATEEndpoint = async ({ URL, TokenPost }) => {
-//     let responseReturn = null;
-//     try {
-//         const response = await fetch(`http://localhost:3000/${URL}`, {
-//             method: "GET",
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${TokenPost}`,
-//             },
-//         });
+export const UPDATEEndpoint = async ({ URL, Data, TokenPost = null }) => {
+    let responseReturn = null;
+    try {
+        const headerss = {
+            'Content-Type': 'application/json',
+        };
 
-//         const data = await response.json();
-//         if (response.ok) {
-//             responseReturn = data;
-//         } else {
-//             responseReturn = data;
-//         }
-//     } catch (error) {
-//         responseReturn = { error: "Ocurrió un error durante la solicitud" };
-//     }
+        // Agrega el Authorization header solo si TokenPost está presente
+        if (TokenPost) {
+            headerss['Authorization'] = `Bearer ${TokenPost}`;
+        }
 
-//     return responseReturn;
-// };
+        const response = await fetch(`http://localhost:3000/${URL}`, {
+            method: "PATCH",
+            headers: headerss,
+            body: JSON.stringify(Data)
+        });
 
+        if (response.ok) {
+            responseReturn = await response.json();
+        } else {
+            responseReturn = await response.json();
+        }
+    } catch (error) {
+        responseReturn = { error: "Ocurrió un error durante la solicitud" };
+    }
+
+    return responseReturn;
+};
+export const DELETEEndpoint = async ({ URL, TokenDelete = null }) => {
+    let responseReturn = null;
+    try {
+        const headerss = {
+            'Content-Type': 'application/json',
+        };
+
+        // Agrega el Authorization header solo si TokenDelete está presente
+        if (TokenDelete) {
+            headerss['Authorization'] = `Bearer ${TokenDelete}`;
+        }
+
+        const response = await fetch(`http://localhost:3000/${URL}`, {
+            method: "DELETE",
+            headers: headerss,
+        });
+
+        if (response.ok) {
+            responseReturn = await response.json();
+        } else {
+            responseReturn = await response.json();
+        }
+    } catch (error) {
+        responseReturn = { error: "Ocurrió un error durante la solicitud" };
+    }
+
+    return responseReturn;
+};

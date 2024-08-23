@@ -4,8 +4,8 @@ import { Cuadros } from "../Cards/Cuadros";
 
 export const Section4Home = () => {
     return (
-        <div className="bg-white py-24 pb-0 pt-12">
-            <div className="container mx-auto px-4">
+        
+            <div className=" px-4 w-full  my-[50px]">
                 {Cuadros.map((testimonial, index) => (
                     <CuadrosList
                         key={index}
@@ -15,6 +15,6 @@ export const Section4Home = () => {
                     />
                 ))}
             </div>
-        </div>
+       
     );
 };

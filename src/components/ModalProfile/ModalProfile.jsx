@@ -1,19 +1,25 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../Context/Context';
 import usuario from "../../../public/usuario.png";
+import { UpdateUser } from '../UpdateUser/UpdateUser'; // Importa el componente UpdateUser
 
 export const ModalProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, updateUser } = useContext(AppContext);
+  const { user, openUpdateModal, closeUpdateModal, isUpdateModalOpen, deleteUser } = useContext(AppContext);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
   const handleUpdate = () => {
-    // Aquí puedes añadir la lógica para actualizar los datos del usuario
-    if (updateUser) {
-      updateUser();
+    // Abre el modal de actualización
+    openUpdateModal();
+  };
+
+  const handleDelete = () => {
+    // Aquí puedes añadir la lógica para eliminar el perfil
+    if (deleteUser) {
+      deleteUser();
     }
   };
 
@@ -92,6 +98,14 @@ export const ModalProfile = () => {
               </button>
             </li>
             <li>
+              <button
+                onClick={handleDelete}
+                className="block py-2 px-4 text-sm text-red-500 hover:bg-red-600 rounded-lg w-full text-left"
+              >
+                Eliminar Perfil
+              </button>
+            </li>
+            <li>
               <a
                 href="#"
                 className="block py-2 px-4 text-sm text-gray-100 hover:bg-gray-600 rounded-lg w-full text-left"
@@ -101,6 +115,11 @@ export const ModalProfile = () => {
             </li>
           </ul>
         </div>
+      )}
+
+      {/* Mostrar el modal de actualización si está abierto */}
+      {isUpdateModalOpen && (
+        <UpdateUser />
       )}
     </div>
   );

@@ -1,5 +1,7 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { CardsEmployees } from '../SectionEmployees/CardsEmployees/CardsEmployees';
+import { POSTEndpoint, UPDATEEndpoint } from '../ServicesFectch/ServicesFetch';
+import { UpdateOk } from '../UpdateOK/UpdateOk'; // Asegúrate de ajustar la ruta si es necesario
 
 export const AppContext = createContext();
 
@@ -41,6 +43,9 @@ export const AppProvider = ({ children }) => {
   const [deleteEventModal, setDeleteEventModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
 
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false); // Estado para controlar el modal de actualización
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Estado para controlar el modal de éxito
+
   useEffect(() => {
     if (token) {
       localStorage.setItem('TokenUser', token);
@@ -70,6 +75,29 @@ export const AppProvider = ({ children }) => {
     checkIfNewUser();
   }, [user]);
 
+  const updateUser = async (updatedData) => {
+    console.log(updatedData);
+    
+    const token = localStorage.getItem('TokenUser'); // Asegúrate de que el token esté disponible
+    const response = await UPDATEEndpoint({
+      URL: `api/v1/usuario/${user.id_usuario}`, // Ajusta la URL según tu API
+      Data: updatedData,
+      TokenPost: token,
+    });
+
+    if (response && !response.error) {
+      setUser(response); // Actualiza el usuario en el contexto
+      setIsUpdateModalOpen(false); // Cierra el modal después de actualizar
+      setIsSuccessModalOpen(true); // Abre el modal de éxito
+    } else {
+      console.error('Error al actualizar el usuario', response.error);
+    }
+  };
+
+  const openUpdateModal = () => setIsUpdateModalOpen(true);
+  const closeUpdateModal = () => setIsUpdateModalOpen(false);
+  const closeSuccessModal = () => setIsSuccessModalOpen(false);
+
   return (
     <AppContext.Provider value={{
       user, setUser,
@@ -89,12 +117,14 @@ export const AppProvider = ({ children }) => {
       newEvent, setNewEvent,
       events, setEvents,
       deleteEventModal, setDeleteEventModal,
-      eventToDelete, setEventToDelete
+      eventToDelete, setEventToDelete,
+      isUpdateModalOpen, openUpdateModal, closeUpdateModal, updateUser,
+      isSuccessModalOpen, closeSuccessModal // Añadido
     }}>
       {children}
+      {isSuccessModalOpen && <UpdateOk onClose={closeSuccessModal} />}
     </AppContext.Provider>
   );
 };
 
-// Hook personalizado para usar el contexto
 export const useAppContext = () => useContext(AppContext);
