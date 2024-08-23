@@ -11,8 +11,9 @@ export const CardsEmployees = [
       rol: 'Super Admin',
       Trabajadas: '176 horas',
       Ausencias: '16 horas',
-      Vacaciones: '1 mes'
-   },
+      Vacaciones: '1 mes',
+      descripcion: 'descripcion 1',
+      fecha: '20/08/2024'   },
    {
       _id: 2,
       img: perfil1,
@@ -23,7 +24,9 @@ export const CardsEmployees = [
       rol: 'Gerente',
       Trabajadas: '176 horas',
       Ausencias: '16 horas',
-      Vacaciones: '1 mes'
+      Vacaciones: '1 mes',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 3,
@@ -35,7 +38,9 @@ export const CardsEmployees = [
       rol: 'Supervisor',
       Trabajadas: '180 horas',
       Ausencias: '8 horas',
-      Vacaciones: '2 semanas'
+      Vacaciones: '2 semanas',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 4,
@@ -47,7 +52,9 @@ export const CardsEmployees = [
       rol: 'Empleado',
       Trabajadas: '170 horas',
       Ausencias: '20 horas',
-      Vacaciones: '3 semanas'
+      Vacaciones: '3 semanas',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 5,
@@ -59,7 +66,9 @@ export const CardsEmployees = [
       rol: 'Empleado',
       Trabajadas: '160 horas',
       Ausencias: '10 horas',
-      Vacaciones: '1 mes'
+      Vacaciones: '1 mes',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 6,
@@ -71,7 +80,9 @@ export const CardsEmployees = [
       rol: 'Supervisor',
       Trabajadas: '165 horas',
       Ausencias: '15 horas',
-      Vacaciones: '2 semanas'
+      Vacaciones: '2 semanas',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 7,
@@ -83,7 +94,9 @@ export const CardsEmployees = [
       rol: 'Administrador',
       Trabajadas: '175 horas',
       Ausencias: '12 horas',
-      Vacaciones: '1 mes'
+      Vacaciones: '1 mes',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 8,
@@ -95,7 +108,9 @@ export const CardsEmployees = [
       rol: 'Administrador',
       Trabajadas: '185 horas',
       Ausencias: '5 horas',
-      Vacaciones: '3 semanas'
+      Vacaciones: '3 semanas',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 9,
@@ -107,7 +122,9 @@ export const CardsEmployees = [
       rol: 'Supervisor',
       Trabajadas: '190 horas',
       Ausencias: '3 horas',
-      Vacaciones: '2 semanas'
+      Vacaciones: '2 semanas',
+      descripcion: 'Anomalia en la seccion b',
+      fecha: '19/08/2024',
    },
    {
       _id: 10,
@@ -119,7 +136,9 @@ export const CardsEmployees = [
       rol: 'Empleador',
       Trabajadas: '180 horas',
       Ausencias: '7 horas',
-      Vacaciones: '1 mes'
+      Vacaciones: '1 mes',
+      descripcion: 'Anomalia en la seccion e',
+      fecha: '19/08/2024',
    },
 
 ];

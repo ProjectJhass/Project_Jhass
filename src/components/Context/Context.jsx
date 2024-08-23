@@ -16,7 +16,7 @@ export const AppProvider = ({children}) => {
 
 
 
-  localStorage.clear();
+  // localStorage.clear();
 
 const [currentCard, setCurrentCard] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +58,7 @@ const [selectedCardId, setSelectedCardId] = useState(null);
     const [deleteEventModal, setDeleteEventModal] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
 
-    const [cardsNew, setCardsNew] = useState(() => CardsNews.map(card => ({ ...card })));
+    // const [cardsNew, setCardsNew] = useState(() => CardsNews.map(card => ({ ...card })));
 
   
   
@@ -70,7 +70,9 @@ const [selectedCardId, setSelectedCardId] = useState(null);
      setIsModalOpen, currentCard2, setCurrentCard2, filter, setFilter, 
      isModalOpenCale, setIsModalOpenCale, newEvent, setNewEvent,
       events, setEvents, deleteEventModal, setDeleteEventModal, 
-      eventToDelete, setEventToDelete, cardsNew, setCardsNew}} >
+      eventToDelete, setEventToDelete
+      // , cardsNew, setCardsNew
+      }} >
     {children}
     </AppContext.Provider>
   )
