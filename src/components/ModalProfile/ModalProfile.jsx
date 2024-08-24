@@ -47,7 +47,7 @@ export const ModalProfile = () => {
           <div className="py-4 px-6 flex items-center border-b border-gray-600">
             <img
               className="w-16 h-16 rounded-full mr-4 bg-gray-300"
-              src={user?.profilePicture || usuario}
+              src={user?.profilePicture || "https://res.cloudinary.com/dnweqtuch/image/upload/v1724450231/ContentImagesJhass/cedqvp85sj2a5qs9upkm.png"}
               alt="user photo"
             />
             <div>
