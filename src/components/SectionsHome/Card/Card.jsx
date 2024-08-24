@@ -2,8 +2,8 @@ import React from 'react';
 
 export const Card = ({ img, title, description }) => {
   return (
-    <div className="bg-white border border-gray-300 rounded-lg shadow-md max-w-sm flex flex-col">
-      <div className="flex h-48 w-full overflow-hidden place-content-center  bg-gray-200  border-gray-300">
+    <div className="bg-white border border-gray-300 rounded-lg shadow-md w-[280px] max-w-sm flex flex-col">
+      <div className="flex h-48 w-[] overflow-hidden place-content-center  bg-gray-200  border-gray-300">
         <img src={img} alt={title} className="object-cover w-[215px]" />
       </div>
       <div className="p-6 flex flex-col items-center text-center flex-grow">
