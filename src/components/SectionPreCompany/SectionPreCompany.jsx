@@ -3,8 +3,6 @@ import { HeaderUser } from "../Layouts/HeaderUser/HeaderUser";
 import { Footer } from '../Layouts/Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
-import EmptyState from "../../../public/empty.png";
-import BuscadorIcon from "../../../public/buscar.png";
 import { GETEndpoint } from '../ServicesFectch/ServicesFetch';
 import {
   Table,
@@ -54,9 +52,6 @@ export const SectionPreCompany = () => {
     setSelectedType(e.target.value);
   };
 
-  const handleSearch = () => {
-    // Aquí podrías realizar la lógica de búsqueda si es necesario
-  };
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -112,9 +107,8 @@ export const SectionPreCompany = () => {
               <button
                 type="button"
                 className="absolute inset-y-0 right-0 flex items-center px-3 bg-blue-600 text-white hover:bg-blue-700 transition duration-200 rounded-r-lg border-none"
-                onClick={handleSearch}
               >
-                <img src={BuscadorIcon} alt="Buscar" className="w-6 h-6" />
+                <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450231/ContentImagesJhass/jvfmf51s9ncvllscsczr.png" alt="Buscar" className="w-6 h-6" />
               </button>
             </div>
           </div>
@@ -184,7 +178,7 @@ export const SectionPreCompany = () => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center mt-10">
-              <img src={EmptyState} alt="No companies" className="w-24 h-24 sm:w-32 sm:h-32 lg:w-48 lg:h-48" />
+              <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450237/ContentImagesJhass/g5ywyi1p9wkgtg0wk9id.png" alt="No companies" className="w-24 h-24 sm:w-32 sm:h-32 lg:w-48 lg:h-48" />
               <p className="text-center text-gray-700 mt-4 text-sm sm:text-base lg:text-lg">
                 ¿No tienes una empresa?{' '}
                 <button

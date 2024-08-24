@@ -60,7 +60,7 @@ export const SectionCompany = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center overflow-hidden bg-[url('../../../public/edificios.jpg')]">
+    <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center overflow-hidden bg-[url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450239/ContentImagesJhass/pfjiyjmlngklkvdvlu2q.jpg')]">
       <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-0"></div>
       <div className="relative bg-black bg-opacity-75 p-12 rounded-lg shadow-lg max-w-4xl w-full z-10">
         <button

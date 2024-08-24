@@ -1,5 +1,4 @@
 import React from 'react'
-import men from '../../../assets/8.png'
 
 
 export const Communication = () => {
@@ -39,7 +38,7 @@ export const Communication = () => {
 
         </div>
         <div className='w-[49%] flex'>
-           <img className='rounded-lg ' src={men} alt="" />
+           <img className='rounded-lg ' src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450504/ContentImagesJhass/ouqu8csneugfjk0xl7oa.png" alt="" />
    
         </div>
 

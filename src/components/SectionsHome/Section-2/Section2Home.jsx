@@ -1,5 +1,4 @@
 import React from 'react';
-import sampleImage from '../../../../public/home-s2.jpg'; 
 
 export const Section2Home = () => {
   return (
@@ -7,7 +6,7 @@ export const Section2Home = () => {
       <div className='w-[90vw] md:h-600px h-600px flex place-content-center md:w-[50%] ' >
 
       <img 
-        src={sampleImage} 
+        src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450247/ContentImagesJhass/k8vqcybqypqszmyfckuc.jpg" 
         alt="Sample" 
         className=" rounded-xl mr-[70px] md:w-[22rem] w-[17rem] md:absolute md:h-[34rem]  h-[23rem]   mb-6 md:mb-0 md:mr-[190px] " 
       />

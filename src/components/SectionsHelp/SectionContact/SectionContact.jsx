@@ -1,6 +1,5 @@
 import React from 'react'
 import { Communication } from '../Communication/Communication'
-import woman from '../../../assets/9.png'
 import { Footer } from '../../Layouts/Footer/Footer'
 import Section1 from '../Section-1/Section1'
 
@@ -63,7 +62,7 @@ export const SectionContact = () => {
 
               <div className='flex flex-raw mr-[-5%]'>
 
-              <img className='mt-10 mb-10 rounded-lg mr-10' src={woman} alt="" />
+              <img className='mt-10 mb-10 rounded-lg mr-10' src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450501/ContentImagesJhass/xvaadtd779kzbgtvdsi7.png" alt="" />
               <div className='flex flex-col items-center justify-center'>
               <p className='w-96 mb-4  text-gray-400 border-2 rounded-xlfont-serif'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti molestiae earum totam! Architecto commodi
                  cum deleniti qui dicta vero labore quas voluptas dolorum, maiores, beatae doloremque. 

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../Context/Context';
-import usuario from "../../../public/usuario.png";
 import { UpdateUser } from '../UpdateUser/UpdateUser'; // Importa el componente UpdateUser
 
 export const ModalProfile = () => {
@@ -35,7 +34,7 @@ export const ModalProfile = () => {
         <span className="sr-only">Open user menu</span>
         <img
           className="w-8 h-8 rounded-full"
-          src={user?.profilePicture || usuario}
+          src={user?.profilePicture || "https://res.cloudinary.com/dnweqtuch/image/upload/v1724450231/ContentImagesJhass/cedqvp85sj2a5qs9upkm.png"}
           alt="user photo"
         />
       </button>

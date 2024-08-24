@@ -1,5 +1,4 @@
 import React from 'react';
-import img1 from "../public/logo2_jhass.png";
 import { Item } from './components/Item/Item';
 import { useNavigate, useRoutes, useLocation } from 'react-router-dom';
 import { Home } from './components/pages/Home/Home';
@@ -70,7 +69,7 @@ function App() {
         <header className={`absolute top-[17px] left-1/2 transform -translate-x-1/2 z-50 border-gray-200 px-4 py-2.5 bg-[#ffffff] rounded-xl shadow-md w-[90%] ${NewContext.isOpaque ? 'opacity-100' : 'opacity-100'}`}>
           <div className="flex justify-between items-center mx-auto max-w-screen-xl">
             <a href="/" className="flex items-center">
-              <img src={img1} className="mr-3 h-6 sm:h-9" alt="Logo Jhass" />
+              <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450502/ContentImagesJhass/ez6egg6salvkg3n6q8xt.png" className="mr-3 h-6 sm:h-9" alt="Logo Jhass" />
               <span className="self-center text-xl font-semibold whitespace-nowrap text-black">Jhass</span>
             </a>
             <div className="flex items-center lg:order-2">

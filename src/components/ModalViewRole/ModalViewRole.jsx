@@ -2,7 +2,6 @@ import React from 'react'
 
 import { AppContext } from '../Context/Context';
 import { useContext } from 'react';
-import  x  from "../../assets/x.png";
 
 export const ModalViewRole = ({img, rol, nombreCompleto, correo, onEdit }) => {
     const NewContext = useContext(AppContext);
@@ -14,7 +13,7 @@ export const ModalViewRole = ({img, rol, nombreCompleto, correo, onEdit }) => {
         
     <div className=' items-center w-[500px] h-[300px] bg-[#D9D9D9] rounded-3xl px-[20px]'>
         <div  className='flex justify-center items-center w-full  relative left-[219px] top-5'>
-    <img src={x} alt="" srcset="" className='w-[15px] cursor-pointer' onClick={() => NewContext.setestadoModal1(!NewContext.estadoModal1)}/>
+    <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450505/ContentImagesJhass/dfzjdfz4hz5bixvrkfex.png" alt="" srcset="" className='w-[15px] cursor-pointer' onClick={() => NewContext.setestadoModal1(!NewContext.estadoModal1)}/>
 
         </div>
         <div className=' items-center w-[460px] h-[200px] bg-[#D9D9D9] rounded-3xl flex justify-around px-[20px]'>

@@ -21,7 +21,7 @@ export const Section1Home = () => {
 
     return (
         <>
-            <div className='flex h-[650px] sm section1 bg-cover bg-center relative w-full' style={{ backgroundImage: "url('../../../../public/img-home.jpg')" }}>
+            <div className='flex h-[650px] sm section1 bg-cover bg-center relative w-full' style={{ backgroundImage: "url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450259/ContentImagesJhass/bwxa8hkfwubgsolougkb.jpg')" }}>
                 <div className='w-full flex flex-col justify-center py-[150px] px-4 text-left pl-[6rem] h-[650px] bg-[#000000ab]  
                     lg:pl-[6rem] 
                     md:pl-[4rem] md:py-[120px] 

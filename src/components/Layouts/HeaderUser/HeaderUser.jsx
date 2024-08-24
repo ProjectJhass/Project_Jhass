@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logJhass from '../../../../public/logo2_jhass.png';
 import { Navbar } from '../../Navbar/Navbar';
 import { Item } from '../../Item/Item';
 import {ModalProfile} from '../../ModalProfile/ModalProfile'; // Ajusta la ruta según tu estructura de archivos
@@ -56,7 +55,7 @@ export const HeaderUser = ({ username, navItems }) => {
               )}
             </div>
           )}
-          <img src={logJhass} alt="Logo" className="h-10 w-14" />
+          <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450502/ContentImagesJhass/ez6egg6salvkg3n6q8xt.png" alt="Logo" className="h-10 w-14" />
           <p className='text-xl font-semibold whitespace-nowrap text-black ml-[5px]'>Jhass</p>
         </div>
 

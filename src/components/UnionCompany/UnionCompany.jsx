@@ -1,4 +1,3 @@
-// src/pages/UnionCompany.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -15,7 +14,7 @@ export const UnionCompany = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center bg-[url('../../../public/1.jpg')]">
+    <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center bg-[url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450240/ContentImagesJhass/qwnv6tsgjmwyfkvizzoq.jpg')]">
       <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-0"></div>
       <div className="relative bg-black bg-opacity-75 p-20 rounded-lg shadow-lg max-w-xl w-full z-10">
         <button

@@ -1,10 +1,9 @@
-import perfil1 from '../../../assets/perifil1.png';
 
 export const CardsEmployees = [
 
    {
     _id:1,
-    img: perfil1,
+    img: "https://res.cloudinary.com/dnweqtuch/image/upload/v1724450504/ContentImagesJhass/lkppbuizi2qmgszzp7s3.png",
     nombre: 'Johan Cardenas',
     nombreCompleto:'Johan Sebastian Agudelo',
     correo:'Johansac@gmail.com',
