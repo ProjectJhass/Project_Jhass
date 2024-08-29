@@ -1,7 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { CardsEmployees } from '../SectionEmployees/CardsEmployees/CardsEmployees';
-import { POSTEndpoint, UPDATEEndpoint } from '../ServicesFectch/ServicesFetch';
-import { UpdateOk } from '../UpdateOK/UpdateOk'; // Asegúrate de ajustar la ruta si es necesario
 
 export const AppContext = createContext();
 
@@ -15,24 +13,50 @@ export const AppProvider = ({ children }) => {
   // Estados del segundo contexto
   const [currentCard, setCurrentCard] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [token, setToken] = useState(() => localStorage.getItem('TokenUser'));
+  const [token, setToken] = useState(() => {
+    const savedToken = localStorage.getItem('TokenUser');
+    return savedToken ? savedToken : null;
+  });
+
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
+    try {
+      // Verificar si savedUser es una cadena JSON válida
+      if (savedUser && typeof savedUser === 'string') {
+        return JSON.parse(savedUser);
+      }
+      return null;
+    } catch (e) {
+      console.error('Error parsing user from localStorage:', e);
+      return null;
+    }
   });
+
   const [selectedCardId, setSelectedCardId] = useState(null);
   const [estadoModal1, setestadoModal1] = useState(false);
   const [cards, setCards] = useState(() => {
     const savedCards = localStorage.getItem('cards');
-    return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
+    try {
+      return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
+    } catch (e) {
+      console.error('Error parsing cards from localStorage:', e);
+      return CardsEmployees.map(card => ({ ...card, isActive: true }));
+    }
   });
+  
   const [isOpaque, setisOpaque] = useState(() => {
     const savedIsOpaque = localStorage.getItem('isOpaque');
-    return savedIsOpaque ? JSON.parse(savedIsOpaque) : true;
+    try {
+      return savedIsOpaque ? JSON.parse(savedIsOpaque) : true;
+    } catch (e) {
+      console.error('Error parsing isOpaque from localStorage:', e);
+      return true;
+    }
   });
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ModalTrackingIsOpen, setModalTrackingIsOpen] = useState(false);
-  const [isNewUser, setIsNewUser] = useState(false); // Estado para saber si el usuario es nuevo
+  const [isNewUser, setIsNewUser] = useState(false);
   const [events, setEvents] = useState([
     {
       title: 'Reunión',
@@ -42,9 +66,6 @@ export const AppProvider = ({ children }) => {
   ]);
   const [deleteEventModal, setDeleteEventModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
-
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false); // Estado para controlar el modal de actualización
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Estado para controlar el modal de éxito
 
   useEffect(() => {
     if (token) {
@@ -63,40 +84,16 @@ export const AppProvider = ({ children }) => {
   }, [user]);
 
   useEffect(() => {
-    // Lógica para determinar si el usuario es nuevo
     const checkIfNewUser = () => {
       if (user && user.isNewUser !== undefined) {
         setIsNewUser(user.isNewUser);
       } else {
-        setIsNewUser(true); // Asumimos que el usuario es nuevo si no hay información
+        setIsNewUser(true);
       }
     };
 
     checkIfNewUser();
   }, [user]);
-
-  const updateUser = async (updatedData) => {
-    console.log(updatedData);
-    
-    const token = localStorage.getItem('TokenUser'); // Asegúrate de que el token esté disponible
-    const response = await UPDATEEndpoint({
-      URL: `api/v1/usuario/${user.id_usuario}`, // Ajusta la URL según tu API
-      Data: updatedData,
-      TokenPost: token,
-    });
-
-    if (response && !response.error) {
-      setUser(response); // Actualiza el usuario en el contexto
-      setIsUpdateModalOpen(false); // Cierra el modal después de actualizar
-      setIsSuccessModalOpen(true); // Abre el modal de éxito
-    } else {
-      console.error('Error al actualizar el usuario', response.error);
-    }
-  };
-
-  const openUpdateModal = () => setIsUpdateModalOpen(true);
-  const closeUpdateModal = () => setIsUpdateModalOpen(false);
-  const closeSuccessModal = () => setIsSuccessModalOpen(false);
 
   return (
     <AppContext.Provider value={{
@@ -118,11 +115,8 @@ export const AppProvider = ({ children }) => {
       events, setEvents,
       deleteEventModal, setDeleteEventModal,
       eventToDelete, setEventToDelete,
-      isUpdateModalOpen, openUpdateModal, closeUpdateModal, updateUser,
-      isSuccessModalOpen, closeSuccessModal // Añadido
     }}>
       {children}
-      {isSuccessModalOpen && <UpdateOk onClose={closeSuccessModal} />}
     </AppContext.Provider>
   );
 };

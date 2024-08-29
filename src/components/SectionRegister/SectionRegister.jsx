@@ -1,12 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { POSTEndpoint } from '../ServicesFectch/ServicesFetch';
-import { AppContext } from '../Context/Context';
-
+import {  CustomModal, ErrorModal, InfoModal, WarningModal } from '../ModalReusable/ModalReusable';
 export const SectionRegister = () => {
   const [password, setPassword] = useState("");
-  const { token } = useContext(AppContext);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validation, setValidation] = useState(false);
   const [formData, setFormData] = useState({
@@ -29,6 +27,18 @@ export const SectionRegister = () => {
     telefono: false
   });
   const [userExists, setUserExists] = useState(false); // Nuevo estado para verificar existencia de usuario
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({title: '', message:''})
+  const [activeModal, setActiveModal] = useState(null); // null significa que no hay modal activo
+ 
+  const openModal = (modalType) => {
+    setActiveModal(modalType); // 'modal1', 'modal2', 'modal3', etc.
+  };
+  
+  const closeModal = () => {
+    setActiveModal(null); // Cerrar cualquier modal
+  };
+  
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -132,35 +142,61 @@ export const SectionRegister = () => {
       edad: validateAge(contentYear)
     });
   };
+  const validationRequiredFields = () => {
+    const requiredFields = ["nombre", "apellido", "correo", "contraseña", "edad", "telefono"];
+    for (const field of requiredFields) {
+      if (!formData[field]) {
+        return false;
+      }
+    }
+    return true;
+  };
+  
 
+  
   const handleSubmitData = async (event) => {
     event.preventDefault();
+
+
+    if (!validationRequiredFields()) {
+      setModalContent({ title: 'Error', message: 'Por favor complete todos los campos obligatorios' });
+      openModal("modal1")
+      return;
+    }
+
     if (!validation) {
-      alert("Las contraseñas no coinciden");
+      setModalContent({ title: 'Error', message: 'Las contraseñas no coinciden' });
+      openModal("modal1");
       return;
     }
 
     if (errors.correo || errors.edad || errors.telefono) {
-      alert("Corrija los errores antes de enviar");
-      return;
+      setModalContent({ title: 'Error', message: 'Corrija los errores antes de enviar' });
+      openModal("modal2");
+            return;
     }
 
     try {
       let ContentPost = await POSTEndpoint({ URL: "api/v1/auth/register", Data: formData });
-      console.log(ContentPost);
       
       if (ContentPost && ContentPost.statusCode === 400) { // Supongamos que el código 409 indica que el usuario ya existe
         setUserExists(true);
+  
         return;
       }
 
       if (ContentPost) {
-        navigate("/IniciarSesion");
+        setModalContent({ title: "Registro Exitoso", message:"Te has registrado con exito en Jhass ahora debes iniciar sesion"})
+        openModal("modal3");
+        setTimeout(() => {
+          navigate("/IniciarSesion");
+        }, 5000); 
       }
     } catch (error) {
       console.error("Error al registrar el usuario:", error);
     }
   };
+
 
   return (
     <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center overflow-hidden bg-[url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450239/ContentImagesJhass/pfjiyjmlngklkvdvlu2q.jpg')]">
@@ -288,14 +324,42 @@ export const SectionRegister = () => {
           </button>
         </form>
         <div className="text-center mt-4">
-          <button
-            onClick={handleLoginClick}
-            className="text-white underline"
-          >
-            Ya tienes cuenta? Inicia sesión
-          </button>
+        <p className="text-center text-white mt-4">
+            ¿Ya tienes una cuenta? <a href="#" className="text-blue-500 hover:underline" onClick={handleLoginClick}>Iniciar Sesion</a>
+          </p>
         </div>
       </div>
+      {/*Componente modal */}
+      {activeModal==="modal1"&&(
+      <WarningModal
+      isOpen={openModal}
+      message={modalContent.message}
+      onClose={closeModal}
+      />
+     )}  
+      {activeModal==="modal2"&&(
+      <ErrorModal
+      isOpen={openModal}
+      message={modalContent.message}
+      onClose={closeModal}
+      />
+     )}
+      {activeModal==="modal3"&&(
+      <CustomModal
+      isOpen={openModal}
+      title={modalContent.title}
+      message={modalContent.message}
+      buttons={[{
+        label: 'Aceptar',
+        onClick: closeModal, // Cierra el modal
+        style: 'bg-green-500 text-white p-2 rounded', // Clases de Tailwind o estilos personalizados
+      }]}
+      onClose={closeModal}
+      />
+     )}
     </div>
+
+
+
   );
 };

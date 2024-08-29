@@ -111,3 +111,33 @@ export const DELETEEndpoint = async ({ URL, TokenDelete = null }) => {
 
     return responseReturn;
 };
+
+export const PUTEndpoint = async ({ URL, Data, TokenPut = null }) => {
+    let responseReturn = null;
+    try {
+        const headerss = {
+            'Content-Type': 'application/json',
+        };
+
+        // Agrega el Authorization header solo si TokenPut está presente
+        if (TokenPut) {
+            headerss['Authorization'] = `Bearer ${TokenPut}`;
+        }
+
+        const response = await fetch(`http://localhost:3000/${URL}`, {
+            method: "PUT",
+            headers: headerss,
+            body: JSON.stringify(Data)
+        });
+
+        if (response.ok) {
+            responseReturn = await response.json();
+        } else {
+            responseReturn = await response.json();
+        }
+    } catch (error) {
+        responseReturn = { error: "Ocurrió un error durante la solicitud" };
+    }
+
+    return responseReturn;
+};
