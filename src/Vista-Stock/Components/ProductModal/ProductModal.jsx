@@ -31,7 +31,40 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
   };
 
   const handleSave = () => {
-    onUpdate(editedProduct); // Llama a la función de actualización con el producto editado
+    // Validar si los IDs coinciden antes de actualizar
+    if (product.id !== editedProduct.id) {
+      alert('Error: El producto seleccionado no coincide con el producto editado.');
+      return;
+    }
+
+    // Verifica qué campos han cambiado
+    const updatedProduct = { ...product }; // Clona el producto original
+    let hasChanges = false;
+
+    if (product.name !== editedProduct.name) {
+      updatedProduct.name = editedProduct.name;
+      hasChanges = true;
+    }
+    if (product.quantity !== editedProduct.quantity) {
+      updatedProduct.quantity = editedProduct.quantity;
+      hasChanges = true;
+    }
+    if (product.description !== editedProduct.description) {
+      updatedProduct.description = editedProduct.description;
+      hasChanges = true;
+    }
+    if (product.image !== editedProduct.image) {
+      updatedProduct.image = editedProduct.image;
+      hasChanges = true;
+    }
+
+    // Solo llama a la actualización si hubo cambios
+    if (hasChanges) {
+      onUpdate(updatedProduct);
+    } else {
+      alert('No se realizaron cambios.');
+    }
+
     onRequestClose(); // Cierra el modal
   };
 
@@ -99,7 +132,7 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
               Cancelar
             </button>
             <button
-              onClick={() => { onDelete(product.name); onRequestClose(); }}
+              onClick={() => { onDelete(product.id); onRequestClose(); }}
               className="bg-red-500 text-white px-4 py-2 rounded"
             >
               Eliminar

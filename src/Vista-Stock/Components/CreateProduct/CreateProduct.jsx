@@ -14,12 +14,14 @@ const CreateProductCard = ({ onCreate }) => {
   const handleCreate = () => {
     if (name && quantity && description && image) {
       const newProduct = { 
+        id: Date.now(), // Genera un id único basado en el tiempo actual
         name, 
-        quantity: parseInt(quantity), 
+        quantity: parseInt(quantity, 10), 
         description, 
         image 
       };
       onCreate(newProduct);
+      // Reinicia los campos del formulario
       setName('');
       setQuantity('');
       setDescription('');

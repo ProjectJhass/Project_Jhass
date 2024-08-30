@@ -15,6 +15,7 @@ const ProductCard = ({ product, onDelete, onUpdate }) => {
       >
         <p className="text-lg font-semibold">{product.name}</p>
         <p>{product.quantity}</p>
+        
       </div>
 
       <ProductDetailModal
