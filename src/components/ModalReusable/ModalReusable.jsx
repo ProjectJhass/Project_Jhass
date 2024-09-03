@@ -57,22 +57,41 @@ export const ErrorModal = ({ isOpen, onClose, message }) => {
 };
 
 // Modal de Advertencia
-export const WarningModal = ({ isOpen, onClose, message }) => {
+// ModalReusable/WarningModal.js
+
+export const WarningModal = ({ isOpen, onClose, message, buttons }) => {
+  if (!isOpen) return null;
+
   return (
-    <ModalReusable
-      isOpen={isOpen}
-      onClose={onClose}
-      title="Advertencia"
-      message={message}
-      icon={FaExclamationCircle}
-      buttons={[
-        {
-          label: 'Aceptar',
-          onClick: onClose,
-          className: 'bg-blue-600 text-white rounded hover:bg-blue-700'
-        }
-      ]}
-    />
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+      <div className="relative bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 max-w-md p-6">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          <img
+            src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450505/ContentImagesJhass/dfzjdfz4hz5bixvrkfex.png"
+            alt="Close"
+            className="w-4 h-4"
+          />
+        </button>
+
+        <div className="text-center">
+          <p className="mb-4">{message}</p>
+          <div className="flex justify-center space-x-4">
+            {buttons.map((button, index) => (
+              <button
+                key={index}
+                onClick={button.onClick}
+                className={`px-4 py-2 rounded ${button.className}`}
+              >
+                {button.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
@@ -97,11 +116,10 @@ export const InfoModal = ({ isOpen, onClose, message }) => {
 };
 
 // Modal Personalizado
-export const CustomModal = ({ isOpen, onClose, title, message, icon, buttons }) => {
+export const CustomModal = ({ isOpen,  title, message, icon, buttons }) => {
   return (
     <ModalReusable
       isOpen={isOpen}
-      onClose={onClose}
       title={title}
       message={message}
       icon={icon || FaCheckCircle}

@@ -1,49 +1,38 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { CardsEmployees } from '../SectionEmployees/CardsEmployees/CardsEmployees';
+import { CardsNews } from '../SectionNews/CardsNews/CardsNews';
 
+// Creación del contexto
 export const AppContext = createContext();
 
+// Proveedor del contexto
 export const AppProvider = ({ children }) => {
-  // Estados del primer contexto
-  const [currentCard2, setCurrentCard2] = useState(null);
-  const [filter, setFilter] = useState('');
-  const [isModalOpenCale, setIsModalOpenCale] = useState(false);
-  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '', assignedTo: '' });
-
-  // Estados del segundo contexto
-  const [currentCard, setCurrentCard] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [token, setToken] = useState(() => {
-    const savedToken = localStorage.getItem('TokenUser');
-    return savedToken ? savedToken : null;
-  });
-
+  // Estados relacionados con el usuario
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
     try {
-      // Verificar si savedUser es una cadena JSON válida
-      if (savedUser && typeof savedUser === 'string') {
-        return JSON.parse(savedUser);
-      }
-      return null;
+      return savedUser ? JSON.parse(savedUser) : null;
     } catch (e) {
       console.error('Error parsing user from localStorage:', e);
       return null;
     }
   });
-
-  const [selectedCardId, setSelectedCardId] = useState(null);
-  const [estadoModal1, setestadoModal1] = useState(false);
-  const [cards, setCards] = useState(() => {
-    const savedCards = localStorage.getItem('cards');
-    try {
-      return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
-    } catch (e) {
-      console.error('Error parsing cards from localStorage:', e);
-      return CardsEmployees.map(card => ({ ...card, isActive: true }));
-    }
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [token, setToken] = useState(() => {
+    const savedToken = localStorage.getItem('TokenUser');
+    return savedToken ? savedToken : null;
   });
-  
+
+  // Estados relacionados con la interfaz y el estado global
+  const [currentCard, setCurrentCard] = useState(null);
+  const [currentCard2, setCurrentCard2] = useState(null);
+  const [filter, setFilter] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenCale, setIsModalOpenCale] = useState(false);
+  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '', assignedTo: '' });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [ModalTrackingIsOpen, setModalTrackingIsOpen] = useState(false);
+  const [estadoModal1, setestadoModal1] = useState(false);
   const [isOpaque, setisOpaque] = useState(() => {
     const savedIsOpaque = localStorage.getItem('isOpaque');
     try {
@@ -53,10 +42,16 @@ export const AppProvider = ({ children }) => {
       return true;
     }
   });
-
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [ModalTrackingIsOpen, setModalTrackingIsOpen] = useState(false);
-  const [isNewUser, setIsNewUser] = useState(false);
+  const [cards, setCards] = useState(() => {
+    const savedCards = localStorage.getItem('cards');
+    try {
+      return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
+    } catch (e) {
+      console.error('Error parsing cards from localStorage:', e);
+      return CardsEmployees.map(card => ({ ...card, isActive: true }));
+    }
+  });
+  const [selectedCardId, setSelectedCardId] = useState(null);
   const [events, setEvents] = useState([
     {
       title: 'Reunión',
@@ -66,7 +61,9 @@ export const AppProvider = ({ children }) => {
   ]);
   const [deleteEventModal, setDeleteEventModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
+  const [isNewUser, setIsNewUser] = useState(false);
 
+  // Efectos secundarios para manejar el almacenamiento en local
   useEffect(() => {
     if (token) {
       localStorage.setItem('TokenUser', token);
@@ -95,9 +92,23 @@ export const AppProvider = ({ children }) => {
     checkIfNewUser();
   }, [user]);
 
+  // Funciones para manejar el estado del modal de éxito
+  const openSuccessModal = () => setIsSuccessModalOpen(true);
+  const closeSuccessModal = () => setIsSuccessModalOpen(false);
+
+  // Función para actualizar los datos del usuario
+  const updateUserr = (newUserData) => {
+    setUser(prevUser => ({
+      ...prevUser,
+      ...newUserData,
+    }));
+  };
+
   return (
     <AppContext.Provider value={{
-      user, setUser,
+      user, setUser, updateUserr,
+      isSuccessModalOpen, openSuccessModal, closeSuccessModal,
+      token, setToken,
       isOpaque, setisOpaque,
       estadoModal1, setestadoModal1,
       cards, setCards,
@@ -105,20 +116,20 @@ export const AppProvider = ({ children }) => {
       ModalTrackingIsOpen, setModalTrackingIsOpen,
       selectedCardId, setSelectedCardId,
       currentCard, setCurrentCard,
-      isModalOpen, setIsModalOpen,
       currentCard2, setCurrentCard2,
-      token, setToken,
-      isNewUser, setIsNewUser,
+      isModalOpen, setIsModalOpen,
       filter, setFilter,
       isModalOpenCale, setIsModalOpenCale,
       newEvent, setNewEvent,
       events, setEvents,
       deleteEventModal, setDeleteEventModal,
       eventToDelete, setEventToDelete,
+      isNewUser, setIsNewUser,
     }}>
       {children}
     </AppContext.Provider>
   );
 };
 
+// Hook personalizado para usar el contexto
 export const useAppContext = () => useContext(AppContext);

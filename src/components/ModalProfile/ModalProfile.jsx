@@ -1,28 +1,13 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppContext } from '../Context/Context';
 import { ContentInformationProfile } from '../ContentInformationProfile/ContentInformationProfile';
+import { useNavigate } from 'react-router-dom';
 
 export const ModalProfile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const { user, deleteUser } = useContext(AppContext);
-
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsOpen(false);
-        setIsUpdateModalOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
+  const navigate=useNavigate
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -34,6 +19,9 @@ export const ModalProfile = () => {
   const closeUpdateModal = () => {
     setIsUpdateModalOpen(false);
   };
+  const handleHome=()=>{
+    navigate("/Home")
+  }
 
   return (
     <div className="relative">
@@ -56,7 +44,6 @@ export const ModalProfile = () => {
         <div
           className="absolute right-0 top-full mt-2 w-80 bg-white text-gray-800 shadow-lg rounded-lg z-50 border border-gray-300 p-4"
           id="dropdown"
-          ref={modalRef}
         >
           <div className="flex items-center mb-4">
             <img
@@ -88,6 +75,7 @@ export const ModalProfile = () => {
               <a
                 href="#"
                 className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 rounded-lg w-full text-left"
+                onClick={handleHome}
               >
                 Cerrar Sesión
               </a>

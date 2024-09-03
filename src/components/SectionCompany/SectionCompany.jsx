@@ -49,7 +49,7 @@ export const SectionCompany = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        navigate('/Stock');
+        navigate('/Cale');
       } else {
         const errorResponse = await response.json();
         alert('Error en la creación de la empresa: ' + errorResponse.message);

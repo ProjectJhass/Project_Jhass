@@ -1,0 +1,55 @@
+/* CustomCalendar.css */
+
+body, html, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .calendar-fullscreen {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ocupa toda la pantalla */
+    overflow: hidden; /* Evita el scroll si no es necesario */
+  }
+  
+  .calendar-content {
+    flex-grow: 1; /* Permite que el calendario ocupe todo el espacio vertical posible */
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Asegura que el calendario se expanda */
+    padding: 0;
+  }
+  
+  .calendar-wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .rbc-calendar {
+    height: 100%; /* Asegura que el calendario ocupe toda la altura disponible */
+  }
+  
+  .rbc-toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #f1f3f4;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .rbc-event {
+    background-color: #34a853;
+    border-radius: 4px;
+    color: white;
+    padding: 0.25rem;
+  }
+  
+  .rbc-day-bg {
+    border: 1px solid #e0e0e0;
+  }
+  
+  .rbc-today {
+    background-color: #e8f0fe;
+  }
+  

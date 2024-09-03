@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 
-export const CreateProductCard = ({ onCreate }) => {
+const CreateProductCard = ({ onCreate }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
   const [image, setImage] = useState(null);
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
   const handleCreate = () => {
-    if (name && quantity && description && price && image) {
+    if (name && quantity && description && image) {
       const newProduct = { 
+        id: Date.now(), // Genera un id único basado en el tiempo actual
         name, 
         quantity: parseInt(quantity, 10), 
         description, 
-        price: parseFloat(price), 
         image 
       };
       onCreate(newProduct);
+      // Reinicia los campos del formulario
       setName('');
       setQuantity('');
       setDescription('');
-      setPrice('');
       setImage(null);
       closeModal();
     }
@@ -58,54 +57,36 @@ export const CreateProductCard = ({ onCreate }) => {
         onRequestClose={closeModal}
         contentLabel="Crear Producto"
         className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+        overlayClassName=""
       >
         <div className="bg-white p-6 rounded-lg w-full max-w-md">
-          <h2 className="text-lg font-semibold mb-4">Crear Producto</h2>
-          
-          <label className="block mb-2">Nombre del Producto</label>
+          <h2 className="text-lg font-semibold mb-2">Crear Producto</h2>
           <input
             type="text"
-            placeholder="Ejemplo: Camiseta"
+            placeholder="Nombre del Producto"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border p-2 mb-4 w-full"
+            className="border p-2 mb-2 w-full"
           />
-          
-          <label className="block mb-2">Cantidad</label>
           <input
             type="number"
-            placeholder="Ejemplo: 50"
+            placeholder="Cantidad"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            className="border p-2 mb-4 w-full"
+            className="border p-2 mb-2 w-full"
           />
-
-          <label className="block mb-2">Descripción</label>
           <textarea
-            placeholder="Ejemplo: Camiseta de algodón, talla M"
+            placeholder="Descripción"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="border p-2 mb-4 w-full"
+            className="border p-2 mb-2 w-full"
           />
-
-          <label className="block mb-2">Precio</label>
-          <input
-            type="number"
-            placeholder="Ejemplo: 99.999"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            className="border p-2 mb-4 w-full"
-          />
-
-          <label className="block mb-2">Imagen</label>
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            className="border p-2 mb-4 w-full"
+            className="border p-2 mb-2 w-full"
           />
-
           <div className="flex justify-end">
             <button onClick={handleCreate} className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
               Crear
@@ -119,3 +100,5 @@ export const CreateProductCard = ({ onCreate }) => {
     </div>
   );
 };
+
+export default CreateProductCard;

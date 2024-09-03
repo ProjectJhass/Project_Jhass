@@ -69,8 +69,7 @@ function App() {
         <header className={`absolute top-[17px] left-1/2 transform -translate-x-1/2 z-50 border-gray-200 px-4 py-2.5 bg-[#ffffff] rounded-xl shadow-md w-[90%] ${NewContext.isOpaque ? 'opacity-100' : 'opacity-100'}`}>
           <div className="flex justify-between items-center mx-auto max-w-screen-xl">
             <a href="/" className="flex items-center">
-              <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450502/ContentImagesJhass/ez6egg6salvkg3n6q8xt.png" className="mr-3 h-6 sm:h-9" alt="Logo Jhass" />
-              <span className="self-center text-xl font-semibold whitespace-nowrap text-black">Jhass</span>
+            <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450502/ContentImagesJhass/ez6egg6salvkg3n6q8xt.png" className="mr-3 h-6 sm:h-9" alt="Logo Jhass" />              <span className="self-center text-xl font-semibold whitespace-nowrap text-black">Jhass</span>
             </a>
             <div className="flex items-center lg:order-2">
               <button
@@ -99,11 +98,14 @@ function App() {
             </div>
             <div className={`${
                 isMenuOpen ? "flex" : "hidden"
-              } flex-col lg:flex lg:justify-center items-center space-x-4 w-full transition duration-300 ease-in-out transform lg:transform-none`} id="mobile-menu-2">
+              }  lg:flex lg:justify-center items-center absolute lg:relative flex-col space-x-4 w-full transition duration-300 ease-in-out transform lg:transform-none`} id="mobile-menu-2">
               <Navbar>
                 <Item route='/' content='Inicio' />
+                <hr className='bg-black' />
                 <Item route='/Nosotros' content='Nosotros' />
+                <hr className='bg-black' />
                 <Item route='/Contactanos' content='Contáctanos' />
+                <hr className='bg-black' />
               </Navbar>
             </div>
           </div>

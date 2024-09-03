@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ProductDetailModal from '../ProductModal/ProductModal';
 
-const ProductCard = ({ product, onDelete }) => {
+const ProductCard = ({ product, onDelete, onUpdate }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => setModalIsOpen(true);
@@ -15,6 +15,7 @@ const ProductCard = ({ product, onDelete }) => {
       >
         <p className="text-lg font-semibold">{product.name}</p>
         <p>{product.quantity}</p>
+        
       </div>
 
       <ProductDetailModal
@@ -22,9 +23,10 @@ const ProductCard = ({ product, onDelete }) => {
         onRequestClose={closeModal}
         product={product}
         onDelete={onDelete}
+        onUpdate={onUpdate} // Pasamos la función de actualización al modal
       />
     </div>
   );
-}
+};
 
 export default ProductCard;

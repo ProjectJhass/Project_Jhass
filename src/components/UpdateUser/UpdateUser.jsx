@@ -1,17 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../Context/Context';
 import { UpdateOk } from '../UpdateOK/UpdateOk'; // Ajusta la ruta si es necesario
-import { UPDATEEndpoint, PUTEndpoint } from '../ServicesFectch/ServicesFetch';
+import { PUTEndpoint, UPDATEEndpoint } from '../ServicesFectch/ServicesFetch';
 
 export const UpdateUser = ({ onClose }) => {
-  const { user, closeSuccessModal, token, isSuccessModalOpen } = useContext(AppContext);
+  const { user, updateUserr, token, openSuccessModal, closeSuccessModal, isSuccessModalOpen } = useContext(AppContext);
 
   const [updatedData, setUpdatedData] = useState({
     nombre: user?.nombre || '',
     apellido: user?.apellido || '',
     correo: user?.correo || '',
     telefono: user?.telefono || '',
-    edad: user?.edad || 0,
+    edad: user?.edad || '',
   });
 
   const [passwordData, setPasswordData] = useState({
@@ -22,32 +22,72 @@ export const UpdateUser = ({ onClose }) => {
 
   const handleChange = (e, dataSetter) => {
     const { name, value } = e.target;
-    dataSetter(prevState => ({ ...prevState, [name]: value }));
+    dataSetter(prevState => ({
+      ...prevState,
+      [name]: name === 'edad' ? Number(value) : value // Convertir a número si es 'edad'
+    }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
+  const updateUserDetails = async () => {
+    try {
+      const contentUpdate = await UPDATEEndpoint({
+        URL: `api/v1/usuario/${user.id_usuario}`,
+        Data: updatedData,
+        TokenPut: token,
+      });
+      
+      if (contentUpdate && !contentUpdate.error) {
+        updateUserr(updatedData); // Actualiza el usuario en el contexto
+        openSuccessModal();
+      } else {
+        alert('Error al actualizar los datos. Por favor, intenta nuevamente.');
+      }
+    } catch (error) {
+      console.error('Error durante la actualización:', error);
+      alert('Ocurrió un error durante la actualización de los datos. Por favor, intenta nuevamente.');
+    }
+  };
+
+  const updatePassword = async () => {
     if (passwordData.newPassword !== passwordData.confirmNewPassword) {
       alert('Las contraseñas nuevas no coinciden');
       return;
     }
-    
+
     try {
-      const contentUpdate=await UPDATEEndpoint({
-        URL: `api/v1/usuario/${user.id_usuario}`,
-        Data:updatedData,
-        TokenPost:token
-      })
-      if (condition) {
-        
-      }      
-  } catch (error) {
-    
-  }
-    
+      const passwordUpdate = await PUTEndpoint({
+        URL: 'api/v1/auth/change-password',
+        Data: {
+          oldPassword: passwordData.oldPassword,
+          newPassword: passwordData.newPassword,
+        },
+        TokenPut: token,
+      });
+      
+      if (passwordUpdate && !passwordUpdate.error) {
+        openSuccessModal();
+      } else {
+        alert('Error al actualizar la contraseña. Por favor, intenta nuevamente.');
+      }
+    } catch (error) {
+      console.error('Error durante la actualización de la contraseña:', error);
+      alert('Ocurrió un error durante la actualización de la contraseña. Por favor, intenta nuevamente.');
+    }
   };
-  
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Actualizar datos del usuario si se ingresan cambios
+    if (Object.values(updatedData).some(value => value)) {
+      updateUserDetails();
+    }
+
+    // Actualizar contraseña si se ingresan cambios
+    if (passwordData.newPassword || passwordData.oldPassword) {
+      updatePassword();
+    }
+  };
 
   return (
     <div>
@@ -55,67 +95,88 @@ export const UpdateUser = ({ onClose }) => {
         <div className="bg-white p-6 rounded-lg shadow-lg w-2/3">
           <h2 className="text-xl font-semibold mb-6">Actualizar Datos del Usuario</h2>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-2 gap-4">
-              {['nombre', 'apellido', 'correo', 'telefono'].map(field => (
-                <div className="mb-4" key={field}>
-                  <label htmlFor={field} className="block text-sm font-medium text-gray-700">
-                    {field.charAt(0).toUpperCase() + field.slice(1)}
-                  </label>
-                  <input
-                    type={field === 'correo' ? 'email' : 'text'}
-                    id={field}
-                    name={field}
-                    value={updatedData[field]}
-                    onChange={(e) => handleChange(e, setUpdatedData)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  />
-                </div>
-              ))}
-              <div className="col-span-2 mb-4">
-                <label htmlFor="edad" className="block text-sm font-medium text-gray-700">Edad</label>
-                <input
-                  type="number"
-                  id="edad"
-                  name="edad"
-                  value={updatedData.edad}
-                  onChange={(e) => handleChange(e, setUpdatedData)}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
+            <div className="grid grid-cols-1 gap-4 mb-4">
+              <input
+                type="text"
+                name="nombre"
+                value={updatedData.nombre}
+                onChange={(e) => handleChange(e, setUpdatedData)}
+                placeholder="Nombre"
+                className="border border-gray-300 p-2 rounded"
+              />
+              <input
+                type="text"
+                name="apellido"
+                value={updatedData.apellido}
+                onChange={(e) => handleChange(e, setUpdatedData)}
+                placeholder="Apellido"
+                className="border border-gray-300 p-2 rounded"
+              />
+              <input
+                type="email"
+                name="correo"
+                value={updatedData.correo}
+                onChange={(e) => handleChange(e, setUpdatedData)}
+                placeholder="Correo Electrónico"
+                className="border border-gray-300 p-2 rounded"
+              />
+              <input
+                type="tel"
+                name="telefono"
+                value={updatedData.telefono}
+                onChange={(e) => handleChange(e, setUpdatedData)}
+                placeholder="Teléfono"
+                className="border border-gray-300 p-2 rounded"
+              />
+              <input
+                type="number"
+                name="edad"
+                value={updatedData.edad}
+                onChange={(e) => handleChange(e, setUpdatedData)}
+                placeholder="Edad"
+                className="border border-gray-300 p-2 rounded"
+              />
             </div>
-            <h3 className="text-lg font-semibold mt-6 mb-4">Cambiar Contraseña</h3>
-            <div className="grid grid-cols-2 gap-4">
-              {['oldPassword', 'newPassword', 'confirmNewPassword'].map(field => (
-                <div className="mb-4" key={field}>
-                  <label htmlFor={field} className="block text-sm font-medium text-gray-700">
-                    {field.split(/(?=[A-Z])/).join(' ').replace(/^\w/, c => c.toUpperCase())}
-                  </label>
-                  <input
-                    type="password"
-                    id={field}
-                    name={field}
-                    value={passwordData[field]}
-                    onChange={(e) => handleChange(e, setPasswordData)}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  />
-                </div>
-              ))}
+            <h2 className="text-xl font-semibold mb-4">Actualizar Contraseña</h2>
+            <div className="grid grid-cols-1 gap-4 mb-4">
+              <input
+                type="password"
+                name="oldPassword"
+                value={passwordData.oldPassword}
+                onChange={(e) => handleChange(e, setPasswordData)}
+                placeholder="Contraseña Actual"
+                className="border border-gray-300 p-2 rounded"
+              />
+              <input
+                type="password"
+                name="newPassword"
+                value={passwordData.newPassword}
+                onChange={(e) => handleChange(e, setPasswordData)}
+                placeholder="Nueva Contraseña"
+                className="border border-gray-300 p-2 rounded"
+              />
+              <input
+                type="password"
+                name="confirmNewPassword"
+                value={passwordData.confirmNewPassword}
+                onChange={(e) => handleChange(e, setPasswordData)}
+                placeholder="Confirmar Nueva Contraseña"
+                className="border border-gray-300 p-2 rounded"
+              />
             </div>
-            <div className="flex justify-end mt-6">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-              >
-                Actualizar
-              </button>
-              <button
-                type="button"
-                onClick={onClose}
-                className="ml-4 bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-              >
-                Cancelar
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            >
+              Actualizar
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+            >
+              Cancelar
+            </button>
           </form>
         </div>
       </div>
