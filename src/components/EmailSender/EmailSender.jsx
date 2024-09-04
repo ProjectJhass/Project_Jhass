@@ -8,7 +8,7 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
     subject: 'Bienvenido a nuestro Servicio',
     dataTemplate: {
       name: name,
-      buttonUrl: "https://66d7f2c8ed54fb0008d634e0--x3z8q7v5w9-c3p9e4o6j2q1d0z0h5a6s7c8w.netlify.app/IniciarSesion",
+      buttonUrl: "https://developer--x3z8q7v5w9-c3p9e4o6j2q1d0z0h5a6s7c8w.netlify.app/IniciarSesion",
       buttonText: 'Iniciar Sesion'
     },
     templateContent: `
@@ -64,7 +64,7 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
       subject: 'Welcome to Our Service',
       dataTemplate: {
         name: name,
-        buttonUrl: "https://project-jhass-git-developer-projectjhass-projects.vercel.app/IniciarSesion",
+      buttonUrl: "https://developer--x3z8q7v5w9-c3p9e4o6j2q1d0z0h5a6s7c8w.netlify.app/IniciarSesion",
         buttonText: 'Iniciar Sesion'
       },
       templateContent: `
