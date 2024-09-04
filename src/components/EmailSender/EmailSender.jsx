@@ -8,7 +8,7 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
     subject: 'Bienvenido a nuestro Servicio',
     dataTemplate: {
       name: name,
-      buttonUrl: "https://project-jhass-git-developer-projectjhass-projects.vercel.app/IniciarSesion",
+      buttonUrl: "https://project-jhass-git-developer-projectjhass-projects.vercel.app",
       buttonText: 'Iniciar Sesion'
     },
     templateContent: `

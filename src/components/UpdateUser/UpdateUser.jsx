@@ -24,7 +24,7 @@ export const UpdateUser = ({ onClose }) => {
     const { name, value } = e.target;
     dataSetter(prevState => ({
       ...prevState,
-      [name]: name === 'edad' ? Number(value) : value // Convertir a número si es 'edad'
+      [name]: name === 'edad' ? Number(value) : value, // Convertir a número si es 'edad'
     }));
   };
 
@@ -35,7 +35,7 @@ export const UpdateUser = ({ onClose }) => {
         Data: updatedData,
         TokenPut: token,
       });
-      
+
       if (contentUpdate && !contentUpdate.error) {
         updateUserr(updatedData); // Actualiza el usuario en el contexto
         openSuccessModal();
@@ -63,7 +63,7 @@ export const UpdateUser = ({ onClose }) => {
         },
         TokenPut: token,
       });
-      
+
       if (passwordUpdate && !passwordUpdate.error) {
         openSuccessModal();
       } else {
@@ -78,107 +78,107 @@ export const UpdateUser = ({ onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Actualizar datos del usuario si se ingresan cambios
-    if (Object.values(updatedData).some(value => value)) {
+    // Separar la actualización de datos del usuario y la contraseña
+    if (Object.values(updatedData).some(value => value !== '' && value !== user[value])) {
       updateUserDetails();
     }
 
-    // Actualizar contraseña si se ingresan cambios
-    if (passwordData.newPassword || passwordData.oldPassword) {
+    // Solo actualizar contraseña si hay datos en los campos correspondientes
+    if (passwordData.oldPassword && passwordData.newPassword && passwordData.confirmNewPassword) {
       updatePassword();
     }
   };
 
   return (
-    <div>
-      <div className="fixed inset-0 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-2/3">
-          <h2 className="text-xl font-semibold mb-6">Actualizar Datos del Usuario</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 gap-4 mb-4">
-              <input
-                type="text"
-                name="nombre"
-                value={updatedData.nombre}
-                onChange={(e) => handleChange(e, setUpdatedData)}
-                placeholder="Nombre"
-                className="border border-gray-300 p-2 rounded"
-              />
-              <input
-                type="text"
-                name="apellido"
-                value={updatedData.apellido}
-                onChange={(e) => handleChange(e, setUpdatedData)}
-                placeholder="Apellido"
-                className="border border-gray-300 p-2 rounded"
-              />
-              <input
-                type="email"
-                name="correo"
-                value={updatedData.correo}
-                onChange={(e) => handleChange(e, setUpdatedData)}
-                placeholder="Correo Electrónico"
-                className="border border-gray-300 p-2 rounded"
-              />
-              <input
-                type="tel"
-                name="telefono"
-                value={updatedData.telefono}
-                onChange={(e) => handleChange(e, setUpdatedData)}
-                placeholder="Teléfono"
-                className="border border-gray-300 p-2 rounded"
-              />
-              <input
-                type="number"
-                name="edad"
-                value={updatedData.edad}
-                onChange={(e) => handleChange(e, setUpdatedData)}
-                placeholder="Edad"
-                className="border border-gray-300 p-2 rounded"
-              />
-            </div>
-            <h2 className="text-xl font-semibold mb-4">Actualizar Contraseña</h2>
-            <div className="grid grid-cols-1 gap-4 mb-4">
-              <input
-                type="password"
-                name="oldPassword"
-                value={passwordData.oldPassword}
-                onChange={(e) => handleChange(e, setPasswordData)}
-                placeholder="Contraseña Actual"
-                className="border border-gray-300 p-2 rounded"
-              />
-              <input
-                type="password"
-                name="newPassword"
-                value={passwordData.newPassword}
-                onChange={(e) => handleChange(e, setPasswordData)}
-                placeholder="Nueva Contraseña"
-                className="border border-gray-300 p-2 rounded"
-              />
-              <input
-                type="password"
-                name="confirmNewPassword"
-                value={passwordData.confirmNewPassword}
-                onChange={(e) => handleChange(e, setPasswordData)}
-                placeholder="Confirmar Nueva Contraseña"
-                className="border border-gray-300 p-2 rounded"
-              />
-            </div>
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-100 bg-opacity-90">
+      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Actualizar Usuario</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="grid grid-cols-1 gap-4 mb-6">
+            <input
+              type="text"
+              name="nombre"
+              value={updatedData.nombre}
+              onChange={(e) => handleChange(e, setUpdatedData)}
+              placeholder="Nombre"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+            <input
+              type="text"
+              name="apellido"
+              value={updatedData.apellido}
+              onChange={(e) => handleChange(e, setUpdatedData)}
+              placeholder="Apellido"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+            <input
+              type="email"
+              name="correo"
+              value={updatedData.correo}
+              onChange={(e) => handleChange(e, setUpdatedData)}
+              placeholder="Correo Electrónico"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+            <input
+              type="tel"
+              name="telefono"
+              value={updatedData.telefono}
+              onChange={(e) => handleChange(e, setUpdatedData)}
+              placeholder="Teléfono"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+            <input
+              type="number"
+              name="edad"
+              value={updatedData.edad}
+              onChange={(e) => handleChange(e, setUpdatedData)}
+              placeholder="Edad"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+          </div>
+          <h2 className="text-2xl font-bold mb-3 text-gray-800">Cambiar Contraseña</h2>
+          <div className="grid grid-cols-1 gap-4 mb-6">
+            <input
+              type="password"
+              name="oldPassword"
+              value={passwordData.oldPassword}
+              onChange={(e) => handleChange(e, setPasswordData)}
+              placeholder="Contraseña Actual"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+            <input
+              type="password"
+              name="newPassword"
+              value={passwordData.newPassword}
+              onChange={(e) => handleChange(e, setPasswordData)}
+              placeholder="Nueva Contraseña"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+            <input
+              type="password"
+              name="confirmNewPassword"
+              value={passwordData.confirmNewPassword}
+              onChange={(e) => handleChange(e, setPasswordData)}
+              placeholder="Confirmar Nueva Contraseña"
+              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+          </div>
+          <div className="flex justify-end gap-4">
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              className="bg-indigo-500 text-white py-2 px-6 rounded-md hover:bg-indigo-600 transition duration-300"
             >
               Actualizar
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="ml-4 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+              className="bg-gray-400 text-white py-2 px-6 rounded-md hover:bg-gray-500 transition duration-300"
             >
               Cancelar
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
       {isSuccessModalOpen && <UpdateOk onClose={closeSuccessModal} />}
     </div>

@@ -3,16 +3,16 @@ import { AppContext } from '../Context/Context';
 import { FaEnvelope, FaPhone } from 'react-icons/fa';
 import { FaCakeCandles } from 'react-icons/fa6';
 import { UpdateUser } from '../UpdateUser/UpdateUser';
-import { ErrorModal, WarningModal } from '../ModalReusable/ModalReusable'; // Importar los modales
-import { DELETEEndpoint } from '../ServicesFectch/ServicesFetch'; // Ajusta la ruta según tu estructura
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { ErrorModal, WarningModal } from '../ModalReusable/ModalReusable'; 
+import { DELETEEndpoint } from '../ServicesFectch/ServicesFetch'; 
+import { useNavigate } from 'react-router-dom';
 
 export const ContentInformationProfile = ({ onClose }) => {
-  const { user, setUser, token } = useContext(AppContext); // Añadir setUser al contexto
+  const { user, setUser, token } = useContext(AppContext);
   const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
-  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false); // Estado para el modal de confirmación de eliminación
-  const [error, setError] = useState(null); // Estado para manejar errores
-  const navigate = useNavigate(); // Inicializar el hook useNavigate
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const closeModal = () => {
     setIsUpdateFormOpen(false);
@@ -22,20 +22,17 @@ export const ContentInformationProfile = ({ onClose }) => {
   const handleDelete = async () => {
     try {
       const response = await DELETEEndpoint({
-        URL: `api/v1/usuario/${user.id}`,
-        TokenDelete: token, // Reemplaza con el token adecuado si es necesario
+        URL: `api/v1/usuario/${user.id_usuario}`,
+        TokenDelete: token,
       });
 
       if (response.error) {
         throw new Error(response.error);
       }
 
-      // Limpiar el usuario en el contexto después de la eliminación
       setUser(null);
-      onClose(); // Cerrar el modal principal después de eliminar
-
-      // Redirigir al Home después de eliminar
-      navigate('/Home'); // Ajusta la ruta según tu configuración de rutas
+      onClose();
+      navigate('/Home');
     } catch (error) {
       setError('Hubo un problema al eliminar el usuario. Por favor, inténtalo de nuevo.');
     }
@@ -44,6 +41,7 @@ export const ContentInformationProfile = ({ onClose }) => {
   if (!user) {
     return (
       <div role="status" className="flex justify-center items-center h-64">
+        {/* Loading Spinner */}
         <svg
           aria-hidden="true"
           className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -67,7 +65,7 @@ export const ContentInformationProfile = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 flex justify-center items-center z-50">
-      <div className="relative p-6 bg-white shadow-lg rounded-lg w-11/12 md:w-1/2 lg:w-1/3 max-w-md">
+      <div className="relative p-6 bg-white rounded-lg w-11/12 md:w-1/2 lg:w-1/3 max-w-md">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -90,27 +88,28 @@ export const ContentInformationProfile = ({ onClose }) => {
                 alt="User Avatar"
               />
               <div className="text-center mb-4">
-                <div className="text-xl font-semibold">
+                <div className="text-2xl font-semibold text-gray-800">
                   {user.nombre ? `${user.nombre} ${user.apellido}` : 'Usuario'}
                 </div>
-                <div className="text-md text-gray-500">{user.rol || 'Rol del Usuario'}</div>
+                <div className="text-sm text-gray-500">{user.rol || 'Rol del Usuario'}</div>
               </div>
             </div>
 
-            <div className="bg-gray-100 p-4 rounded-lg shadow-md">
-              <div className="flex items-center mb-3">
-                <FaEnvelope className="text-gray-600 mr-3" />
+            {/* Información del usuario en formato de lista con íconos */}
+            <ul className="divide-y divide-gray-200 mx-7">
+              <li className="py-2 flex items-center">
+                <FaEnvelope className="text-black mr-2" />
                 <span className="text-gray-700">{user.correo || 'correo@ejemplo.com'}</span>
-              </div>
-              <div className="flex items-center mb-3">
-                <FaCakeCandles className="text-gray-600 mr-3" />
-                <span className="text-gray-700">{user.fechaNacimiento || 'Fecha de Nacimiento'}</span>
-              </div>
-              <div className="flex items-center mb-3">
-                <FaPhone className="text-gray-600 mr-3" />
+              </li>
+              <li className="py-2 flex items-center">
+                <FaCakeCandles className="text-black mr-2" />
+                <span className="text-gray-700">{user.edad || 'Fecha de Nacimiento'}</span>
+              </li>
+              <li className="py-2 flex items-center">
+                <FaPhone className="text-black mr-2" />
                 <span className="text-gray-700">{user.telefono || 'Teléfono'}</span>
-              </div>
-            </div>
+              </li>
+            </ul>
 
             <div className="flex justify-center mt-4 space-x-4">
               <button
@@ -149,7 +148,7 @@ export const ContentInformationProfile = ({ onClose }) => {
             },
             {
               label: 'Eliminar',
-              onClick: handleDelete, // Corregido el paréntesis aquí
+              onClick: handleDelete,
               className: 'bg-red-500 hover:bg-red-600 text-white',
             }
           ]}

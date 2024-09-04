@@ -1,25 +1,24 @@
-import React from 'react';
-import { Item } from './components/Item/Item';
+import React, { useContext, useState } from 'react';
 import { useNavigate, useRoutes, useLocation } from 'react-router-dom';
+import { AppContext } from './components/Context/Context';
+import { Navbar } from './components/Navbar/Navbar';
+import { Item } from './components/Item/Item';
 import { Home } from './components/pages/Home/Home';
 import { Nosotros } from './components/pages/Nosotros/Nosotros';
-import { Navbar } from './components/Navbar/Navbar'; 
-import { SectionLogin } from "./components/SectionLogin/SectionLogin";
-import { AppContext } from './components/Context/Context';
-import { useContext, useState } from 'react';
-import { SectionRegister } from './components/SectionRegister/SectionRegister';
 import { Contact_us } from './components/pages/Contact_us/Contact_us';
-import Unauthorized from './components/Unauthorized/Unauthorized';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import {SectionCompany} from './components/SectionCompany/SectionCompany'
+import { SectionLogin } from './components/SectionLogin/SectionLogin';
+import { SectionRegister } from './components/SectionRegister/SectionRegister';
+import { SectionCompany } from './components/SectionCompany/SectionCompany';
+import { SectionPreCompany } from './components/SectionPreCompany/SectionPreCompany';
 import { UnionCompany } from './components/UnionCompany/UnionCompany';
 import { Cale } from './components/Calendar/Calendar';
 import { Rol } from './components/pages/Rol/Rol';
 import { Stock } from './components/pages/Stock/Stock';
-import { SectionPreCompany } from './components/SectionPreCompany/SectionPreCompany';
+import Unauthorized from './components/Unauthorized/Unauthorized';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const AppRoutes = () => {
-  let route = useRoutes([
+  return useRoutes([
     { path: "/", element: <Home /> },
     { path: "/Nosotros", element: <Nosotros /> },
     { path: "/Contactanos", element: <Contact_us /> },
@@ -27,19 +26,13 @@ const AppRoutes = () => {
     { path: "/IniciarSesion", element: <SectionLogin /> },
     { path: "/Home", element: <Home /> },
     // { path: "/Empresa", element: <PrivateRoute element={<SectionCompany />} /> },
-    // { path: "/PreEmpresa", element : <SectionPreComapy /> },
+    // { path: "/PreEmpresa", element: <SectionPreCompany /> },
     // { path: "/NoAutorizado", element: <Unauthorized /> },
-    { path: "/Empresa", element: <SectionCompany />},
-    { path: "/PreEmpresa", element : <SectionPreCompany /> },
-    { path: "/NoAutorizado", element: <Unauthorized /> },
-    { path: "/Unirse_Empresa", element:<UnionCompany/>},
-    { path: "/Cale", element:<Cale/>},
-    { path: "/Rol", element:<Rol/>},
-    { path: "/Stock", element:<Stock/>},
-
-
+    { path: "/Unirse_Empresa", element: <UnionCompany /> },
+    { path: "/Cale", element: <Cale /> },
+    { path: "/Rol", element: <Rol /> },
+    { path: "/Stock", element: <Stock /> },
   ]);
-  return route;
 }
 
 function App() {
@@ -69,7 +62,8 @@ function App() {
         <header className={`absolute top-[17px] left-1/2 transform -translate-x-1/2 z-50 border-gray-200 px-4 py-2.5 bg-[#ffffff] rounded-xl shadow-md w-[90%] ${NewContext.isOpaque ? 'opacity-100' : 'opacity-100'}`}>
           <div className="flex justify-between items-center mx-auto max-w-screen-xl">
             <a href="/" className="flex items-center">
-            <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450502/ContentImagesJhass/ez6egg6salvkg3n6q8xt.png" className="mr-3 h-6 sm:h-9" alt="Logo Jhass" />              <span className="self-center text-xl font-semibold whitespace-nowrap text-black">Jhass</span>
+              <img src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450502/ContentImagesJhass/ez6egg6salvkg3n6q8xt.png" className="mr-3 h-6 sm:h-9" alt="Logo Jhass" />
+              <span className="self-center text-xl font-semibold whitespace-nowrap text-black">Jhass</span>
             </a>
             <div className="flex items-center lg:order-2">
               <button
@@ -98,7 +92,7 @@ function App() {
             </div>
             <div className={`${
                 isMenuOpen ? "flex" : "hidden"
-              }  lg:flex lg:justify-center items-center absolute lg:relative flex-col space-x-4 w-full transition duration-300 ease-in-out transform lg:transform-none`} id="mobile-menu-2">
+              } lg:flex lg:justify-center items-center absolute lg:relative flex-col space-x-4 w-full transition duration-300 ease-in-out transform lg:transform-none`} id="mobile-menu-2">
               <Navbar>
                 <Item route='/' content='Inicio' />
                 <hr className='bg-black' />
