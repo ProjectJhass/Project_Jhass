@@ -41,6 +41,7 @@
     "react-modal": "^3.16.1",
     "react-number-format": "^5.4.0",
     "react-router-dom": "6.4",
+    "react-verification-input": "^4.1.2",
     "recharts": "^2.12.7"
   },
   "devDependencies": {

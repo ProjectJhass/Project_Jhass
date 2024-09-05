@@ -16,6 +16,8 @@ import { Rol } from './components/pages/Rol/Rol';
 import { Stock } from './components/pages/Stock/Stock';
 import Unauthorized from './components/Unauthorized/Unauthorized';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { EnterCodeVerification } from './components/EnterCodeVerification/EnterCodeVerification';
+
 
 const AppRoutes = () => {
   return useRoutes([
@@ -32,6 +34,8 @@ const AppRoutes = () => {
     { path: "/Cale", element: <Cale /> },
     { path: "/Rol", element: <Rol /> },
     { path: "/Stock", element: <Stock /> },
+    { path: "/VerificationCode", element: <EnterCodeVerification /> },
+
   ]);
 }
 
