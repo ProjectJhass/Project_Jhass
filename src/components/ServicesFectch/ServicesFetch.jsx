@@ -1,5 +1,8 @@
 import React from 'react';
 
+// URL base del backend desde las variables de entorno
+const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
 export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
     let responseReturn = null;
     try {
@@ -12,7 +15,7 @@ export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
             headerss['Authorization'] = `Bearer ${TokenPost}`;
         }
 
-        const response = await fetch(`http://localhost:3000/${URL}`, {
+        const response = await fetch(`${BASE_URL}/${URL}`, { // Usa BASE_URL
             method: "POST",
             headers: headerss,
             body: JSON.stringify(Data)
@@ -33,7 +36,7 @@ export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
 export const GETEndpoint = async ({ URL, TokenGet }) => {
     let responseReturn = null;
     try {
-        const response = await fetch(`http://localhost:3000/${URL}`, {
+        const response = await fetch(`${BASE_URL}/${URL}`, { // Usa BASE_URL
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +69,7 @@ export const UPDATEEndpoint = async ({ URL, Data, TokenPost = null }) => {
             headerss['Authorization'] = `Bearer ${TokenPost}`;
         }
 
-        const response = await fetch(`http://localhost:3000/${URL}`, {
+        const response = await fetch(`${BASE_URL}/${URL}`, { // Usa BASE_URL
             method: "PATCH",
             headers: headerss,
             body: JSON.stringify(Data)
@@ -83,6 +86,7 @@ export const UPDATEEndpoint = async ({ URL, Data, TokenPost = null }) => {
 
     return responseReturn;
 };
+
 export const DELETEEndpoint = async ({ URL, TokenDelete = null }) => {
     let responseReturn = null;
     try {
@@ -95,7 +99,7 @@ export const DELETEEndpoint = async ({ URL, TokenDelete = null }) => {
             headerss['Authorization'] = `Bearer ${TokenDelete}`;
         }
 
-        const response = await fetch(`http://localhost:3000/${URL}`, {
+        const response = await fetch(`${BASE_URL}/${URL}`, { // Usa BASE_URL
             method: "DELETE",
             headers: headerss,
         });
@@ -124,7 +128,7 @@ export const PUTEndpoint = async ({ URL, Data, TokenPut = null }) => {
             headerss['Authorization'] = `Bearer ${TokenPut}`;
         }
 
-        const response = await fetch(`http://localhost:3000/${URL}`, {
+        const response = await fetch(`${BASE_URL}/${URL}`, { // Usa BASE_URL
             method: "PUT",
             headers: headerss,
             body: JSON.stringify(Data)
