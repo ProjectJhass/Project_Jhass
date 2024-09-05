@@ -1,6 +1,5 @@
 import React from 'react';
 
-// URL base del backend desde las variables de entorno
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
