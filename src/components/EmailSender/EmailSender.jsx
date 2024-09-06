@@ -1,4 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const EmailSender = forwardRef(({ name, email }, ref) => {
 
@@ -121,7 +122,7 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
 
   const sendEmail = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/v1/email/send', {
+      const response = await fetch(`${BASE_URL}/api/v1/email/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
