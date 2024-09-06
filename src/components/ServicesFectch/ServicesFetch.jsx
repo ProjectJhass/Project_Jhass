@@ -1,6 +1,8 @@
 import React from 'react';
 
-const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+console.log(BASE_URL);
+
 
 export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
     let responseReturn = null;
