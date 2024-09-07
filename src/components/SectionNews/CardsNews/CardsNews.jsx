@@ -1,7 +1,6 @@
-import React from 'react'
-import { CardNew } from '../CardNew/CardNew'
-
-
+import React from 'react';
+import { CardNew } from '../CardNew/CardNew';
+CardNew
 export const cardsData = [
     {
         _id: 1,
@@ -18,14 +17,13 @@ export const cardsData = [
 export const CardsNews = () => {
     return (
       <>
-        {cardsData.map(card => (
-          <div key={card._id}>
+        {cardsData.map((card ) => (
             <CardNew
-              descripcionNew={card.descripcion}
-              fechaNew={card.fecha}
+              _id={card._id}
+              descriptionN={card.descripcion}
+              DateN={card.fecha}
             />
-          </div>
-        ))}
+))}
       </>
     );
-  };
+};

@@ -17,6 +17,7 @@ import { Stock } from './components/pages/Stock/Stock';
 import Unauthorized from './components/Unauthorized/Unauthorized';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { EnterCodeVerification } from './components/EnterCodeVerification/EnterCodeVerification';
+import { SectionCardN } from './components/SectionNews/SectionCardN/SectionCardN';
 
 
 const AppRoutes = () => {
@@ -35,6 +36,7 @@ const AppRoutes = () => {
     { path: "/Rol", element: <Rol /> },
     { path: "/Stock", element: <Stock /> },
     { path: "/VerificationCode", element: <EnterCodeVerification /> },
+    { path: "/News", element: <SectionCardN /> },
 
   ]);
 }
