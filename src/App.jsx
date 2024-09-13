@@ -16,8 +16,8 @@ import { Rol } from './components/pages/Rol/Rol';
 import { Stock } from './components/pages/Stock/Stock';
 import Unauthorized from './components/Unauthorized/Unauthorized';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import { EnterCodeVerification } from './components/EnterCodeVerification/EnterCodeVerification';
 import { SectionCardN } from './components/SectionNews/SectionCardN/SectionCardN';
+import { EnterCodeVerification } from './components/EnterCodeVerification/EnterCodeVerification';
 
 
 const AppRoutes = () => {
@@ -28,7 +28,7 @@ const AppRoutes = () => {
     { path: "/Registro", element: <SectionRegister /> },
     { path: "/IniciarSesion", element: <SectionLogin /> },
     { path: "/Home", element: <Home /> },
-    { path: "/Empresa", element: <PrivateRoute element={<SectionCompany />} /> },
+    { path: "/Empresa", element: <SectionCompany />},
     { path: "/PreEmpresa", element: <SectionPreCompany /> },
     { path: "/NoAutorizado", element: <Unauthorized /> },
     { path: "/Unirse_Empresa", element: <UnionCompany /> },

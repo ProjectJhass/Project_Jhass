@@ -1,15 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
 import { POSTEndpoint, GETEndpoint } from '../ServicesFectch/ServicesFetch';
+import { ComponentVerification } from '../ComponentVerification/ComponentVerification';
 
 export const SectionLogin = () => {
   const [formData, setFormData] = useState({ correo: "", contraseña: "" });
   const [errors, setErrors] = useState({ correo: "", contraseña: "" });
   const [generalError, setGeneralError] = useState("");
-  const { setToken, setUser } = useContext(AppContext);
+  const { setToken, setUser, user } = useContext(AppContext);
   const navigate = useNavigate();
+  const emailSenderRef = useRef(null);
 
   const handleBackClick = () => {
     navigate(-1);
@@ -66,7 +68,7 @@ export const SectionLogin = () => {
     }
   
     try {
-      const contentPost = await POSTEndpoint({ URL: "api/v1/auth/login", Data: formData });
+      const contentPost = await POSTEndpoint({ URL: "api/v1/auth/login", Data: formData});
   
       if (contentPost && contentPost.token) {
         setToken(contentPost.token);
@@ -76,7 +78,11 @@ export const SectionLogin = () => {
   
         if (user) {
           setUser(user);
-          navigate("/VerificationCode"); // Redirigir al usuario a EnterCodeVerification
+          // Llamar a la función sendVerificationCode después de un login exitoso
+          if (emailSenderRef.current) {
+            emailSenderRef.current.sendVerificationCode();
+          }
+          navigate("/VerificationCode"); // Redirigir al usuario a la página de verificación
         } else {
           setGeneralError('Correo o contraseña incorrectos.');
         }
@@ -87,7 +93,6 @@ export const SectionLogin = () => {
       setGeneralError('Error al iniciar sesión. Inténtalo nuevamente.');
     }
   };
-  
 
   return (
     <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center bg-[url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450240/ContentImagesJhass/qwnv6tsgjmwyfkvizzoq.jpg')]">
@@ -96,6 +101,7 @@ export const SectionLogin = () => {
         <button
           className="absolute top-4 left-4 text-white text-2xl cursor-pointer"
           onClick={handleBackClick}
+          aria-label="Regresar"
         >
           <FaArrowLeft />
         </button>
@@ -111,8 +117,9 @@ export const SectionLogin = () => {
               onChange={handleChange}
               placeholder="nombre@gmail.com"
               className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.correo ? 'focus:ring-red-500' : 'focus:ring-blue-500'} text-sm md:text-base`}
+              aria-describedby="emailError"
             />
-            {errors.correo && <p className="text-red-500 text-xs md:text-sm my-4">{errors.correo}</p>}
+            {errors.correo && <p id="emailError" className="text-red-500 text-xs md:text-sm my-4">{errors.correo}</p>}
           </div>
           <div className="mb-4">
             <label className="block text-white mb-2 text-sm md:text-base" htmlFor="contraseña">Contraseña</label>
@@ -124,6 +131,7 @@ export const SectionLogin = () => {
               onChange={handleChange}
               placeholder="********"
               className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
+              aria-describedby="passwordError"
             />
           </div>
           <div className="flex items-center justify-between mb-4 text-sm md:text-base">
@@ -142,6 +150,7 @@ export const SectionLogin = () => {
           </p>
         </form>
       </div>
+      <ComponentVerification ref={emailSenderRef} email={formData.correo} name={user?.nombre && user?.apellido ? `${user.nombre} ${user.apellido}` : ""}/>
     </div>
   );
 };

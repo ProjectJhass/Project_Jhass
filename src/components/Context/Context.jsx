@@ -1,13 +1,11 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { CardsEmployees } from '../SectionEmployees/CardsEmployees/CardsEmployees';
-import { CardsNews } from '../SectionNews/CardsNews/CardsNews';
 
 // Creación del contexto
 export const AppContext = createContext();
 
 // Proveedor del contexto
 export const AppProvider = ({ children }) => {
-  // Estados relacionados con el usuario
+  // Estado relacionado con el usuario
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
     try {
@@ -17,22 +15,14 @@ export const AppProvider = ({ children }) => {
       return null;
     }
   });
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  // Estado relacionado con el token
   const [token, setToken] = useState(() => {
     const savedToken = localStorage.getItem('TokenUser');
     return savedToken ? savedToken : null;
   });
 
-  // Estados relacionados con la interfaz y el estado global
-  const [currentCard, setCurrentCard] = useState(null);
-  const [currentCard2, setCurrentCard2] = useState(null);
-  const [filter, setFilter] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpenCale, setIsModalOpenCale] = useState(false);
-  const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '', assignedTo: '' });
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [ModalTrackingIsOpen, setModalTrackingIsOpen] = useState(false);
-  const [estadoModal1, setestadoModal1] = useState(false);
+  // Estado relacionado con la opacidad de la interfaz
   const [isOpaque, setisOpaque] = useState(() => {
     const savedIsOpaque = localStorage.getItem('isOpaque');
     try {
@@ -42,28 +32,8 @@ export const AppProvider = ({ children }) => {
       return true;
     }
   });
-  const [cards, setCards] = useState(() => {
-    const savedCards = localStorage.getItem('cards');
-    try {
-      return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
-    } catch (e) {
-      console.error('Error parsing cards from localStorage:', e);
-      return CardsEmployees.map(card => ({ ...card, isActive: true }));
-    }
-  });
-  const [selectedCardId, setSelectedCardId] = useState(null);
-  const [events, setEvents] = useState([
-    {
-      title: 'Reunión',
-      start: new Date(2023, 7, 7, 10, 0),
-      end: new Date(2023, 7, 7, 12, 0),
-    },
-  ]);
-  const [deleteEventModal, setDeleteEventModal] = useState(false);
-  const [eventToDelete, setEventToDelete] = useState(null);
-  const [isNewUser, setIsNewUser] = useState(false);
 
-  // Efectos secundarios para manejar el almacenamiento en local
+  // Efecto para manejar el almacenamiento del token en localStorage
   useEffect(() => {
     if (token) {
       localStorage.setItem('TokenUser', token);
@@ -72,6 +42,7 @@ export const AppProvider = ({ children }) => {
     }
   }, [token]);
 
+  // Efecto para manejar el almacenamiento del usuario en localStorage
   useEffect(() => {
     if (user !== null) {
       localStorage.setItem('user', JSON.stringify(user));
@@ -80,52 +51,36 @@ export const AppProvider = ({ children }) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    const checkIfNewUser = () => {
-      if (user && user.isNewUser !== undefined) {
-        setIsNewUser(user.isNewUser);
-      } else {
-        setIsNewUser(true);
-      }
-    };
-
-    checkIfNewUser();
-  }, [user]);
-
-  // Funciones para manejar el estado del modal de éxito
-  const openSuccessModal = () => setIsSuccessModalOpen(true);
-  const closeSuccessModal = () => setIsSuccessModalOpen(false);
-
   // Función para actualizar los datos del usuario
-  const updateUserr = (newUserData) => {
-    setUser(prevUser => ({
+  const updateUser = (newUserData) => {
+    setUser((prevUser) => ({
       ...prevUser,
       ...newUserData,
     }));
   };
 
+  // Función para eliminar el usuario
+  const removeUser = () => {
+    setUser(null);
+  };
+
+  const [Verification, setVerification] = useState(null)
+
   return (
-    <AppContext.Provider value={{
-      user, setUser, updateUserr,
-      isSuccessModalOpen, openSuccessModal, closeSuccessModal,
-      token, setToken,
-      isOpaque, setisOpaque,
-      estadoModal1, setestadoModal1,
-      cards, setCards,
-      modalIsOpen, setModalIsOpen,
-      ModalTrackingIsOpen, setModalTrackingIsOpen,
-      selectedCardId, setSelectedCardId,
-      currentCard, setCurrentCard,
-      currentCard2, setCurrentCard2,
-      isModalOpen, setIsModalOpen,
-      filter, setFilter,
-      isModalOpenCale, setIsModalOpenCale,
-      newEvent, setNewEvent,
-      events, setEvents,
-      deleteEventModal, setDeleteEventModal,
-      eventToDelete, setEventToDelete,
-      isNewUser, setIsNewUser,
-    }}>
+    <AppContext.Provider
+      value={{
+        user,
+        setUser,
+        updateUser,
+        removeUser,
+        token,
+        setToken,
+        isOpaque,
+        setisOpaque,
+        Verification,
+        setVerification
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

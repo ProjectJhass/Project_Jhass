@@ -2,14 +2,12 @@ import React, { useState, useContext, useEffect, useRef } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
-import { POSTEndpoint, GETEndpoint } from '../ServicesFectch/ServicesFetch';
 import VerificationInput from 'react-verification-input';
 
 export const EnterCodeVerification = () => {
   const [formData, setFormData] = useState({ verificationCode: "" });
-  const [errors, setErrors] = useState({ verificationCode: "" });
-  const [generalError, setGeneralError] = useState("");
-  const { setToken, setUser } = useContext(AppContext);
+  const [error, setError] = useState(""); // Consolidado a un solo estado de error
+  const { Verification } = useContext(AppContext);
   const navigate = useNavigate();
   const verificationRef = useRef();
 
@@ -25,34 +23,18 @@ export const EnterCodeVerification = () => {
 
   const handleVerify = async (event) => {
     event.preventDefault();
-    setErrors({ verificationCode: "" });
-    setGeneralError("");
+    setError(""); // Limpiar errores previos
 
     if (!formData.verificationCode) {
-      setErrors((prev) => ({ ...prev, verificationCode: "Por favor, ingresa el código de verificación." }));
+      setError("Por favor, ingresa el código de verificación.");
       return;
     }
 
-    try {
-      const contentPost = await POSTEndpoint({ URL: "api/v1/auth/verify", Data: formData });
-
-      if (contentPost && contentPost.token) {
-        setToken(contentPost.token);
-        const contentGET = await GETEndpoint({ URL: "api/v1/usuario", TokenGet: contentPost.token });
-
-        const user = contentGET.find(user => user.verificationCode === formData.verificationCode);
-
-        if (user) {
-          setUser(user);
-          navigate("/PreEmpresa");
-        } else {
-          setGeneralError('Código de verificación incorrecto.');
-        }
-      } else {
-        setGeneralError('Código de verificación incorrecto.');
-      }
-    } catch (error) {
-      setGeneralError('Error al verificar el código. Inténtalo nuevamente.');
+    // Verificación del código
+    if (Verification === formData.verificationCode) {
+      navigate("/PreEmpresa");
+    } else {
+      setError('Código de verificación incorrecto.');
     }
   };
 
@@ -82,14 +64,13 @@ export const EnterCodeVerification = () => {
               value={formData.verificationCode}
               onChange={(value) => setFormData({ verificationCode: value })}
               classNames={{
-                container: "flex justify-center  gap-2",
+                container: "flex justify-center gap-2",
                 character: "w-12 h-12 bg-gray-800 border-2 border-gray-700 rounded-md text-center text-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200",
                 characterSelected: "border-blue-500",
               }}
             />
-            {errors.verificationCode && <p className="text-red-500 text-xs md:text-sm my-4">{errors.verificationCode}</p>}
+            {error && <p className="text-red-500 text-xs md:text-sm my-4">{error}</p>}
           </div>
-          {generalError && <p className="text-red-500 text-center text-sm md:text-base my-4">{generalError}</p>}
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 text-sm md:text-base"

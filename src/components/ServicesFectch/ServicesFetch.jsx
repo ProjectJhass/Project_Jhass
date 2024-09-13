@@ -32,6 +32,8 @@ export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
     return responseReturn;
 };
 
+
+
 export const GETEndpoint = async ({ URL, TokenGet }) => {
     let responseReturn = null;
     try {
@@ -144,3 +146,27 @@ export const PUTEndpoint = async ({ URL, Data, TokenPut = null }) => {
 
     return responseReturn;
 };
+
+const uploadPhoto = async (file) => {
+    const formDataPhoto = new FormData();
+    formDataPhoto.append("file", file);
+    formDataPhoto.append("upload_preset", "tu_upload_preset"); // El preset que configures en Cloudinary
+  
+    try {
+      const response = await fetch('https://api.cloudinary.com/v1_1/demo/image/upload', {
+        method: 'POST',
+        body: formDataPhoto,
+      });
+      const data = await response.json();
+      
+      if (data.secure_url) {
+        return data.secure_url; // La URL de la imagen subida
+      } else {
+        throw new Error('No se pudo obtener la URL de la imagen');
+      }
+    } catch (error) {
+      console.error('Error al subir la imagen', error);
+      return null;
+    }
+  };
+  

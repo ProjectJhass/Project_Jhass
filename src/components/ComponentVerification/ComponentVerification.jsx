@@ -1,22 +1,30 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
+import React, { forwardRef, useContext, useImperativeHandle, useState } from 'react';
+import { POSTEndpoint } from '../ServicesFectch/ServicesFetch';
+import { AppContext } from '../Context/Context';
 
 export const ComponentVerification = forwardRef(({ email, name }, ref) => {
   const [emailStatus, setEmailStatus] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
+  const { setVerification } = useContext(AppContext);
 
   const sendVerificationCode = async () => {
+    // Generación del código de verificación
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     setVerificationCode(code);
-    console.log(`Verification code generated: ${code}`);
-    
+    console.log(`Código de verificación generado: ${code}`);
+    setVerification(code);
+
+    // Datos para la plantilla del correo electrónico
+    const dataTemplate = {
+      name: name,
+      buttonUrl: "https://websitejhass.netlify.app/VerificationCode", // URL real para verificación
+      buttonText: 'Verificación'
+    };
+
     const emailData = {
       to: email,
-      subject: 'Verification Code',
-      dataTemplate: {
-        name: name,
-        buttonUrl: "https://example.com/verify", // Replace with the actual verification URL
-        buttonText: 'Verify Code'
-      },
+      subject: 'Código de Verificación',
+      dataTemplate,
       templateContent: `
         <!DOCTYPE html>
         <html lang="es">
@@ -34,7 +42,7 @@ export const ComponentVerification = forwardRef(({ email, name }, ref) => {
                                 <td style="padding: 20px; text-align: center;">
                                     <h2 style="color: #333333;">Hola ${name},</h2>
                                     <p style="color: #666666; font-size: 16px;">Tu código de verificación es: <strong>${code}</strong></p>
-                                    <a href="${emailData.buttonUrl}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px; margin-top: 20px;">${emailData.buttonText}</a>
+                                    <a href="${dataTemplate.buttonUrl}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px; margin-top: 20px;">${dataTemplate.buttonText}</a>
                                 </td>
                             </tr>
                         </table>
@@ -46,25 +54,24 @@ export const ComponentVerification = forwardRef(({ email, name }, ref) => {
       `,
     };
 
+    // Envío del correo electrónico con el código de verificación
     try {
-      await POSTEndpoint({ URL: 'api/v1/send-email', Data: emailData }); // Reemplaza con la URL del endpoint de tu API para enviar correos
+      await POSTEndpoint({ URL: 'api/v1/email/send', Data: emailData }); // Ajusta la URL del endpoint según tu configuración
       setEmailStatus('Código de verificación enviado con éxito.');
     } catch (error) {
+      console.error('Error al enviar el correo:', error);
       setEmailStatus('Error al enviar el código de verificación.');
     }
   };
 
+  // Exponer la función sendVerificationCode al componente padre mediante useImperativeHandle
   useImperativeHandle(ref, () => ({
     sendVerificationCode,
   }));
 
   return (
     <div>
-      <h1>Verification Component</h1>
-      <p>Email: {email}</p>
-      <p>Name: {name}</p>
-      <button onClick={sendVerificationCode}>Send Verification Code</button>
-      <p>{emailStatus}</p>
+      {emailStatus && <p>Status: {emailStatus}</p>}
     </div>
   );
 });
