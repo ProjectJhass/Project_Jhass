@@ -78,15 +78,20 @@ export const CreateSaleModal = ({ addSale }) => {
             <label htmlFor="product" className="block text-sm font-medium text-black">
               Producto
             </label>
-            <input
-              type="text"
+            <select
               id="product"
               name="product"
               value={formData.product}
               onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
-            />
+            >
+              <option value="">Selecciona un producto</option>
+              <option value="Producto 1">Producto 1</option>
+              <option value="Producto 2">Producto 2</option>
+              <option value="Producto 3">Producto 3</option>
+              <option value="Producto 4">Producto 4</option>
+            </select>
           </div>
 
           {/* Campo de cantidad */}
@@ -97,6 +102,7 @@ export const CreateSaleModal = ({ addSale }) => {
             <input
               id="quantity"
               name="quantity"
+              type="number"
               value={formData.quantity}
               onChange={handleChange}
               required
@@ -113,6 +119,7 @@ export const CreateSaleModal = ({ addSale }) => {
             <input
               id="unitPrice"
               name="unitPrice"
+              // type="number"
               value={formData.unitPrice}
               onChange={handleChange}
               required
