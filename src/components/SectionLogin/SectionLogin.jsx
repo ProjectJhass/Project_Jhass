@@ -99,10 +99,10 @@ export const SectionLogin = () => {
         >
           <FaArrowLeft />
         </button>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-white mb-6">Iniciar Sesión</h2>
+        <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-center text-white mb-6">Iniciar Sesión</h2>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label className="block text-white mb-2 text-sm md:text-base" htmlFor="correo">Email</label>
+            <label className="block text-white mb-2 text-xs md:text-base" htmlFor="correo">Email</label>
             <input
               type="email"
               id="correo"
@@ -115,7 +115,7 @@ export const SectionLogin = () => {
             {errors.correo && <p className="text-red-500 text-xs md:text-sm my-4">{errors.correo}</p>}
           </div>
           <div className="mb-4">
-            <label className="block text-white mb-2 text-sm md:text-base" htmlFor="contraseña">Contraseña</label>
+            <label className="block text-white mb-2 text-xs md:text-base" htmlFor="contraseña">Contraseña</label>
             <input
               type="password"
               id="contraseña"
@@ -126,14 +126,14 @@ export const SectionLogin = () => {
               className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
             />
           </div>
-          <div className="flex items-center justify-between mb-4 text-sm md:text-base">
+          <div className="flex items-center justify-between mb-4 text-xs md:text-base ">
             <label className="flex items-center text-white">
               <input type="checkbox" className="mr-2" />
               Recordarme
             </label>
             <a href="#" className="text-blue-500 hover:underline">¿Olvidaste tu contraseña?</a>
           </div>
-          {generalError && <p className="text-red-500 text-center text-sm md:text-base my-4">{generalError}</p>}
+          {generalError && <p className="text-red-500 text-center text-xs md:text-base my-4">{generalError}</p>}
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 text-sm md:text-base">
             Iniciar Sesión
           </button>

@@ -10,7 +10,7 @@ export const Section2Home = () => {
         alt="Sample" 
         className=" rounded-xl mr-[70px]  md:w-[22rem] w-[15rem] md:absolute md:h-[34rem]  h-[21rem]   mb-6 md:mb-0 md:mr-[190px] " 
       />
-      <div className=" md:absolute absolute top-[9rem] md:top-[6rem] h-[21rem] md:h-[34rem] md:ml-[190px] ml-[70px] md:w-[23rem] w-[14rem] bg-white p-4 pb-7 md:p-6 border border-blue-500 rounded-[14px]">
+      <div className=" md:absolute absolute top-[9rem] md:top-[6rem] h-[21rem] md:h-[34rem] md:ml-[190px] ml-[70px] md:w-[23rem] w-[14rem] bg-white p-4 pb-5 md:p-6 border border-blue-500 rounded-[14px]">
         <h2 className="text-2xl md:text-5xl font-medium mb-2 font-serif">
           ¡Optimiza tu Gestión de Nómina con Nuestra Solución Automatizada!
         </h2>

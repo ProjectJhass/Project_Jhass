@@ -3,7 +3,7 @@ import React from 'react'
 export const Section2 = () => {
   return (
     <div className=' w-full h-[600px] bg-[#0165FF] flex items-center justify-center place-content-center'>
-    <div className='w-[40%] bg-[#0165FF] flex items-center justify-center '>
+    <div className='md:w-[40%] w-[50%] bg-[#0165FF] flex items-center justify-center  text-center'>
       
         <p className='text-white  text-xl w-[18.5rem] font-bold flex items-center justify-center font-serif
         2xl:text-5xl

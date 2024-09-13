@@ -22,14 +22,16 @@ export const AppProvider = ({ children }) => {
     const savedToken = localStorage.getItem('TokenUser');
     return savedToken ? savedToken : null;
   });
+  
 
   // Estados relacionados con la interfaz y el estado global
   const [currentCard, setCurrentCard] = useState(null);
   const [currentCard2, setCurrentCard2] = useState(null);
   const [filter, setFilter] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpenCale, setIsModalOpenCale] = useState(false);
   const [newEvent, setNewEvent] = useState({ title: '', start: '', end: '', assignedTo: '' });
+  const [newEvent2, setNewEvent2] = useState({ title: '', start: '', end: '', assignedTo: '' });
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ModalTrackingIsOpen, setModalTrackingIsOpen] = useState(false);
   const [estadoModal1, setestadoModal1] = useState(false);
@@ -42,15 +44,16 @@ export const AppProvider = ({ children }) => {
       return true;
     }
   });
-  const [cards, setCards] = useState(() => {
-    const savedCards = localStorage.getItem('cards');
-    try {
-      return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
-    } catch (e) {
-      console.error('Error parsing cards from localStorage:', e);
-      return CardsEmployees.map(card => ({ ...card, isActive: true }));
-    }
-  });
+  // const [cards, setCards] = useState([])
+  // const [cards, setCards] = useState(() => {
+  //   const savedCards = localStorage.getItem('cards');
+  //   try {
+  //     return savedCards ? JSON.parse(savedCards) : CardsEmployees.map(card => ({ ...card, isActive: true }));
+  //   } catch (e) {
+  //     console.error('Error parsing cards from localStorage:', e);
+  //     return CardsEmployees.map(card => ({ ...card, isActive: true }));
+  //   }
+  // });
   const [selectedCardId, setSelectedCardId] = useState(null);
   const [events, setEvents] = useState([
     {
@@ -58,6 +61,15 @@ export const AppProvider = ({ children }) => {
       start: new Date(2023, 7, 7, 10, 0),
       end: new Date(2023, 7, 7, 12, 0),
     },
+    
+  ]);
+  const [events2, setEvents2] = useState([
+    {
+      title: 'Reunión',
+      start: new Date(2023, 7, 7, 10, 0),
+      end: new Date(2023, 7, 7, 12, 0),
+    },
+    
   ]);
   const [deleteEventModal, setDeleteEventModal] = useState(false);
   const [eventToDelete, setEventToDelete] = useState(null);
@@ -103,6 +115,10 @@ export const AppProvider = ({ children }) => {
       ...newUserData,
     }));
   };
+  const [date, setDate] = useState(new Date());
+  const [view, setView] = useState('month'); // Estado para la vista del calendario
+  const [selectedDate, setSelectedDate] = useState(null); // Estado para el día seleccionado en el mini calendario
+  const [isModalOpenCale, setIsModalOpenCale] = useState(false);
 
   return (
     <AppContext.Provider value={{
@@ -111,7 +127,7 @@ export const AppProvider = ({ children }) => {
       token, setToken,
       isOpaque, setisOpaque,
       estadoModal1, setestadoModal1,
-      cards, setCards,
+      // cards, setCards,
       modalIsOpen, setModalIsOpen,
       ModalTrackingIsOpen, setModalTrackingIsOpen,
       selectedCardId, setSelectedCardId,
@@ -125,11 +141,12 @@ export const AppProvider = ({ children }) => {
       deleteEventModal, setDeleteEventModal,
       eventToDelete, setEventToDelete,
       isNewUser, setIsNewUser,
+      date, setDate, view, setView,
+      selectedDate, setSelectedDate,
+      events2, setEvents2,
+      newEvent2, setNewEvent2
     }}>
       {children}
     </AppContext.Provider>
   );
 };
-
-// Hook personalizado para usar el contexto
-export const useAppContext = () => useContext(AppContext);

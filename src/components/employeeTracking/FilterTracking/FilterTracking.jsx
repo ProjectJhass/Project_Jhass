@@ -8,7 +8,6 @@ const FilterTracking = ({ onFilterChange, placeholder, options }) => {
 
   return (
     <div className="mb-4 ">
-      {/* Si `options` está definido, renderiza un `select`, si no, renderiza un `input` */}
       {options ? (
         <select
           onChange={handleChange}

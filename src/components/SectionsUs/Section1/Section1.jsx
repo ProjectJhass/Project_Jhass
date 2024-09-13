@@ -16,8 +16,8 @@ export const Section1 = () => {
           />
         </div>
         <div className='flex flex-col w-full md:w-[50%] items-center md:items-start '>
-          <img className='w-[300px] md:w-[400px] mb-[14px] md:mb-0' src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450510/ContentImagesJhass/tnkqcuhiuu6kwqzunriy.jpg"/>
-          <p className='w-[90%] md:w-[500px] text-center md:text-left font-medium font-serif *
+          <img className='w-[300px] md:w-[400px] my-[14px] md:mb-0' src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450510/ContentImagesJhass/tnkqcuhiuu6kwqzunriy.jpg"/>
+          <p className='w-[300px] md:w-[500px]  md:text-left text-justify font-medium font-serif *
           text-sm  mt-[10px] 
                      
                         md:text-base 

@@ -9,7 +9,7 @@ export const SectionCompany = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    address: '', 
+    address: '',
     sector: '',
     description: '',
     type: '',
@@ -60,9 +60,9 @@ export const SectionCompany = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center overflow-hidden bg-[url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450239/ContentImagesJhass/pfjiyjmlngklkvdvlu2q.jpg')]">
-      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-0"></div>
-      <div className="relative bg-black bg-opacity-75 p-12 rounded-lg shadow-lg max-w-4xl w-full z-10">
+    <div className="relative min-h-screen h-[900px] md:h-full flex justify-center items-center bg-cover bg-center bg-[url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450239/ContentImagesJhass/pfjiyjmlngklkvdvlu2q.jpg')]">
+      <div className="absolute top-0 left-0 w-full  h-[900px] md:h-full bg-black bg-opacity-50 z-0"></div>
+      <div className="relative bg-black bg-opacity-75 p-6 md:p-8 lg:p-12 rounded-lg shadow-lg max-w-xs md:max-w-2xl lg:max-w-4xl w-full z-10">
         <button
           className="absolute top-4 left-4 text-white text-2xl cursor-pointer w-[50px] h-[50px] flex justify-center items-center"
           onClick={() => {
@@ -72,58 +72,58 @@ export const SectionCompany = () => {
         >
           <FaArrowLeft />
         </button>
-        <h2 className="text-2xl font-bold text-center text-white mb-8">Crear Empresa</h2>
+        <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-center text-white mb-6">Crear Empresa</h2>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="nombreEmpresa">Nombre de la empresa</label>
+              <label className="block text-white mb-2 text-xs md:text-base" htmlFor="nombreEmpresa">Nombre de la empresa</label>
               <input
                 type="text"
                 id="nombreEmpresa"
                 placeholder="Nombre de la empresa"
-                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
             <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="correoEmpresa">Correo de la empresa</label>
+              <label className="block text-white mb-2 text-xs md:text-base" htmlFor="correoEmpresa">Correo de la empresa</label>
               <input
                 type="email"
                 id="correoEmpresa"
                 placeholder="nombre@empresa.com"
-                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="direccionEmpresa">Dirección de la empresa</label>
+              <label className="block text-white mb-2 text-xs md:text-base" htmlFor="direccionEmpresa">Dirección de la empresa</label>
               <input
                 type="text"
                 id="direccionEmpresa"
                 placeholder="Dirección de la empresa"
-                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               />
             </div>
             <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="nichoMercado">Sector de la empresa</label>
+              <label className="block text-white mb-2 text-xs md:text-base" htmlFor="nichoMercado">Sector de la empresa</label>
               <input
                 type="text"
                 id="nichoMercado"
                 placeholder="Sector en el mercado"
-                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
                 value={formData.sector}
                 onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
               />
             </div>
             <div className="mb-4">
-              <label className="block text-white mb-2" htmlFor="tipoEmpresa">Tipo de empresa</label>
+              <label className="block text-white mb-2 text-xs md:text-base" htmlFor="tipoEmpresa">Tipo de empresa</label>
               <select
                 id="tipoEmpresa"
-                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
               >
@@ -135,28 +135,28 @@ export const SectionCompany = () => {
               </select>
             </div>
             <div className="relative mb-7">
-              <label className="block text-white mb-2" htmlFor="descripcion">Descripción</label>
+              <label className="block text-white mb-2 text-xs md:text-base" htmlFor="descripcion">Descripción</label>
               <div className="relative">
                 <textarea
                   id="descripcion"
                   placeholder="Descripción de la empresa"
-                  className="w-full h-20 p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full h-20 p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-sm md:text-base"
                   value={formData.description}
                   onChange={handleDescriptionChange}
                   maxLength={255}
                   minLength={10}
                 ></textarea>
-                <div className="absolute bottom-2 right-2 text-xs text-gray-400 bg-gray-800 px-1 py-0.5 rounded">
+                <div className="absolute bottom-2 right-2 text-xs md:text-sm text-gray-400 bg-gray-800 px-1 py-0.5 rounded">
                   {charsRemaining}
                 </div>
               </div>
             </div>
           </div>
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600" >
+          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 text-sm md:text-base">
             Crear Empresa
           </button>
-          <p className="text-center text-white mt-4">
-            ¿Ya tienes una empresa ?{' '}
+          <p className="text-center text-white text-xs md:text-base mt-4">
+            ¿Ya tienes una empresa?{' '}
             <a href="#" className="text-blue-500 hover:underline" onClick={handleUnionCompany}>
               Unirse a empresa
             </a>

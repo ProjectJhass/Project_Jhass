@@ -38,8 +38,8 @@ export const Section1Home = () => {
                     lg:w-[48rem] 
                         md:w-[40rem] 
                          '>
-                        <button onClick={handleInfor} className='bg-blue-500 hover:bg-[#0165FF] text-white py-4 px-6 rounded-lg mr-12 mb-[10px] text-lg'>Más información</button>
-                        <button className='bg-transparent border border-white text-white py-4 px-6 mb-[10px] mr-12 text-lg rounded-lg' 
+                        <button onClick={handleInfor} className='bg-blue-500 hover:bg-[#0165FF] text-white py-4 px-6 rounded-lg mr-12 mb-[10px] text-base md:text-lg'>Más información</button>
+                        <button className='bg-transparent border border-white text-white py-4 px-6 mb-[10px] mr-12 text-base md:text-lg rounded-lg' 
                             onClick={() => {
                                 handleRegisterClick();
                                 handleOpaqueClick();

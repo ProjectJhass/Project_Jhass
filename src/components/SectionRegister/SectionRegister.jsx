@@ -221,7 +221,7 @@ export const SectionRegister = () => {
         </button>
         <h2 className="text-xl sm:text-2xl font-bold text-center text-white mb-6 sm:mb-8">Crear Cuenta</h2>
         <form onSubmit={handleSubmitData}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 text-xs md:text-base">
         <div>
         <label className="block text-white mb-2" htmlFor="nombre">
         Nombres
@@ -251,8 +251,8 @@ export const SectionRegister = () => {
               />
             </div>
           </div>
-          <div className="mb-4">
-          <label className="block text-white mb-2" htmlFor="correo">
+          <div className="mb-4 text-xs md:text-base">
+          <label className="block text-white mb-2 " htmlFor="correo">
           Correo Electrónico
             </label>
             <input
@@ -268,7 +268,7 @@ export const SectionRegister = () => {
             {touched.correo && errors.correo && <p className="text-red-500 text-sm">{errors.correo}</p>}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
+            <div className='text-xs md:text-base'>
             <label className="block text-white mb-2" htmlFor="password">
             Contraseña
               </label>
@@ -281,7 +281,7 @@ export const SectionRegister = () => {
                 onChange={handlePasswordChange}
               />
             </div>
-            <div>
+            <div className='text-xs md:text-base'>
             <label className="block text-white mb-2" htmlFor="confirmPassword">
             Confirma tu Contraseña
               </label>
@@ -296,7 +296,7 @@ export const SectionRegister = () => {
               {touched.confirmPassword && !validation && <p className="text-red-500 text-sm">Las contraseñas no coinciden</p>}
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 text-xs md:text-base">
             <div>
             <label className="block text-white mb-2" htmlFor="fechaNacimiento">
             Fecha de Nacimiento
@@ -329,12 +329,12 @@ export const SectionRegister = () => {
           {userExists && <p className="text-red-500 text-center mb-4">El usuario ya está registrado</p>}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
           >
             Crear Cuenta
           </button>
         </form>
-        <div className="mt-4 flex justify-center">
+        <div className="mt-4 flex justify-center text-xs md:text-base">
         <p className="text-center text-white mt-4">
             ¿Ya tienes una cuenta? <a href="#" className="text-blue-500 hover:underline" onClick={handleLoginClick}>Iniciar Sesion</a>
           </p>

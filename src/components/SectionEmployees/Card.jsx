@@ -1,31 +1,32 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../Context/Context';
+import { GETEndpoint } from '../ServicesFectch/ServicesFetch';
 
-export const Card = ({ img, rol, nombreCompleto, correo, onEdit, onEditT, _id  }) => {
-  const { setSelectedCardId, cards, setCards, setestadoModal1, isModalOpen, setIsModalOpen } = useContext(AppContext);
+export const Card = ({ img, rol, nombreCompleto, correo, onEdit, onEditT, _id }) => {
+  const { setSelectedCardId, setestadoModal1 } = useContext(AppContext);
+  
+  const [stateRol, setStateRol] = useState(false);
 
-  const [stateRol, setStateRol] = useState(() => {
-    const selectedCard = cards.find(card => card._id === _id);
-    return selectedCard ? selectedCard.isActive : false;
-});
-
-const handleClick = () => {
+  const handleClick = () => {
     setSelectedCardId(_id);
     setestadoModal1(true);
-};
+  };
 
-const handleRolClick = () => {
-    const updatedCards = cards.map(card =>
-        card._id === _id ? { ...card, isActive: !stateRol } : card
-    );
-    setCards(updatedCards);
-    localStorage.setItem('cards', JSON.stringify(updatedCards));
-    setStateRol(!stateRol);
-};
+  const handleRolClick = async () => {
+    try {
+      // Fetching data if necessary, otherwise you might want to handle the state update differently
+      const contentGET = await GETEndpoint({ URL: "api/v1/usario" });
+      console.log(contentGET);
 
+      // Update stateRol
+      setStateRol(prevState => !prevState);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   return (
-    <div className="w-full mx-auto p-6 bg-white shadow-md ">
+    <div className="w-full mx-auto p-6 bg-white shadow-md">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="flex-grow">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

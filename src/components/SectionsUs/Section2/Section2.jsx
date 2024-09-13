@@ -3,8 +3,8 @@ import React from 'react';
 
 export const Section2 = () => {
   return (
-    <section className='flex flex-col md:flex-row items-center justify-center bg-[#020C1D] w-full min-h-[700px] h-auto p-[20px]'>
-      <div className='flex flex-col items-center justify-center w-full md:w-[450px] h-auto md:h-[500px] bg-white rounded-2xl m-[10px] p-[20px]'>
+    <section className='flex flex-col md:flex-row items-center justify-center bg-[#020C1D] w-full min-h-[600px] h-auto p-[20px]'>
+      <div className='flex flex-col items-center justify-center w-full md:w-[450px] h-auto md:h-[500px] bg-white rounded-2xl m-[20px] p-[20px]'>
         <h3 className='font-serif font-semibold text-[20px] mb-[10px]'>Misión</h3>
         <p className='font-serif text-justify w-full md:w-[400px] mb-[20px]
          text-sm   
@@ -16,8 +16,8 @@ export const Section2 = () => {
         <img className='w-[180px] mb-[10px]' src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450507/ContentImagesJhass/fsbrvrm02ocxv5q0rtat.png" alt="Misión" />
       </div>
 
-      <div className='flex flex-col items-center justify-center w-full md:w-[450px] h-auto md:h-[500px] bg-white rounded-2xl m-[10px] p-[20px]'>
-        <img className='w-[200px] md:w-[270px] mt-[10px] mb-[10px]' src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450506/ContentImagesJhass/uvx6m3foms4uhid0ic8d.png" alt="Visión" />
+      <div className='flex flex-col items-center justify-center w-full md:w-[450px] h-auto md:h-[500px] bg-white rounded-2xl m-[20px] p-[20px]'>
+        <img className='w-[200px] md:w-[270px] mv-[10px]' src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450506/ContentImagesJhass/uvx6m3foms4uhid0ic8d.png" alt="Visión" />
         <h3 className='font-serif font-semibold text-[20px] mb-[10px]'>Visión</h3>
         <p className='font-serif text-justify w-full md:w-[400px] mb-[20px] 
          text-sm  mt-[10px] 

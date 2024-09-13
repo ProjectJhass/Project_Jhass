@@ -75,28 +75,28 @@ export const EnterCodeVerification = () => {
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-white mb-6">Verificación de Dos Pasos</h2>
         <form onSubmit={handleVerify}>
           <div className="mb-4">
-            <label className="block text-white mb-2 text-sm md:text-base" htmlFor="verificationCode">Código de Verificación</label>
+            <label className="block text-white mb-2 text-xs md:text-base" htmlFor="verificationCode">Código de Verificación</label>
             <VerificationInput
               length={6}
               placeholder=""
               value={formData.verificationCode}
               onChange={(value) => setFormData({ verificationCode: value })}
               classNames={{
-                container: "flex justify-center  gap-2",
-                character: "w-12 h-12 bg-gray-800 border-2 border-gray-700 rounded-md text-center text-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200",
+                container: "flex justify-center gap-2",
+                character: "w-10 h-10 bg-gray-800 border-2 border-gray-700 rounded-md text-center text-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 md:w-12 md:h-12",
                 characterSelected: "border-blue-500",
               }}
             />
             {errors.verificationCode && <p className="text-red-500 text-xs md:text-sm my-4">{errors.verificationCode}</p>}
           </div>
-          {generalError && <p className="text-red-500 text-center text-sm md:text-base my-4">{generalError}</p>}
+          {generalError && <p className="text-red-500 text-center text-xs md:text-base my-4">{generalError}</p>}
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 text-sm md:text-base"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 text-xs md:text-base"
           >
             Verificar Código
           </button>
-          <p className="text-center text-white text-sm md:text-base mt-4">
+          <p className="text-center text-white text-xs md:text-base mt-4">
             ¿No recibiste el código?{' '}
             <button
               type="button"

@@ -53,7 +53,7 @@ export const Communication = () => {
           </button>
         </div>
 
-        <div className="w-full lg:w-[45%] mt-10 lg:mt-0 hidden lg:flex justify-center">
+        <div className="w-full h-full ml-[20px] mt-10 lg:mt-0 hidden lg:flex justify-center">
           <img className="rounded-lg" src={"https://res.cloudinary.com/dnweqtuch/image/upload/v1724450504/ContentImagesJhass/ouqu8csneugfjk0xl7oa.png"} alt="Contact us" />
         </div>
       </div>
