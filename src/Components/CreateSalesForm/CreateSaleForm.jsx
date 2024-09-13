@@ -53,7 +53,8 @@ export const CreateSaleModal = ({ addSale }) => {
   };
 
   return (
-    <div>
+    <div className='flex justify-between'>
+      <h1 className='font-medium font-Open-Sans text-xl'>Ventas</h1>
       {/* Botón para abrir el modal */}
       <button
         onClick={openModal}
@@ -67,14 +68,14 @@ export const CreateSaleModal = ({ addSale }) => {
         isOpen={isOpen}
         onRequestClose={closeModal}
         contentLabel="Crear Nueva Venta"
-        className="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md"
-        overlayClassName="fixed inset-0 bg-gray-600 bg-opacity-75 flex justify-center items-center"
+        className="max-w-lg mx-auto p-6 bg-[#D9D9D9] rounded shadow-lg relative z-50" // Asegúrate de que z-index sea alto
+        overlayClassName="fixed inset-0 bg-gray-600 bg-opacity-75 flex justify-center items-center z-40" // Fondo del modal con z-index alto
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Crear Nueva Venta</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Campo de producto */}
           <div>
-            <label htmlFor="product" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="product" className="block text-sm font-medium text-black">
               Producto
             </label>
             <input
@@ -84,48 +85,45 @@ export const CreateSaleModal = ({ addSale }) => {
               value={formData.product}
               onChange={handleChange}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
             />
           </div>
 
           {/* Campo de cantidad */}
           <div>
-            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="quantity" className="block text-sm font-medium text-black">
               Cantidad
             </label>
             <input
-              type="number"
               id="quantity"
               name="quantity"
               value={formData.quantity}
               onChange={handleChange}
               required
-              // min="1"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              min="0"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
             />
           </div>
 
           {/* Campo de precio por unidad */}
           <div>
-            <label htmlFor="unitPrice" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="unitPrice" className="block text-sm font-medium text-black">
               Precio por Unidad
             </label>
             <input
-              
               id="unitPrice"
               name="unitPrice"
               value={formData.unitPrice}
               onChange={handleChange}
               required
               min="0"
-              // step="0.01"
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm "
             />
           </div>
 
           {/* Precio total (solo lectura) */}
           <div>
-            <label htmlFor="totalPrice" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="totalPrice" className="block text-sm font-medium text-black">
               Precio Total
             </label>
             <input
@@ -134,22 +132,22 @@ export const CreateSaleModal = ({ addSale }) => {
               name="totalPrice"
               value={formData.totalPrice}
               readOnly
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-gray-100 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm mb-3"
             />
           </div>
 
           {/* Botones para enviar y cerrar */}
-          <div className="flex justify-between">
+          <div className="flex justify-evenly space-x-4">
             <button
               type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
             >
               Guardar Venta
             </button>
             <button
               type="button"
               onClick={closeModal}
-              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md"
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
             >
               Cancelar
             </button>

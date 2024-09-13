@@ -1,6 +1,8 @@
 import React from 'react';
-import HeaderUser from './Components/Header/Header'; // Ajusta la ruta según la ubicación del archivo
+import HeaderUser from './Components/Header/Header';
 import Sales from './Components/Sales/Sales';
+import Footer from './Components/Layouts/Footer/Footer';
+
 const navItems = [
   { route: '/home', content: 'Inicio' },
   { route: '/products', content: 'Productos' },
@@ -9,9 +11,16 @@ const navItems = [
 
 const App = () => {
   return (
-    <div>
-      <HeaderUser username="jhass" navItems={navItems} />
-      <Sales />
+    <div className="flex flex-col min-h-screen">
+      <header>
+        <HeaderUser username="jhass" navItems={navItems} />
+      </header>
+      <main className="flex-grow px-6">
+        <Sales />
+      </main>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };
