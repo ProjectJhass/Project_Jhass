@@ -18,6 +18,7 @@ import Unauthorized from './components/Unauthorized/Unauthorized';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { SectionCardN } from './components/SectionNews/SectionCardN/SectionCardN';
 import { EnterCodeVerification } from './components/EnterCodeVerification/EnterCodeVerification';
+import Ventas from './components/Sales/Sales';
 
 
 const AppRoutes = () => {
@@ -37,7 +38,7 @@ const AppRoutes = () => {
     { path: "/Stock", element: <Stock /> },
     { path: "/VerificationCode", element: <EnterCodeVerification /> },
     { path: "/News", element: <SectionCardN /> },
-
+    { path: "/Sales", element:<Ventas/>}
   ]);
 }
 

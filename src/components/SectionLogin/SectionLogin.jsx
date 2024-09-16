@@ -9,7 +9,7 @@ export const SectionLogin = () => {
   const [formData, setFormData] = useState({ correo: "", contraseña: "" });
   const [errors, setErrors] = useState({ correo: "", contraseña: "" });
   const [generalError, setGeneralError] = useState("");
-  const { setToken, setUser, user } = useContext(AppContext);
+  const { setToken, setUser, user, setRefreshToken } = useContext(AppContext);
   const navigate = useNavigate();
   const emailSenderRef = useRef(null);
 
@@ -73,6 +73,7 @@ export const SectionLogin = () => {
       if (contentPost && contentPost.token) {
         setToken(contentPost.token);
         const contentGET = await GETEndpoint({ URL: "api/v1/usuario", TokenGet: contentPost.token });
+        setRefreshToken(contentPost.setRefreshToken)
   
         const user = contentGET.find(user => user.correo === formData.correo);
   
@@ -150,7 +151,7 @@ export const SectionLogin = () => {
           </p>
         </form>
       </div>
-      <ComponentVerification ref={emailSenderRef} email={formData.correo} name={user?.nombre && user?.apellido ? `${user.nombre} ${user.apellido}` : ""}/>
+      <ComponentVerification ref={emailSenderRef} email={formData.correo} name={formData.nombre+ " "+ formData.apellido}/>
     </div>
   );
 };

@@ -129,10 +129,11 @@ export const Stock = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
     <HeaderUser 
         username={user ? `${user.nombre} ${user.apellido}` : "Usuario"} 
         navItems={navItemstock}/>
+    <div className="min-h-screen bg-white mx-12 mt-10">
     
     <div className="flex justify-between">
       <h2 className="text-lg font-semibold mb-4">Bodega de Productos</h2>
@@ -142,10 +143,10 @@ export const Stock = () => {
       <CreateProductCard onCreate={handleCreateProduct} />
       {filteredProducts.map((product) => (
         <ProductCard
-          key={product.id}
-          product={product}
-          onDelete={handleDeleteProduct}
-          onUpdate={handleUpdateProduct}
+        key={product.id}
+        product={product}
+        onDelete={handleDeleteProduct}
+        onUpdate={handleUpdateProduct}
         />
       ))}
     </div>
@@ -182,7 +183,8 @@ export const Stock = () => {
       isOpen={isConfirmationModalOpen}
       onRequestClose={closeConfirmationModal}
       message={confirmationMessage}
-    />
+      />
   </div>
+      </>
   );
 };

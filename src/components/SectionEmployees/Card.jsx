@@ -52,7 +52,7 @@ const handleRolClick = () => {
 
         <div className="w-full flex justify-center lg:w-auto gap-4 mt-4">
           <button 
-            className="text-white text-[16px] sm:text-[18px] rounded-full w-[2.3rem] h-[2.3rem] flex items-center justify-center bg-green-500 hover:bg-green-600 hover:rounded-lg hover:w-[8rem] hover:h-[2.3rem] transition-all duration-300 font-Open-Sans overflow-hidden" 
+            className="text-white text-[16px] sm:text-[18px] hidden rounded-full w-[2.3rem] h-[2.3rem] flex items-center justify-center bg-green-500 hover:bg-green-600 hover:rounded-lg hover:w-[8rem] hover:h-[2.3rem] transition-all duration-300 font-Open-Sans overflow-hidden" 
             onClick={() => { onEditT(); handleClick(); }}
           >
             <span className="opacity-0 hover:opacity-100 transition-opacity duration-300 py-[10px] px-[30px]">Reporte</span>

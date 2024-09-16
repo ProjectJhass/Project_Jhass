@@ -8,12 +8,15 @@ import es from 'date-fns/locale/es';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
-import ModalCreateTask from './ModalCreateTask/CreateEvent/ModalCreateTask';
+import { ModalCreateTask } from './ModalCreateTask/CreateEvent/ModalCreateTask';
 import { AppContext } from '../Context/Context';
 import DeleteEventModal from './DeleteEvent/DeleteEvent';
 import MiniCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import 'tailwindcss/tailwind.css';
+import HeaderUser from '../Layouts/HeaderUser/HeaderUser';
+import { Footer } from '../Layouts/Footer/Footer';
+
 
 dayjs.locale('es');
 
@@ -127,21 +130,33 @@ export const Cale = () => {
   const handleDayClick = (date) => {
     setSelectedDate(date);
   };
+  const { user } = useContext(AppContext);
+  const navItems = [
+    { route: "/Cale", content: "Calendario" },
+    { route: "/Rol", content: "Roles" },
+    { route: "/Stock", content: "Productos" }
+  ];
 
   return (
+    <>
+    <HeaderUser
+      navItems={navItems}
+      username={user ? `${user.nombre} ${user.apellido}` : "Usuario"}
+    />
     <div className="flex flex-col h-screen">
       {/* Header */}
-      <header className="flex justify-between items-center bg-gray-100 p-4">
-        <div className="flex items-center space-x-4">
+      <header className="flex justify-between items-center bg-white p-4">
+        <div className="flex items-center space-x-4 justify-between w-full mx-[15px]">
           <ModalCreateTask
             isOpen={isModalOpenCale}
             onClose={() => setIsModalOpenCale(false)}
             handleAddEvent={handleAddEvent}
           />
           {/* Botón Crear Evento */}
+          <h3 className="text-lg font-semibold mb-2">Mis calendarios</h3>
           <button
             onClick={() => setIsModalOpenCale(true)}
-            className="px-4 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-md shadow hover:shadow-lg"
+            className="px-4 py-2  bg-blue-500 text-white rounded-md shadow hover:shadow-lg"
           >
             Crear Evento
           </button>
@@ -151,8 +166,8 @@ export const Cale = () => {
       {/* Main content */}
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside className="w-1/4 bg-gray-100 p-4">
-          <h3 className="text-lg font-semibold mb-2">Mis calendarios</h3>
+        <aside className="w-1/4 bg-white px-[30px]">
+
 
           {/* Mini calendario */}
           <MiniCalendar
@@ -163,27 +178,19 @@ export const Cale = () => {
             onClickDay={(value) => handleDayClick(value)}
           />
 
-          <ul>
-            <li className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" defaultChecked /> Juan Hernández
-            </li>
-            <li className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" defaultChecked /> Cumpleaños
-            </li>
-            <li className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" /> Tasks
-            </li>
-          </ul>
+          {/* Mini agenda */}
+          <div className="rounded-lg shadow-md p-4 bg-white">
+            <h4 className="text-md font-semibold mb-2">Agenda</h4>
+            <ul>
+              {events.map((event, index) => (
+                <li key={index} className="mb-2">
+                  <span className="font-medium">{dayjs(event.start).format('DD/MM/YYYY')}</span>: {event.title}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          <h3 className="text-lg font-semibold mt-4 mb-2">Otros calendarios</h3>
-          <ul>
-            <li className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" defaultChecked /> Días feriados en Colombia
-            </li>
-            <li className="flex items-center mb-2">
-              <input type="checkbox" className="mr-2" defaultChecked /> Trazabilidad Gestión Proyectos
-            </li>
-          </ul>
+
         </aside>
 
         {/* Calendar */}
@@ -220,6 +227,8 @@ export const Cale = () => {
         </main>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

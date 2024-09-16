@@ -16,17 +16,18 @@ export const Rol = () => {
     { route: "/Stock", content: "Productos" }
    ]
   return (
-
+<>
     <div>
   <HeaderUser 
         navItems={navItems} 
         username={user ? `${user.nombre} ${user.apellido}` : "Usuario"} 
-      /> 
+        /> 
 
         <Section/>
 
         <ModalConfirm/>
-        <Footer/>
     </div>
+        <Footer/>
+        </>
   )
 }

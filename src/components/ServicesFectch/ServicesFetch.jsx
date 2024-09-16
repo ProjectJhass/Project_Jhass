@@ -35,29 +35,29 @@ export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
 
 
 export const GETEndpoint = async ({ URL, TokenGet }) => {
-    let responseReturn = null;
     try {
-        const response = await fetch(`${BASE_URL}/${URL}`, { // Usa BASE_URL
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${TokenGet}`,
-            },
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-            responseReturn = data;
-        } else {
-            responseReturn = data;
-        }
+      const response = await fetch(`${BASE_URL}/${URL}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${TokenGet}`, // Asegúrate de enviar el token correctamente
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      // Verificar si la respuesta es válida
+      if (!response.ok) {
+        throw new Error('Error en la respuesta de la API');
+      }
+  
+      // Parsear la respuesta como JSON
+      const data = await response.json();
+      return data;
     } catch (error) {
-        responseReturn = { error: "Ocurrió un error durante la solicitud" };
+      console.error('Error fetching data:', error);
+      throw error;
     }
-
-    return responseReturn;
-};
-
+  };
+  
 export const UPDATEEndpoint = async ({ URL, Data, TokenPost = null }) => {
     let responseReturn = null;
     try {

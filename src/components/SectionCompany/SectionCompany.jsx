@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../Context/Context';
+import { ErrorModal, InfoModal } from '../ModalReusable/ModalReusable'; // Asegúrate de importar correctamente
 
 export const SectionCompany = () => {
   const NewContext = useContext(AppContext);
@@ -15,6 +16,11 @@ export const SectionCompany = () => {
     type: '',
   });
   const [charsRemaining, setCharsRemaining] = useState(255);
+
+  // Estado para los modales
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const handleBackClick = () => {
     navigate('/PreEmpresa');
@@ -49,13 +55,17 @@ export const SectionCompany = () => {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        navigate('/Cale');
+        setModalMessage('¡La empresa ha sido registrada con éxito!');
+        setShowSuccessModal(true);
+        setTimeout(() => navigate('/Cale'), 2000); // Navega después de mostrar el modal
       } else {
         const errorResponse = await response.json();
-        alert('Error en la creación de la empresa: ' + errorResponse.message);
+        setModalMessage('Error en la creación de la empresa: ' + errorResponse.message);
+        setShowErrorModal(true);
       }
     } catch (error) {
-      console.error('Error creating company:', error);
+      setModalMessage('Error al intentar crear la empresa. Intente nuevamente.');
+      setShowErrorModal(true);
     }
   };
 
@@ -152,7 +162,7 @@ export const SectionCompany = () => {
               </div>
             </div>
           </div>
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600" >
+          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
             Crear Empresa
           </button>
           <p className="text-center text-white mt-4">
@@ -163,6 +173,18 @@ export const SectionCompany = () => {
           </p>
         </form>
       </div>
+
+      {/* Modales */}
+      <ErrorModal
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        message={modalMessage}
+      />
+      <InfoModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        message={modalMessage}
+      />
     </div>
   );
 };

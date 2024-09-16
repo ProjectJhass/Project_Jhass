@@ -56,9 +56,9 @@ export const Section = () => {
 
   return (
     <section className="w-full h-auto">
-      <div className="flex justify-between m-[20px] mt-[30px] place-content-center text-center">
+      <div className="flex justify-between m-[20px] mt-[30px] place-content-center text-center flex-wrap">
         <h1 className="font-medium font-Open-Sans text-xl px-[39px]">Empleados</h1>
-        <div className="flex">
+        <div className="flex px-[39px] md:px-[0px] mt-[10px]">
           <FilterTracking
             onFilterChange={handleNameFilterChange}
             placeholder="Filtrar por nombre"

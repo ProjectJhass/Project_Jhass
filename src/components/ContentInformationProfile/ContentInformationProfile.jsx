@@ -67,21 +67,20 @@ export const ContentInformationProfile = ({ onClose }) => {
     <div className="fixed inset-0 flex justify-center items-center z-50">
       <div className="relative p-6 bg-white rounded-lg w-11/12 md:w-1/2 lg:w-1/3 max-w-md">
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full text-gray-600 border-none focus:outline-none"
         >
-          <img
-            src="https://res.cloudinary.com/dnweqtuch/image/upload/v1724450505/ContentImagesJhass/dfzjdfz4hz5bixvrkfex.png"
-            alt="Close"
-            className="w-4 h-4"
-          />
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
         </button>
 
         {isUpdateFormOpen ? (
           <UpdateUser user={user} onClose={closeModal} />
         ) : (
           <>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center mb-6">
               <img
                 className="w-24 h-24 rounded-full border-4 border-gray-300 mb-4"
                 src={user.avatar || 'https://via.placeholder.com/100'}
@@ -95,8 +94,7 @@ export const ContentInformationProfile = ({ onClose }) => {
               </div>
             </div>
 
-            {/* Información del usuario en formato de lista con íconos */}
-            <ul className="divide-y divide-gray-200 mx-7">
+            <ul className="divide-y divide-gray-200">
               <li className="py-2 flex items-center">
                 <FaEnvelope className="text-black mr-2" />
                 <span className="text-gray-700">{user.correo || 'correo@ejemplo.com'}</span>
@@ -111,7 +109,7 @@ export const ContentInformationProfile = ({ onClose }) => {
               </li>
             </ul>
 
-            <div className="flex justify-center mt-4 space-x-4">
+            <div className="flex justify-center mt-6 space-x-4">
               <button
                 onClick={() => setIsUpdateFormOpen(true)}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -128,14 +126,12 @@ export const ContentInformationProfile = ({ onClose }) => {
           </>
         )}
 
-        {/* Mostrar el modal de error si hay un error */}
         <ErrorModal
           isOpen={!!error}
           onClose={() => setError(null)}
           message={error}
         />
 
-        {/* Mostrar el modal de confirmación de eliminación */}
         <WarningModal
           isOpen={isDeleteConfirmOpen}
           onClose={closeModal}

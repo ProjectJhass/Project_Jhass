@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { AppContext } from '../Context/Context';
 import { UpdateOk } from '../UpdateOK/UpdateOk'; // Ajusta la ruta si es necesario
 import { PUTEndpoint, UPDATEEndpoint } from '../ServicesFectch/ServicesFetch';
+import { AppContext } from '../Context/Context'; // Importa el hook del contexto
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importa íconos para mostrar/ocultar
 
 export const UpdateUser = ({ onClose }) => {
-  const { user, updateUserr, token, openSuccessModal, closeSuccessModal, isSuccessModalOpen } = useContext(AppContext);
+  const { user, updateUserr, token } = useContext(AppContext);
 
   const [updatedData, setUpdatedData] = useState({
     nombre: user?.nombre || '',
@@ -20,12 +21,35 @@ export const UpdateUser = ({ onClose }) => {
     confirmNewPassword: '',
   });
 
+  const [isPasswordVisible, setIsPasswordVisible] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmNewPassword: false,
+  });
+
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
   const handleChange = (e, dataSetter) => {
     const { name, value } = e.target;
     dataSetter(prevState => ({
       ...prevState,
-      [name]: name === 'edad' ? Number(value) : value, // Convertir a número si es 'edad'
+      [name]: name === 'edad' ? (value === '' ? '' : Number(value)) : value,
     }));
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setIsPasswordVisible(prevState => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
+  };
+
+  const openSuccessModal = () => {
+    setIsSuccessModalOpen(true);
+  };
+
+  const closeSuccessModal = () => {
+    setIsSuccessModalOpen(false);
   };
 
   const updateUserDetails = async () => {
@@ -37,7 +61,7 @@ export const UpdateUser = ({ onClose }) => {
       });
 
       if (contentUpdate && !contentUpdate.error) {
-        updateUserr(updatedData); // Actualiza el usuario en el contexto
+        updateUserr(updatedData);
         openSuccessModal();
       } else {
         alert('Error al actualizar los datos. Por favor, intenta nuevamente.');
@@ -78,21 +102,19 @@ export const UpdateUser = ({ onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Separar la actualización de datos del usuario y la contraseña
     if (Object.values(updatedData).some(value => value !== '' && value !== user[value])) {
       updateUserDetails();
     }
 
-    // Solo actualizar contraseña si hay datos en los campos correspondientes
     if (passwordData.oldPassword && passwordData.newPassword && passwordData.confirmNewPassword) {
       updatePassword();
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-100 bg-opacity-90">
+    <div className="fixed inset-0 flex items-center justify-center z-50  bg-black bg-opacity-20 ">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">Actualizar Usuario</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Actualizar Informacion</h2>
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-4 mb-6">
             <input
@@ -138,35 +160,62 @@ export const UpdateUser = ({ onClose }) => {
           </div>
           <h2 className="text-2xl font-bold mb-3 text-gray-800">Cambiar Contraseña</h2>
           <div className="grid grid-cols-1 gap-4 mb-6">
-            <input
-              type="password"
-              name="oldPassword"
-              value={passwordData.oldPassword}
-              onChange={(e) => handleChange(e, setPasswordData)}
-              placeholder="Contraseña Actual"
-              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
-            <input
-              type="password"
-              name="newPassword"
-              value={passwordData.newPassword}
-              onChange={(e) => handleChange(e, setPasswordData)}
-              placeholder="Nueva Contraseña"
-              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
-            <input
-              type="password"
-              name="confirmNewPassword"
-              value={passwordData.confirmNewPassword}
-              onChange={(e) => handleChange(e, setPasswordData)}
-              placeholder="Confirmar Nueva Contraseña"
-              className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
-            />
+            <div className="relative">
+              <input
+                type={isPasswordVisible.oldPassword ? 'text' : 'password'}
+                name="oldPassword"
+                value={passwordData.oldPassword}
+                onChange={(e) => handleChange(e, setPasswordData)}
+                placeholder="Contraseña Actual"
+                className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+              <button
+                type="button"
+                onClick={() => togglePasswordVisibility('oldPassword')}
+                className="absolute inset-y-0 right-0 flex items-center px-2"
+              >
+                {isPasswordVisible.oldPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+            <div className="relative">
+              <input
+                type={isPasswordVisible.newPassword ? 'text' : 'password'}
+                name="newPassword"
+                value={passwordData.newPassword}
+                onChange={(e) => handleChange(e, setPasswordData)}
+                placeholder="Nueva Contraseña"
+                className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+              <button
+                type="button"
+                onClick={() => togglePasswordVisibility('newPassword')}
+                className="absolute inset-y-0 right-0 flex items-center px-2"
+              >
+                {isPasswordVisible.newPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+            <div className="relative">
+              <input
+                type={isPasswordVisible.confirmNewPassword ? 'text' : 'password'}
+                name="confirmNewPassword"
+                value={passwordData.confirmNewPassword}
+                onChange={(e) => handleChange(e, setPasswordData)}
+                placeholder="Confirmar Nueva Contraseña"
+                className="border border-gray-300 p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              />
+              <button
+                type="button"
+                onClick={() => togglePasswordVisibility('confirmNewPassword')}
+                className="absolute inset-y-0 right-0 flex items-center px-2"
+              >
+                {isPasswordVisible.confirmNewPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
           <div className="flex justify-end gap-4">
             <button
               type="submit"
-              className="bg-indigo-500 text-white py-2 px-6 rounded-md hover:bg-indigo-600 transition duration-300"
+              className="bg-blue-500 text-white py-2 px-6 rounded-md hover:bg-blue-600 transition duration-300"
             >
               Actualizar
             </button>

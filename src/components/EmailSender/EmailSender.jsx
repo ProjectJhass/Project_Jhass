@@ -1,7 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
 import { POSTEndpoint } from '../ServicesFectch/ServicesFetch';
 
-
 export const EmailSender = forwardRef(({ name, email }, ref) => {
 
   const [emailStatus, setEmailStatus] = useState('');
@@ -54,9 +53,6 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
     </table>
 </body>
 </html>
-
-
-
 `
   });
 
@@ -66,7 +62,7 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
       subject: 'Bienvenido a nuestro Servicio',
       dataTemplate: {
         name: name,
-      buttonUrl: "https://developer--x3z8q7v5w9-c3p9e4o6j2q1d0z0h5a6s7c8w.netlify.app/IniciarSesion",
+        buttonUrl: "https://developer--x3z8q7v5w9-c3p9e4o6j2q1d0z0h5a6s7c8w.netlify.app/IniciarSesion",
         buttonText: 'Iniciar Sesion'
       },
       templateContent: `
@@ -110,7 +106,6 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
     </table>
 </body>
 </html>
-
 `
     });
   }, [name, email]);
@@ -123,16 +118,11 @@ export const EmailSender = forwardRef(({ name, email }, ref) => {
 
   const sendEmail = async () => {
     try {
-      await POSTEndpoint({URL:'api/v1/email/send', Data:emailData});
-      setEmailStatus('El correo fue enviado exitosamente');
+      await POSTEndpoint({ URL: 'api/v1/email/send', Data: emailData });
     } catch (error) {
-      setEmailStatus(`Error: ${error.message}`);
+      setEmailStatus(error);
     }
   };
 
-  return (
-    <div>
-      {emailStatus && <p>Status: {emailStatus}</p>}
-    </div>
-  );
+  return null; // No renderiza nada
 });

@@ -16,6 +16,7 @@ const Modal = ({ isOpen, onSave, onClose }) => {
   }, [selectedCardId, cards]);
 
   const handleSave = () => {
+    
     const updatedCards = cards.map((card) =>
       card._id === selectedCardId ? { ...card, rol } : card
     );
@@ -28,7 +29,7 @@ const Modal = ({ isOpen, onSave, onClose }) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"> 
       <div className="bg-[#D9D9D9] p-4 rounded shadow-lg">
         <h2 className="text-xl font-bold mb-4 font-Open-Sans">Editar Rol</h2>
         <input
