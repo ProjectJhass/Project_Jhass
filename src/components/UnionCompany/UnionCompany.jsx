@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { GETEndpoint, POSTEndpoint } from '../ServicesFectch/ServicesFetch';
@@ -7,18 +7,24 @@ import { ErrorModal, InfoModal } from '../ModalReusable/ModalReusable';
 
 export const UnionCompany = () => {
   const navigate = useNavigate();
-  const [contInformationCom, setContInformationCom] = useState(null);
   const { user, token } = useContext(AppContext);
 
   const [formData, setFormData] = useState({
     email: '',
-    companyId:null,
+    companyId: null,
+    userId: null,
     roleId: 1,
   });
 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
+
+  const [roles, setRoles] = useState([
+    { id: 1, name: 'Empleado' },
+    { id: 2, name: 'Supervisor' },
+    // Agrega más roles según sea necesario
+  ]);
 
   const handleBackClick = () => {
     navigate(-1);
@@ -30,103 +36,55 @@ export const UnionCompany = () => {
 
   const handleSubmitData = async (e) => {
     e.preventDefault();
-  
-    try {
-      const companyInfo = await GETEndpoint({ URL: `api/v1/companies`, TokenGet: token });
-      console.log("Company Info:", companyInfo);
-  
-      const matchedCompany = companyInfo.find(company => company.email === formData.email);
-  
-      if (matchedCompany) {
-        const updatedFormData = {
-          ...formData,
-          companyId: matchedCompany.id_company,
-          userId: user.id_usuario
-        };
-  
-        console.log("Updated FormData:", updatedFormData);
-  
-        const response = await POSTEndpoint({ URL: "api/v1/auth/loginCompany", TokenPost: token, Data: updatedFormData });
-        setModalMessage('¡Unión a la empresa exitosa! Se ha enviado un correo para confirmar la solicitud.');
         setTimeout(() => navigate('/Cale'), 2000);
   
-        // if (response.ok) {
-        //   await sendConfirmationEmail(matchedCompany.email, user.nombre);
-        //   setShowSuccessModal(true);
-        // } else {
-        //   const errorResponse = await response.json();
-        //   console.log("Error Response:", errorResponse);
-        //   setModalMessage('Error al unirse a la empresa: ' + errorResponse.message);
-        //   setShowErrorModal(true);
-        // }
-      } else {
-        setModalMessage('No se encontró la empresa con el correo proporcionado o el correo no coincide.');
-        setShowErrorModal(true);
-      }
-    } catch (error) {
-      console.error('Error en handleSubmitData:', error);
-      setModalMessage('Error al intentar unirse a la empresa. Intente nuevamente.');
-      setShowErrorModal(true);
-    }
-  };
+    // try {
+    //   // Obtener ID del usuario
+    //   const userResponse = await GETEndpoint({ URL: `api/v1/usuario/${user.correo}`});
+      
+    //   // // Verifica si la respuesta es vacía o no válida
+    //   // if (!userResponse || userResponse.status !== 200) {
+    //   //   throw new Error('No se pudo obtener el usuario o la respuesta no es válida');
+    //   // }
+      
+    //   const userId = userResponse.id_usuario;
   
+    //   // Obtener ID de la empresa
+    //   const companyResponse = await GETEndpoint({ URL: `api/v1/companies/${formData.email}` });
+      
+    //   // Verifica si la respuesta es vacía o no válida
+    //   if (!companyResponse || companyResponse.status !== 200) {
+    //     throw new Error('No se pudo obtener la empresa o la respuesta no es válida');
+    //   }
+      
+    //   const companyId = companyResponse.id_company;
   
-  const sendConfirmationEmail = async (companyEmail, userName) => {
-    const emailData = {
-      to: companyEmail,
-      subject: `Confirmación de unión de ${userName} a tu empresa`,
-      dataTemplate: {
-        companyName: contInformationCom?.name,
-        employeeName: userName,
-        acceptUrl: `https://your-website.com/accept?employee=${encodeURIComponent(userName)}&company=${encodeURIComponent(contInformationCom?.name)}`,
-        rejectUrl: `https://your-website.com/reject?employee=${encodeURIComponent(userName)}&company=${encodeURIComponent(contInformationCom?.name)}`
-      },
-      templateContent: `
-  <!DOCTYPE html>
-  <html lang="es">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Confirmación de unión</title>
-  </head>
-  <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #ffffff;">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; padding: 20px;">
-          <tr>
-              <td align="center">
-                  <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden;">
-                      <tr>
-                          <td style="background-color: #ffffff; color: #000000; padding: 20px; text-align: center;">
-                              <h1 style="margin: 0; color: #333333;">Solicitud de Unión de Empleado</h1>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td style="padding: 20px;">
-                              <p style="color: #555555; line-height: 1.6;">Hola,</p>
-                              <p style="color: #555555; line-height: 1.6;">Se ha solicitado unir a <strong>{{employeeName}}</strong> a tu empresa <strong>{{companyName}}</strong>.</p>
-                              <p style="color: #555555; line-height: 1.6;">¿Deseas permitir esta unión?</p>
-                              <a href="{{acceptUrl}}" style="display: inline-block; background-color: #28a745; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-size: 16px; margin-top: 20px; text-align: center;">Sí, permitir</a>
-                              <a href="{{rejectUrl}}" style="display: inline-block; background-color: #dc3545; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-size: 16px; margin-top: 20px; text-align: center; margin-left: 10px;">No, rechazar</a>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td style="background-color: #f4f4f4; color: #555555; padding: 15px; text-align: center; font-size: 14px;">
-                              <p>Gracias por tu atención.</p>
-                          </td>
-                      </tr>
-                  </table>
-              </td>
-          </tr>
-      </table>
-  </body>
-  </html>
-  `
-    };
-  
-    try {
-      await POSTEndpoint({ URL: 'api/v1/email/send', Data: emailData });
-    } catch (error) {
-      console.error('Error al enviar el correo de confirmación:', error);
-    }
+    //   if (userId && companyId) {
+    //     const updatedFormData = {
+    //       ...formData,
+    //       companyId,
+    //       userId,
+    //     };
+        
+    //     // const response = await POSTEndpoint({ URL: "api/v1/auth/loginCompany", TokenPost: token, Data: updatedFormData });
+        
+    //     // if (response.ok) {
+    //     //   setModalMessage('¡Unión a la empresa exitosa! Se ha enviado un correo para confirmar la solicitud.');
+    //     //   setShowSuccessModal(true);
+    //     // } else {
+    //     //   const errorResponse = await response.json();
+    //     //   setModalMessage('Error al unirse a la empresa: ' + errorResponse.message);
+    //     //   setShowErrorModal(true);
+    //     // }
+    //   } else {
+    //     setModalMessage('No se encontró la empresa o el usuario.');
+    //     setShowErrorModal(true);
+    //   }
+    // } catch (error) {
+    //   console.error('Error en handleSubmitData:', error);
+    //   setModalMessage('Error al intentar unirse a la empresa. Intente nuevamente.');
+    //   setShowErrorModal(true);
+    // }
   };
   
 
@@ -152,6 +110,7 @@ export const UnionCompany = () => {
               className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              required
             />
           </div>
           <div className="mb-4">
@@ -162,19 +121,22 @@ export const UnionCompany = () => {
               name="personaCorreo"
               placeholder="Correo personal"
               className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
           <div className="mb-4">
             <label className="block text-white mb-2" htmlFor="rol">Rol</label>
-            <input
-              type="text"
+            <select
               id="rol"
               name="rol"
-              placeholder="Rol que desempeñará"
               className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={formData.roleId}
-              onChange={(e) => setFormData({ ...formData, roleId: e.target.value })}
-            />
+              onChange={(e) => setFormData({ ...formData, roleId: Number(e.target.value) })}
+            >
+              {roles.map(role => (
+                <option key={role.id} value={role.id}>{role.name}</option>
+              ))}
+            </select>
           </div>
           <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
             Unirse a Empresa

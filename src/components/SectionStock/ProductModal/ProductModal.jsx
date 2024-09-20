@@ -12,7 +12,7 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
     const { name, value } = e.target;
     setEditedProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value,
+      [name]: name === 'quantity' ? parseInt(value, 10) : value,
     }));
   };
 
@@ -31,14 +31,12 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
   };
 
   const handleSave = () => {
-    // Validar si los IDs coinciden antes de actualizar
     if (product.id !== editedProduct.id) {
       alert('Error: El producto seleccionado no coincide con el producto editado.');
       return;
     }
 
-    // Verifica qué campos han cambiado
-    const updatedProduct = { ...product }; // Clona el producto original
+    const updatedProduct = { ...product };
     let hasChanges = false;
 
     if (product.name !== editedProduct.name) {
@@ -47,10 +45,6 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
     }
     if (product.quantity !== editedProduct.quantity) {
       updatedProduct.quantity = editedProduct.quantity;
-      hasChanges = true;
-    }
-    if (product.price !== editedProduct.price) {
-      updatedProduct.price = editedProduct.price;
       hasChanges = true;
     }
     if (product.description !== editedProduct.description) {
@@ -62,13 +56,17 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
       hasChanges = true;
     }
 
-    // Solo llama a la actualización si hubo cambios
     if (hasChanges) {
       onUpdate(updatedProduct);
     } else {
       alert('No se realizaron cambios.');
     }
 
+    onRequestClose(); // Cierra el modal
+  };
+
+  const handleDelete = () => {
+    onDelete(product.id); // Llama a la función de eliminación
     onRequestClose(); // Cierra el modal
   };
 
@@ -82,9 +80,7 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
       className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50"
       overlayClassName=""
     >
-      {/* Contenedor principal con display flex */}
       <div className="bg-white p-6 rounded-lg w-full max-w-3xl flex gap-6">
-        {/* Sección de edición del producto */}
         <div className="flex-1">
           <h2 className="text-lg font-semibold mb-4">Editar {product.name}</h2>
           <input
@@ -101,20 +97,12 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
             onChange={handleChange}
             className="border p-2 mb-4 w-full"
           />
-          <input
-            type="number"
-            name="price"
-            value={editedProduct.price}
-            onChange={handleChange}
-            className="border p-2 mb-4 w-full"
-          />
           <textarea
             name="description"
             value={editedProduct.description}
             onChange={handleChange}
             className="border p-2 mb-4 w-full"
           />
-          {/* Input para cambiar la imagen */}
           <input
             type="file"
             accept="image/*"
@@ -123,12 +111,10 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
           />
         </div>
 
-        {/* Sección de previsualización de imagen */}
         <div className="flex-1 flex flex-col items-center justify-center">
           {editedProduct.image && (
             <img src={editedProduct.image} alt={product.name} className="mb-4 max-w-full h-auto rounded-lg shadow" />
           )}
-          {/* Botones para Guardar, Cancelar, Eliminar */}
           <div className="flex justify-between mt-4 w-full">
             <button
               onClick={handleSave}
@@ -142,12 +128,12 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
             >
               Cancelar
             </button>
-            <button
-              onClick={() => { onDelete(product.id); onRequestClose(); }}
+            {/* <button
+              onClick={handleDelete}
               className="bg-red-500 text-white px-4 py-2 rounded"
             >
               Eliminar
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

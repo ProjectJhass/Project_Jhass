@@ -14,14 +14,13 @@ const CreateProductCard = ({ onCreate }) => {
   const handleCreate = () => {
     if (name && quantity && description && image) {
       const newProduct = { 
-        id: Date.now(), // Genera un id único basado en el tiempo actual
+        id: Date.now(),
         name, 
         quantity: parseInt(quantity, 10), 
         description, 
         image 
       };
       onCreate(newProduct);
-      // Reinicia los campos del formulario
       setName('');
       setQuantity('');
       setDescription('');
@@ -43,14 +42,7 @@ const CreateProductCard = ({ onCreate }) => {
 
   return (
     <div>
-      <button
-        onClick={openModal}
-        className="w-full h-full flex justify-center items-center bg-gray-200 border rounded-lg shadow-md p-4"
-      >
-        <div className="w-12 h-12 flex justify-center items-center bg-gray-400 rounded-full">
-          <span className="text-white text-2xl">Crear Producto</span>
-        </div>
-      </button>
+      <Card onClick={openModal} title="Crear Producto" />
       
       <Modal
         isOpen={modalIsOpen}
@@ -97,6 +89,16 @@ const CreateProductCard = ({ onCreate }) => {
           </div>
         </div>
       </Modal>
+    </div>
+  );
+};
+
+const Card = ({ onClick, title }) => {
+  return (
+    <div onClick={onClick} className="w-full h-full flex justify-center items-center bg-gray-200 border rounded-lg shadow-md p-4 cursor-pointer">
+      <div className="w-12 h-12 flex justify-center items-center bg-gray-400 rounded-full">
+        <span className="text-white text-2xl">+</span>
+      </div>
     </div>
   );
 };

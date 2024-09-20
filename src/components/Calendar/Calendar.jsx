@@ -8,102 +8,11 @@ import 'react-calendar/dist/Calendar.css';
 import 'tailwindcss/tailwind.css';
 import { ModalCreateTask } from './ModalCreateTask/CreateEvent/ModalCreateTask';
 import { AppContext } from '../Context/Context';
-import DeleteEventModal from './DeleteEvent/DeleteEvent';
 import HeaderUser from '../Layouts/HeaderUser/HeaderUser';
 import { Footer } from '../Layouts/Footer/Footer';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
-
+import DeleteEventModal from "./DeleteEvent/DeleteEvent";
 dayjs.locale('es');
-
 const localizer = dayjsLocalizer(dayjs);
-
-// Custom toolbar for react-big-calendar
-const CustomToolbar = ({ label, onNavigate, onView, view }) => {
-  return (
-    <div className="flex items-center justify-between mb-4">
-      <div className="flex items-center">
-        <button
-          onClick={() => onNavigate('TODAY')}
-          className="px-2 py-1 bg-blue-500 text-white rounded mr-2"
-        >
-          Hoy
-        </button>
-        <button
-          onClick={() => onNavigate('PREV')}
-          className="px-2 py-1 bg-gray-200 rounded mr-2"
-        >
-          {'<'} Ant.
-        </button>
-        <button
-          onClick={() => onNavigate('NEXT')}
-          className="px-2 py-1 bg-gray-200 rounded"
-        >
-          Sig. {'>'}
-        </button>
-      </div>
-      <span className="font-semibold">{label}</span>
-      <div className="flex items-center">
-        <button
-          onClick={() => onView('month')}
-          className={`px-2 py-1 ${view === 'month' ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded mr-2`}
-        >
-          Mes
-        </button>
-        <button
-          onClick={() => onView('week')}
-          className={`px-2 py-1 ${view === 'week' ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded mr-2`}
-        >
-          Semana
-        </button>
-        <button
-          onClick={() => onView('day')}
-          className={`px-2 py-1 ${view === 'day' ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded mr-2`}
-        >
-          Día
-        </button>
-        <button
-          onClick={() => onView('agenda')}
-          className={`px-2 py-1 ${view === 'agenda' ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded`}
-        >
-          Agenda
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// Modal para seleccionar si se quiere crear Evento o Tarea
-const CreateSelectModal = ({ isOpen, onClose, onCreateEvent, onCreateTask }) => {
-  if (!isOpen) return null;
-  
-  return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-80">
-        <h2 className="text-lg font-semibold mb-4">¿Qué quieres crear?</h2>
-        <div className="flex justify-between">
-          <button
-            onClick={onCreateEvent}
-            className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600"
-          >
-            Evento
-          </button>
-          <button
-            onClick={onCreateTask}
-            className="px-4 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600"
-          >
-            Tarea
-          </button>
-        </div>
-        <button
-          onClick={onClose}
-          className="mt-4 px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
-        >
-          Cancelar
-        </button>
-      </div>
-    </div>
-  );
-};
 
 export const Cale = () => {
   const {
@@ -113,15 +22,14 @@ export const Cale = () => {
     setEvents,
     setDeleteEventModal,
     setEventToDelete,
+    deleteEventModal // Traemos el estado del modal de eliminación
   } = useContext(AppContext);
 
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState('month');
   const [selectedDate, setSelectedDate] = useState(null);
-  const [isModalOpenCale, setIsModalOpenCale] = useState(false);
-  const [isCreateSelectModalOpen, setIsCreateSelectModalOpen] = useState(false);
-
-  const navigate = useNavigate(); // Inicializar navigate
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (selectedDate) {
@@ -130,43 +38,42 @@ export const Cale = () => {
     }
   }, [selectedDate]);
 
-  const handleAddEvent = () => {
+  const handleAddEvent = (eventData) => {
     setEvents([
       ...events,
       {
-        title: `${newEvent.title} (Asignado a: ${newEvent.assignedTo})`,
-        start: dayjs(newEvent.start).toDate(),
-        end: dayjs(newEvent.end).toDate(),
+        title: `${eventData.title} (Asignado a: ${eventData.assignedTo})`,
+        start: dayjs(eventData.start).toDate(),
+        end: dayjs(eventData.end).toDate(),
       },
     ]);
     setNewEvent({ title: '', start: '', end: '', assignedTo: '' });
-    setIsModalOpenCale(false);
   };
 
+  // Manejo de la selección del evento para abrir el modal de eliminación
   const handleSelectEvent = (event) => {
-    setEventToDelete(event);
-    setDeleteEventModal(true);
+    setEventToDelete(event); // Guardamos el evento a eliminar
+    setDeleteEventModal(true); // Abrimos el modal de eliminación
   };
 
   const handleDayClick = (date) => {
     setSelectedDate(date);
   };
 
-  const handleCreateEvent = () => {
-    navigate('/crear-evento'); // Redirigir a la ruta para crear eventos
-    setIsCreateSelectModalOpen(false); // Cerrar modal de selección
+  const handleCreateTask = () => {
+    setIsModalOpen(true); // Abre el modal para crear tarea
+    setIsDropdownOpen(false); // Cierra el dropdown
   };
 
-  const handleCreateTask = () => {
-    navigate('/crear-tarea'); // Redirigir a la ruta para crear tareas
-    setIsCreateSelectModalOpen(false); // Cerrar modal de selección
+  const closeModal = () => {
+    setIsModalOpen(false); // Cierra el modal
   };
 
   const { user } = useContext(AppContext);
   const navItems = [
     { route: "/Cale", content: "Calendario" },
     { route: "/Rol", content: "Roles" },
-    { route: "/Stock", content: "Productos" }
+    { route: "/Stock", content: "Productos" },
   ];
 
   return (
@@ -176,34 +83,40 @@ export const Cale = () => {
         username={user ? `${user.nombre} ${user.apellido}` : "Usuario"}
       />
       <div className="flex flex-col h-screen">
-        {/* Header */}
         <header className="flex justify-between items-center bg-white p-4">
           <div className="flex items-center space-x-4 justify-between w-full mx-[15px]">
-            {/* Botón Crear */}
             <h3 className="text-lg font-semibold mb-2">Mis calendarios</h3>
-            <button
-              onClick={() => setIsCreateSelectModalOpen(true)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:shadow-lg"
-            >
-              Crear
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:shadow-lg"
+              >
+                Crear
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10">
+                  <button
+                    onClick={handleCreateTask}
+                    className="block px-4 py-2 text-left w-full hover:bg-blue-100"
+                  >
+                    Crear Evento
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
-        {/* Main content */}
         <div className="flex flex-1">
-          {/* Sidebar */}
           <aside className="w-1/4 bg-white px-[30px]">
-            {/* Mini calendario */}
             <MiniCalendar
               onChange={handleDayClick}
               value={date}
               className="rounded-lg shadow-md mb-4"
               tileClassName="hover:bg-blue-200"
-              onClickDay={(value) => handleDayClick(value)}
             />
 
-            {/* Mini agenda */}
             <div className="rounded-lg shadow-md p-4 bg-white">
               <h4 className="text-md font-semibold mb-2">Agenda</h4>
               <ul>
@@ -216,7 +129,6 @@ export const Cale = () => {
             </div>
           </aside>
 
-          {/* Calendar */}
           <main className="flex-1 p-4">
             <Calendar
               localizer={localizer}
@@ -226,7 +138,7 @@ export const Cale = () => {
               style={{ height: 500 }}
               view={view}
               onView={(newView) => setView(newView)}
-              onSelectEvent={handleSelectEvent}
+              onSelectEvent={handleSelectEvent} // Selecciona el evento para eliminarlo
               messages={{
                 next: 'Sig.',
                 previous: 'Ant.',
@@ -239,30 +151,24 @@ export const Cale = () => {
                 time: 'Hora',
                 event: 'Evento',
               }}
-              components={{
-                toolbar: CustomToolbar,
-              }}
             />
           </main>
         </div>
       </div>
-      <Footer />
 
-      {/* Modal para crear evento o tarea */}
-      <CreateSelectModal
-        isOpen={isCreateSelectModalOpen}
-        onClose={() => setIsCreateSelectModalOpen(false)}
-        onCreateEvent={handleCreateEvent}
-        onCreateTask={handleCreateTask}
-      />
-
-      {/* Modal para crear evento específico */}
-      {isModalOpenCale && (
-        <ModalCreateTask
-          closeModal={() => setIsModalOpenCale(false)}
-          handleAddEvent={handleAddEvent}
+      {/* Modal para crear tarea */}
+      {isModalOpen && (
+        <ModalCreateTask 
+          isOpen={isModalOpen} 
+          onClose={closeModal} 
+          handleAddEvent={handleAddEvent} 
         />
       )}
+
+      {/* Modal para eliminar tarea */}
+      {deleteEventModal && <DeleteEventModal />}
+
+      <Footer />
     </>
   );
 };

@@ -73,16 +73,21 @@ export const Stock = () => {
 
   const handleDeleteProduct = (productName) => {
     const updatedProducts = products.filter(product => product.name !== productName);
+    
     setProducts(updatedProducts);
     setFilteredProducts(updatedProducts);
+  
+    // Actualiza los datos de las gráficas
     setPieChartData([
       ['Producto', 'Cantidad'],
       ...updatedProducts.map(product => [product.name, product.quantity])
     ]);
+    
     setBarChartData([
       ['Producto', 'Cantidad'],
       ...updatedProducts.map(product => [product.name, product.quantity])
     ]);
+    
     setLineChartData([
       { name: 'Producto A', uv: 4000, pv: 2400 },
       ...updatedProducts.map((product) => ({
@@ -91,9 +96,11 @@ export const Stock = () => {
         pv: product.quantity * 20,
       })),
     ]);
+  
     setConfirmationMessage(`Producto "${productName}" eliminado exitosamente.`);
     setIsConfirmationModalOpen(true);
   };
+  
 
   const handleUpdateProduct = (updatedProduct) => {
     const updatedProducts = products.map((product) =>
@@ -129,25 +136,30 @@ export const Stock = () => {
           username={user ? `${user.nombre} ${user.apellido}` : "Usuario"} 
           navItems={navItemstock} />
       <div className="min-h-screen bg-white mx-12 mt-10">
-        <div className="flex justify-between">
-          <h2 className="text-lg font-semibold mb-4">Bodega de Productos</h2>
-          <div className="flex items-center">
-            <Filter onFilterChange={handleFilterChange} />
-            <CreateProductCard onCreate={handleCreateProduct} />
-          </div>
+        <h2 className="text-xl font-semibold mb-6">Bodega de Productos</h2>
+
+        {/* Filtro y botón de creación al mismo nivel */}
+        <div className="flex justify-between mb-6">
+          <Filter onFilterChange={handleFilterChange} />
         </div>
-        
-        <div className='shadow-md'>
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onDelete={handleDeleteProduct}
-              onUpdate={handleUpdateProduct}
-            />
-          ))}
+
+        {/* Tarjeta de creación de productos y tarjetas de productos */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
+          <CreateProductCard onCreate={handleCreateProduct} />
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onDelete={handleDeleteProduct}
+                onUpdate={handleUpdateProduct}
+              />
+            ))
+          ) : (
+            <p className="text-center col-span-full">No hay productos disponibles</p>
+          )}
         </div>
-        
+
         <div className="mt-8 p-6 shadow-lg rounded-lg space-y-8">
           <div className="flex justify-evenly space-x-8">
             <div className="w-1/2 p-4">
@@ -183,3 +195,5 @@ export const Stock = () => {
     </>
   );
 };
+
+export default Stock;
