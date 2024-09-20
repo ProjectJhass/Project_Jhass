@@ -20,6 +20,15 @@ export default {
         'lg-max': { 'max': '1279px' },
         'xl-max': { 'max': '1535px' },
       },
+      keyframes: {
+        fadeSlideIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px) scale(0.9)' },
+          '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+        },
+      },
+      animation: {
+        fadeSlideIn: 'fadeSlideIn 0.5s ease-out forwards',
+      },
     },
   },
   plugins: [],

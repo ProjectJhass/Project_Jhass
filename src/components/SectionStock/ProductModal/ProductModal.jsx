@@ -12,7 +12,7 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
     const { name, value } = e.target;
     setEditedProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: name === 'quantity' ? parseInt(value, 10) : value,
+      [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value,
     }));
   };
 
@@ -47,6 +47,10 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
     }
     if (product.quantity !== editedProduct.quantity) {
       updatedProduct.quantity = editedProduct.quantity;
+      hasChanges = true;
+    }
+    if (product.price !== editedProduct.price) {
+      updatedProduct.price = editedProduct.price;
       hasChanges = true;
     }
     if (product.description !== editedProduct.description) {
@@ -94,6 +98,13 @@ const ProductDetailModal = ({ isOpen, onRequestClose, product, onDelete, onUpdat
             type="number"
             name="quantity"
             value={editedProduct.quantity}
+            onChange={handleChange}
+            className="border p-2 mb-4 w-full"
+          />
+          <input
+            type="number"
+            name="price"
+            value={editedProduct.price}
             onChange={handleChange}
             className="border p-2 mb-4 w-full"
           />

@@ -19,6 +19,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { SectionCardN } from './components/SectionNews/SectionCardN/SectionCardN';
 import { EnterCodeVerification } from './components/EnterCodeVerification/EnterCodeVerification';
 import Ventas from './components/Sales/Sales';
+import { JBot } from "./components/JBot/JBot";
 
 
 const AppRoutes = () => {
@@ -39,6 +40,7 @@ const AppRoutes = () => {
     { path: "/VerificationCode", element: <EnterCodeVerification /> },
     { path: "/News", element: <SectionCardN /> },
     { path: "/Sales", element:<Ventas/>}
+
   ]);
 }
 
@@ -113,6 +115,7 @@ function App() {
         </header>
       )}
       <AppRoutes />
+      <JBot/>
     </>
   );
 }

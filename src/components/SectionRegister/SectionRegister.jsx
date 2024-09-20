@@ -17,7 +17,9 @@ import {EmailSender} from '../EmailSender/EmailSender';
     contraseña: "",
     edad: '',
     telefono: "",
+    fotoPerfil: "",  // Asegúrate de tener este campo
   });
+  
 
   // Estado para contraseñas
   const [password, setPassword] = useState("");
@@ -42,7 +44,9 @@ import {EmailSender} from '../EmailSender/EmailSender';
   // Estado para modales
   const [modalContent, setModalContent] = useState({ title: '', message: '' });
   const [activeModal, setActiveModal] = useState(null);
-
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   // Funciones para abrir y cerrar modales
   const openModal = (modalType) => setActiveModal(modalType);
   const closeModal = () => setActiveModal(null);
@@ -67,6 +71,8 @@ import {EmailSender} from '../EmailSender/EmailSender';
     if (name === 'telefono') setErrors(prev => ({ ...prev, telefono: validatePhone(value) }));
   };
 
+
+  
   // Manejo del campo de fecha
   const handleDate = (event) => {
     const birthDate = new Date(event.target.value);
@@ -101,49 +107,94 @@ import {EmailSender} from '../EmailSender/EmailSender';
   const handleSubmitData = async (event) => {
     event.preventDefault();
 
+    const imageUploadResponse = await handleImageUpload(); // Asegúrate de esperar
+
     if (!validationRequiredFields()) {
-      setModalContent({ title: 'Error', message: 'Por favor complete todos los campos obligatorios' });
-      openModal("modal1");
-      return;
+        setModalContent({ title: 'Error', message: 'Por favor complete todos los campos obligatorios' });
+        openModal("modal1");
+        return;
     }
 
     if (!validation) {
-      setModalContent({ title: 'Error', message: 'Las contraseñas no coinciden' });
-      openModal("modal1");
-      return;
+        setModalContent({ title: 'Error', message: 'Las contraseñas no coinciden' });
+        openModal("modal1");
+        return;
     }
 
     if (errors.correo || errors.edad || errors.telefono) {
-      setModalContent({ title: 'Error', message: 'Corrija los errores antes de enviar' });
-      openModal("modal2");
-      return;
+        setModalContent({ title: 'Error', message: 'Corrija los errores antes de enviar' });
+        openModal("modal2");
+        return;
+    }
+
+    // Verifica si la imagen se subió correctamente
+    if (!imageUploadResponse) {
+        setModalContent({ title: 'Error', message: 'No se pudo subir la imagen. Intente nuevamente.' });
+        openModal("modal1");
+        return;
     }
 
     try {
-   
-      
-      const response = await POSTEndpoint({ URL: "api/v1/auth/register", Data: formData });
+        // Asegúrate de que el formData incluye la URL de la imagen
+        const response = await POSTEndpoint({ URL: "api/v1/auth/register", Data: formData });
 
-      if (response.statusCode === 400) {
-        setErrors(prev => ({ ...prev, userExists: "El usuario ya existe, intenta con otro correo." }));
-        return;
-      }
+        if (response.statusCode === 400) {
+            setErrors(prev => ({ ...prev, userExists: "El usuario ya existe, intenta con otro correo." }));
+            return;
+        }
 
-      if (response) {
-        setModalContent({ title: "Registro Exitoso", message: "Te has registrado con éxito en Jhass, ahora debes iniciar sesión" });
-        openModal("modal3");
+        if (response) {
+            setModalContent({ title: "Registro Exitoso", message: "Te has registrado con éxito en Jhass, ahora debes iniciar sesión" });
+            openModal("modal3");
 
-        setTimeout(() => {
-          if (emailSenderRef.current) emailSenderRef.current.sendEmail();
-        }, 1000);
+            setTimeout(() => {
+                if (emailSenderRef.current) emailSenderRef.current.sendEmail();
+            }, 1000);
 
-        setTimeout(() => navigate("/IniciarSesion"), 5000);
-      }
+            setTimeout(() => navigate("/IniciarSesion"), 5000);
+        }
     } catch (error) {
-      console.error("Error al registrar el usuario:", error);
+        console.error("Error al registrar el usuario:", error);
+    }
+};
+
+  
+  // Ajusta la función handleImageUpload
+  const handleImageUpload = async () => {
+    if (!image) {
+      setError('Por favor, selecciona una imagen.');
+      return null; // O puedes lanzar un error
+    }
+  
+    setLoading(true);
+    setError(null);
+  
+    const formDataImage = new FormData();
+    formDataImage.append('file', image);
+    formDataImage.append('upload_preset', 'vs23zis3');
+  
+    try {
+      const response = await fetch('https://api.cloudinary.com/v1_1/dnweqtuch/image/upload', {
+        method: 'POST',
+        body: formDataImage,
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        setFormData(prev => ({ ...prev, fotoPerfil: data.secure_url }));
+        return data.secure_url; // Devuelve la URL
+      } else {
+        throw new Error(data.error.message);
+      }
+    } catch (err) {
+      setError('Error al subir la imagen: ' + err.message);
+      return null; // O puedes lanzar un error
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   return (
     <div className="relative min-h-screen flex justify-center items-center bg-cover bg-center overflow-hidden bg-[url('https://res.cloudinary.com/dnweqtuch/image/upload/v1724450239/ContentImagesJhass/pfjiyjmlngklkvdvlu2q.jpg')]">
       <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-0"></div>
@@ -156,135 +207,161 @@ import {EmailSender} from '../EmailSender/EmailSender';
         </button>
         <h2 className="text-xl sm:text-2xl font-bold text-center text-white mb-6 sm:mb-8">Crear Cuenta</h2>
         <form onSubmit={handleSubmitData}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            {/* Campo Nombre */}
-            <div>
-              <label className="block text-white mb-2" htmlFor="nombre">Nombres</label>
-              <input
-                type="text"
-                id="nombre"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleChange}
-                placeholder="Nombres"
-                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+  {/* Información Personal */}
+  <div className="mb-6">
+    <h3 className="text-lg text-white font-bold mb-4">Información Personal</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* Nombre */}
+      <div>
+        <label className="block text-white mb-2" htmlFor="nombre">Nombres</label>
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          value={formData.nombre}
+          onChange={handleChange}
+          placeholder="Nombres"
+          className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
 
-            {/* Campo Apellido */}
-            <div>
-              <label className="block text-white mb-2" htmlFor="apellido">Apellidos</label>
-              <input
-                type="text"
-                id="apellido"
-                name="apellido"
-                value={formData.apellido}
-                onChange={handleChange}
-                placeholder="Apellidos"
-                className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+      {/* Apellido */}
+      <div>
+        <label className="block text-white mb-2" htmlFor="apellido">Apellidos</label>
+        <input
+          type="text"
+          id="apellido"
+          name="apellido"
+          value={formData.apellido}
+          onChange={handleChange}
+          placeholder="Apellidos"
+          className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
 
-            {/* Campo Correo */}
-            <div>
-              <label className="block text-white mb-2" htmlFor="correo">Correo Electrónico</label>
-              <input
-                type="email"
-                id="correo"
-                name="correo"
-                value={formData.correo}
-                onChange={handleChange}
-                placeholder="ejemplo@gmail.com"
-                className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.correo && touched.correo ? 'ring-red-500' : 'focus:ring-blue-500'}`}
-              />
-              {errors.correo && touched.correo && <p className="text-red-500 text-sm mt-1">{errors.correo}</p>}
-            </div>
+      {/* Correo */}
+      <div>
+        <label className="block text-white mb-2" htmlFor="correo">Correo Electrónico</label>
+        <input
+          type="email"
+          id="correo"
+          name="correo"
+          value={formData.correo}
+          onChange={handleChange}
+          placeholder="ejemplo@gmail.com"
+          className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.correo && touched.correo ? 'ring-red-500' : 'focus:ring-blue-500'}`}
+        />
+        {errors.correo && touched.correo && <p className="text-red-500 text-sm mt-1">{errors.correo}</p>}
+      </div>
 
-            {/* Campo Fecha de Nacimiento */}
-            <div>
-              <label className="block text-white mb-2" htmlFor="edad">Fecha de Nacimiento</label>
-              <input
-                type="date"
-                id="edad"
-                name="edad"
-                onChange={handleDate}
-                className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.edad && touched.edad ? 'ring-red-500' : 'focus:ring-blue-500'}`}
-              />
-              {errors.edad && touched.edad && <p className="text-red-500 text-sm mt-1">{errors.edad}</p>}
-            </div>
+      {/* Fecha de Nacimiento */}
+      <div>
+        <label className="block text-white mb-2" htmlFor="edad">Fecha de Nacimiento</label>
+        <input
+          type="date"
+          id="edad"
+          name="edad"
+          onChange={handleDate}
+          className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.edad && touched.edad ? 'ring-red-500' : 'focus:ring-blue-500'}`}
+        />
+        {errors.edad && touched.edad && <p className="text-red-500 text-sm mt-1">{errors.edad}</p>}
+      </div>
 
-            {/* Campo Teléfono */}
-            <div>
-              <label className="block text-white mb-2" htmlFor="telefono">Teléfono</label>
-              <input
-                type="tel"
-                id="telefono"
-                name="telefono"
-                value={formData.telefono}
-                onChange={handleChange}
-                placeholder="Número de Teléfono"
-                className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.telefono && touched.telefono ? 'ring-red-500' : 'focus:ring-blue-500'}`}
-              />
-              {errors.telefono && touched.telefono && <p className="text-red-500 text-sm mt-1">{errors.telefono}</p>}
-            </div>
+      {/* Teléfono */}
+      <div className="sm:col-span-2">
+        <label className="block text-white mb-2" htmlFor="telefono">Teléfono</label>
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          value={formData.telefono}
+          onChange={handleChange}
+          placeholder="Número de Teléfono"
+          className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${errors.telefono && touched.telefono ? 'ring-red-500' : 'focus:ring-blue-500'}`}
+        />
+        {errors.telefono && touched.telefono && <p className="text-red-500 text-sm mt-1">{errors.telefono}</p>}
+      </div>
+    </div>
+  </div>
 
-            {/* Campo Contraseña */}
-            <div>
-              <label className="block text-white mb-2" htmlFor="contraseña">Contraseña</label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="contraseña"
-                  name="contraseña"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  placeholder="Contraseña"
-                  className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="button"
-                  onClick={toggleShowPassword}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3"
-                >
-                  {showPassword ? <FaEyeSlash className="text-gray-400" /> : <FaEye className="text-gray-400" />}
-                </button>
-              </div>
-            </div>
-
-            {/* Campo Confirmar Contraseña */}
-            <div>
-              <label className="block text-white mb-2" htmlFor="confirmar-contraseña">Confirmar Contraseña</label>
-              <div className="relative">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  id="confirmar-contraseña"
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                  placeholder="Confirmar Contraseña"
-                  className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${!validation && confirmPassword ? 'ring-red-500' : 'focus:ring-blue-500'}`}
-                />
-                <button
-                  type="button"
-                  onClick={toggleShowConfirmPassword}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3"
-                >
-                  {showConfirmPassword ? <FaEyeSlash className="text-gray-400" /> : <FaEye className="text-gray-400" />}
-                </button>
-              </div>
-              {!validation && confirmPassword && <p className="text-red-500 text-sm mt-1">Las contraseñas no coinciden</p>}
-            </div>
-          </div>
-
-          {/* Mensaje de error de usuario existente */}
-          {errors.userExists && <p className="text-red-500 text-sm mt-1">{errors.userExists}</p>}
-
+  {/* Contraseña */}
+  <div className="mb-6">
+    <h3 className="text-lg text-white font-bold mb-4">Contraseña</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* Contraseña */}
+      <div>
+        <label className="block text-white mb-2" htmlFor="contraseña">Contraseña</label>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            id="contraseña"
+            name="contraseña"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Contraseña"
+            className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
           <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-200 ease-in-out"
+            type="button"
+            onClick={toggleShowPassword}
+            className="absolute inset-y-0 right-0 flex items-center pr-3"
           >
-            Crear cuenta
+            {showPassword ? <FaEyeSlash className="text-gray-400" /> : <FaEye className="text-gray-400" />}
           </button>
-        </form>
+        </div>
+      </div>
+
+      {/* Confirmar Contraseña */}
+      <div>
+        <label className="block text-white mb-2" htmlFor="confirmar-contraseña">Confirmar Contraseña</label>
+        <div className="relative">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            id="confirmar-contraseña"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            placeholder="Confirmar Contraseña"
+            className={`w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 ${!validation && confirmPassword ? 'ring-red-500' : 'focus:ring-blue-500'}`}
+          />
+          <button
+            type="button"
+            onClick={toggleShowConfirmPassword}
+            className="absolute inset-y-0 right-0 flex items-center pr-3"
+          >
+            {showConfirmPassword ? <FaEyeSlash className="text-gray-400" /> : <FaEye className="text-gray-400" />}
+          </button>
+        </div>
+        {!validation && confirmPassword && <p className="text-red-500 text-sm mt-1">Las contraseñas no coinciden</p>}
+      </div>
+    </div>
+  </div>
+
+  {/* Imagen de Perfil */}
+  <div className="mb-6">
+    <h3 className="text-lg text-white font-bold mb-4">Imagen de Perfil</h3>
+    <div className="w-full">
+    <input
+        type="file"
+        onChange={(e) => setImage(e.target.files[0])}
+        className="w-full p-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+        accept="image/*"
+      />
+      <button type="button" onClick={handleImageUpload} disabled={!image || loading}>
+        {loading ? 'Subiendo...' : 'Subir Imagen'}
+        </button>
+    </div>
+  </div>
+
+  {/* Botón de envío */}
+  <button
+    type="submit"
+    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-200 ease-in-out"
+  >
+    Crear cuenta
+  </button>
+</form>
+
+
 
         <div className="flex justify-center mt-4">
           <p className="text-white">¿Ya tienes una cuenta?&nbsp;

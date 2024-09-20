@@ -85,6 +85,7 @@ export const SectionPreCompany = () => {
       <HeaderUser 
         navItems={null} 
         username={user ? `${user.nombre} ${user.apellido}` : "Usuario"} 
+        profileImage={user.fotoPerfil}
       />
 
       <main className="flex-grow flex flex-col px-4 py-4 sm:px-6 sm:py-6 lg:px-16 lg:py-8">

@@ -15,8 +15,8 @@ export const Contact_us = () => {
     <Section1/>
     <Section2/>
     <Communication/>
-    <Section4/>
-    <Section5/>
+    {/* <Section4/>
+    <Section5/> */}
     <Footer/>
     </section>
   )

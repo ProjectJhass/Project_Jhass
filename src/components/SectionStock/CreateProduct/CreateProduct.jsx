@@ -48,7 +48,7 @@ const CreateProductCard = ({ onCreate }) => {
         className="w-full h-full flex justify-center items-center bg-gray-200 border rounded-lg shadow-md p-4"
       >
         <div className="w-12 h-12 flex justify-center items-center bg-gray-400 rounded-full">
-          <span className="text-white text-2xl">+</span>
+          <span className="text-white text-2xl">Crear Producto</span>
         </div>
       </button>
       

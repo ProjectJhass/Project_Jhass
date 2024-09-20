@@ -80,7 +80,7 @@ export const ModalProfile = () => {
         <span className="sr-only">Open user menu</span>
         <img
           className="w-8 h-8 rounded-full border-2 border-gray-300"
-          src={user?.profilePicture || "https://res.cloudinary.com/dnweqtuch/image/upload/v1724450231/ContentImagesJhass/cedqvp85sj2a5qs9upkm.png"}
+          src={user?.fotoPerfil || "https://res.cloudinary.com/dnweqtuch/image/upload/v1724450231/ContentImagesJhass/cedqvp85sj2a5qs9upkm.png"}
           alt="user photo"
         />
       </button>
@@ -93,7 +93,7 @@ export const ModalProfile = () => {
           <div className="flex items-center w-full  mb-4">
             <img
               className="w-12 h-12 rounded-full mr-4 border-2 border-gray-300"
-              src={user?.profilePicture || "https://res.cloudinary.com/dnweqtuch/image/upload/v1724450231/ContentImagesJhass/cedqvp85sj2a5qs9upkm.png"}
+              src={user?.fotoPerfil || "https://res.cloudinary.com/dnweqtuch/image/upload/v1724450231/ContentImagesJhass/cedqvp85sj2a5qs9upkm.png"}
               alt="Foto de perfil"
             />
             <div>

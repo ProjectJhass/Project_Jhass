@@ -1,7 +1,10 @@
 import React from 'react';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
+// Determinar si usar la URL local o la de producción
+const BASE_URL = import.meta.env.VITE_ENVIRONMENT === 'production'
+  ? import.meta.env.VITE_BACKEND_URL_PROD
+  : import.meta.env.VITE_BACKEND_URL_LOCAL;
+  
 export const POSTEndpoint = async ({ URL, Data, TokenPost = null }) => {
     let responseReturn = null;
     try {
